@@ -1,0 +1,21 @@
+// sample.ahtml — test file for the Arabic HTML compiler pipeline
+// This file exercises: nested tags, mixed text+tags, and comments.
+
+<مستند>
+
+    <رأس>
+        // This is a comment — should be silently skipped
+        <عنوان>مرحباً بالعالم</عنوان>
+    </رأس>
+
+    <جسم>
+        <فقرة>هذه فقرة نصية بسيطة.</فقرة>
+
+        <قسم>
+            <فقرة>فقرة داخل قسم متداخل.</فقرة>
+            <فقرة>فقرة ثانية في نفس القسم.</فقرة>
+        </قسم>
+
+    </جسم>
+
+</مستند>
