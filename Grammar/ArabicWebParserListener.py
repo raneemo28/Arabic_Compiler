@@ -125,6 +125,24 @@ class ArabicWebParserListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by ArabicWebParser#className.
+    def enterClassName(self, ctx:ArabicWebParser.ClassNameContext):
+        pass
+
+    # Exit a parse tree produced by ArabicWebParser#className.
+    def exitClassName(self, ctx:ArabicWebParser.ClassNameContext):
+        pass
+
+
+    # Enter a parse tree produced by ArabicWebParser#idName.
+    def enterIdName(self, ctx:ArabicWebParser.IdNameContext):
+        pass
+
+    # Exit a parse tree produced by ArabicWebParser#idName.
+    def exitIdName(self, ctx:ArabicWebParser.IdNameContext):
+        pass
+
+
     # Enter a parse tree produced by ArabicWebParser#simpleSelector.
     def enterSimpleSelector(self, ctx:ArabicWebParser.SimpleSelectorContext):
         pass

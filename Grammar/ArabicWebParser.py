@@ -10,92 +10,94 @@ else:
 
 def serializedATN():
     return [
-        4,1,142,242,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,
+        4,1,142,250,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,
         7,6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,
         13,2,14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,
         20,7,20,2,21,7,21,2,22,7,22,2,23,7,23,2,24,7,24,2,25,7,25,2,26,7,
-        26,2,27,7,27,1,0,1,0,5,0,59,8,0,10,0,12,0,62,9,0,1,0,1,0,1,1,1,1,
-        3,1,68,8,1,1,2,1,2,5,2,72,8,2,10,2,12,2,75,9,2,1,2,1,2,1,3,1,3,3,
-        3,81,8,3,1,4,1,4,1,4,1,4,5,4,87,8,4,10,4,12,4,90,9,4,1,4,1,4,1,5,
-        1,5,1,5,5,5,97,8,5,10,5,12,5,100,9,5,1,6,1,6,1,6,1,6,3,6,106,8,6,
-        3,6,108,8,6,1,7,1,7,1,7,1,7,1,7,1,7,1,8,1,8,1,8,3,8,119,8,8,1,8,
-        1,8,1,9,1,9,1,9,5,9,126,8,9,10,9,12,9,129,9,9,1,10,1,10,1,10,1,10,
-        5,10,135,8,10,10,10,12,10,138,9,10,1,11,1,11,1,12,1,12,3,12,144,
-        8,12,1,12,1,12,1,12,5,12,149,8,12,10,12,12,12,152,9,12,1,12,1,12,
-        4,12,156,8,12,11,12,12,12,157,3,12,160,8,12,1,13,1,13,1,13,1,13,
-        1,13,1,13,3,13,168,8,13,1,14,1,14,1,14,1,15,1,15,1,15,1,16,1,16,
-        1,16,5,16,179,8,16,10,16,12,16,182,9,16,1,16,3,16,185,8,16,1,17,
-        1,17,1,17,1,17,3,17,191,8,17,1,18,1,18,1,19,1,19,1,20,1,20,5,20,
-        199,8,20,10,20,12,20,202,9,20,1,21,1,21,1,21,1,21,1,21,3,21,209,
-        8,21,1,22,1,22,1,22,1,22,1,22,1,22,3,22,217,8,22,1,23,1,23,3,23,
-        221,8,23,1,24,1,24,1,25,1,25,1,25,1,25,1,25,1,26,1,26,1,27,1,27,
-        3,27,234,8,27,1,27,5,27,237,8,27,10,27,12,27,240,9,27,1,27,0,0,28,
-        0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,
-        46,48,50,52,54,0,7,3,0,133,133,138,138,140,140,1,0,69,75,1,0,76,
-        79,3,0,1,61,63,68,108,108,1,0,133,137,1,0,80,103,1,0,110,117,248,
-        0,60,1,0,0,0,2,67,1,0,0,0,4,69,1,0,0,0,6,80,1,0,0,0,8,82,1,0,0,0,
-        10,93,1,0,0,0,12,107,1,0,0,0,14,109,1,0,0,0,16,115,1,0,0,0,18,122,
-        1,0,0,0,20,130,1,0,0,0,22,139,1,0,0,0,24,159,1,0,0,0,26,167,1,0,
-        0,0,28,169,1,0,0,0,30,172,1,0,0,0,32,175,1,0,0,0,34,186,1,0,0,0,
-        36,192,1,0,0,0,38,194,1,0,0,0,40,196,1,0,0,0,42,208,1,0,0,0,44,216,
-        1,0,0,0,46,218,1,0,0,0,48,222,1,0,0,0,50,224,1,0,0,0,52,229,1,0,
-        0,0,54,231,1,0,0,0,56,59,3,2,1,0,57,59,3,6,3,0,58,56,1,0,0,0,58,
-        57,1,0,0,0,59,62,1,0,0,0,60,58,1,0,0,0,60,61,1,0,0,0,61,63,1,0,0,
-        0,62,60,1,0,0,0,63,64,5,0,0,1,64,1,1,0,0,0,65,68,3,4,2,0,66,68,5,
-        120,0,0,67,65,1,0,0,0,67,66,1,0,0,0,68,3,1,0,0,0,69,73,5,119,0,0,
-        70,72,3,2,1,0,71,70,1,0,0,0,72,75,1,0,0,0,73,71,1,0,0,0,73,74,1,
-        0,0,0,74,76,1,0,0,0,75,73,1,0,0,0,76,77,5,118,0,0,77,5,1,0,0,0,78,
-        81,3,16,8,0,79,81,3,8,4,0,80,78,1,0,0,0,80,79,1,0,0,0,81,7,1,0,0,
-        0,82,83,5,62,0,0,83,84,3,10,5,0,84,88,5,124,0,0,85,87,3,16,8,0,86,
-        85,1,0,0,0,87,90,1,0,0,0,88,86,1,0,0,0,88,89,1,0,0,0,89,91,1,0,0,
-        0,90,88,1,0,0,0,91,92,5,125,0,0,92,9,1,0,0,0,93,98,3,12,6,0,94,95,
-        5,128,0,0,95,97,3,12,6,0,96,94,1,0,0,0,97,100,1,0,0,0,98,96,1,0,
-        0,0,98,99,1,0,0,0,99,11,1,0,0,0,100,98,1,0,0,0,101,108,3,14,7,0,
-        102,105,5,108,0,0,103,104,5,90,0,0,104,106,3,14,7,0,105,103,1,0,
-        0,0,105,106,1,0,0,0,106,108,1,0,0,0,107,101,1,0,0,0,107,102,1,0,
-        0,0,108,13,1,0,0,0,109,110,5,131,0,0,110,111,3,38,19,0,111,112,5,
-        126,0,0,112,113,3,40,20,0,113,114,5,132,0,0,114,15,1,0,0,0,115,116,
-        3,18,9,0,116,118,5,124,0,0,117,119,3,32,16,0,118,117,1,0,0,0,118,
-        119,1,0,0,0,119,120,1,0,0,0,120,121,5,125,0,0,121,17,1,0,0,0,122,
-        127,3,20,10,0,123,124,5,128,0,0,124,126,3,20,10,0,125,123,1,0,0,
-        0,126,129,1,0,0,0,127,125,1,0,0,0,127,128,1,0,0,0,128,19,1,0,0,0,
-        129,127,1,0,0,0,130,136,3,24,12,0,131,132,3,22,11,0,132,133,3,24,
-        12,0,133,135,1,0,0,0,134,131,1,0,0,0,135,138,1,0,0,0,136,134,1,0,
-        0,0,136,137,1,0,0,0,137,21,1,0,0,0,138,136,1,0,0,0,139,140,7,0,0,
-        0,140,23,1,0,0,0,141,144,3,26,13,0,142,144,3,30,15,0,143,141,1,0,
-        0,0,143,142,1,0,0,0,144,150,1,0,0,0,145,149,3,26,13,0,146,149,3,
-        28,14,0,147,149,3,30,15,0,148,145,1,0,0,0,148,146,1,0,0,0,148,147,
-        1,0,0,0,149,152,1,0,0,0,150,148,1,0,0,0,150,151,1,0,0,0,151,160,
-        1,0,0,0,152,150,1,0,0,0,153,156,3,28,14,0,154,156,3,30,15,0,155,
-        153,1,0,0,0,155,154,1,0,0,0,156,157,1,0,0,0,157,155,1,0,0,0,157,
-        158,1,0,0,0,158,160,1,0,0,0,159,143,1,0,0,0,159,155,1,0,0,0,160,
-        25,1,0,0,0,161,168,5,108,0,0,162,163,5,130,0,0,163,168,5,108,0,0,
-        164,165,5,129,0,0,165,168,5,108,0,0,166,168,5,135,0,0,167,161,1,
-        0,0,0,167,162,1,0,0,0,167,164,1,0,0,0,167,166,1,0,0,0,168,27,1,0,
-        0,0,169,170,5,126,0,0,170,171,7,1,0,0,171,29,1,0,0,0,172,173,5,142,
-        0,0,173,174,7,2,0,0,174,31,1,0,0,0,175,180,3,34,17,0,176,177,5,127,
-        0,0,177,179,3,34,17,0,178,176,1,0,0,0,179,182,1,0,0,0,180,178,1,
-        0,0,0,180,181,1,0,0,0,181,184,1,0,0,0,182,180,1,0,0,0,183,185,5,
-        127,0,0,184,183,1,0,0,0,184,185,1,0,0,0,185,33,1,0,0,0,186,187,3,
-        38,19,0,187,188,5,126,0,0,188,190,3,40,20,0,189,191,3,36,18,0,190,
-        189,1,0,0,0,190,191,1,0,0,0,191,35,1,0,0,0,192,193,5,104,0,0,193,
-        37,1,0,0,0,194,195,7,3,0,0,195,39,1,0,0,0,196,200,3,42,21,0,197,
-        199,3,42,21,0,198,197,1,0,0,0,199,202,1,0,0,0,200,198,1,0,0,0,200,
-        201,1,0,0,0,201,41,1,0,0,0,202,200,1,0,0,0,203,209,3,44,22,0,204,
-        205,3,44,22,0,205,206,7,4,0,0,206,207,3,44,22,0,207,209,1,0,0,0,
-        208,203,1,0,0,0,208,204,1,0,0,0,209,43,1,0,0,0,210,217,3,46,23,0,
-        211,217,3,48,24,0,212,217,5,107,0,0,213,217,5,109,0,0,214,217,3,
-        50,25,0,215,217,5,108,0,0,216,210,1,0,0,0,216,211,1,0,0,0,216,212,
-        1,0,0,0,216,213,1,0,0,0,216,214,1,0,0,0,216,215,1,0,0,0,217,45,1,
-        0,0,0,218,220,5,106,0,0,219,221,5,105,0,0,220,219,1,0,0,0,220,221,
-        1,0,0,0,221,47,1,0,0,0,222,223,7,5,0,0,223,49,1,0,0,0,224,225,3,
-        52,26,0,225,226,5,131,0,0,226,227,3,54,27,0,227,228,5,132,0,0,228,
-        51,1,0,0,0,229,230,7,6,0,0,230,53,1,0,0,0,231,238,3,42,21,0,232,
-        234,5,128,0,0,233,232,1,0,0,0,233,234,1,0,0,0,234,235,1,0,0,0,235,
-        237,3,42,21,0,236,233,1,0,0,0,237,240,1,0,0,0,238,236,1,0,0,0,238,
-        239,1,0,0,0,239,55,1,0,0,0,240,238,1,0,0,0,28,58,60,67,73,80,88,
-        98,105,107,118,127,136,143,148,150,155,157,159,167,180,184,190,200,
-        208,216,220,233,238
+        26,2,27,7,27,2,28,7,28,2,29,7,29,1,0,1,0,5,0,63,8,0,10,0,12,0,66,
+        9,0,1,0,1,0,1,1,1,1,3,1,72,8,1,1,2,1,2,5,2,76,8,2,10,2,12,2,79,9,
+        2,1,2,1,2,1,3,1,3,3,3,85,8,3,1,4,1,4,1,4,1,4,5,4,91,8,4,10,4,12,
+        4,94,9,4,1,4,1,4,1,5,1,5,1,5,5,5,101,8,5,10,5,12,5,104,9,5,1,6,1,
+        6,1,6,1,6,3,6,110,8,6,3,6,112,8,6,1,7,1,7,1,7,1,7,1,7,1,7,1,8,1,
+        8,1,8,3,8,123,8,8,1,8,1,8,1,9,1,9,1,9,5,9,130,8,9,10,9,12,9,133,
+        9,9,1,10,1,10,1,10,1,10,5,10,139,8,10,10,10,12,10,142,9,10,1,11,
+        1,11,1,12,1,12,3,12,148,8,12,1,12,1,12,1,12,5,12,153,8,12,10,12,
+        12,12,156,9,12,1,12,1,12,4,12,160,8,12,11,12,12,12,161,3,12,164,
+        8,12,1,13,1,13,1,13,1,14,1,14,1,14,1,15,1,15,1,15,1,15,3,15,176,
+        8,15,1,16,1,16,1,16,1,17,1,17,1,17,1,18,1,18,1,18,5,18,187,8,18,
+        10,18,12,18,190,9,18,1,18,3,18,193,8,18,1,19,1,19,1,19,1,19,3,19,
+        199,8,19,1,20,1,20,1,21,1,21,1,22,1,22,5,22,207,8,22,10,22,12,22,
+        210,9,22,1,23,1,23,1,23,1,23,1,23,3,23,217,8,23,1,24,1,24,1,24,1,
+        24,1,24,1,24,3,24,225,8,24,1,25,1,25,3,25,229,8,25,1,26,1,26,1,27,
+        1,27,1,27,1,27,1,27,1,28,1,28,1,29,1,29,3,29,242,8,29,1,29,5,29,
+        245,8,29,10,29,12,29,248,9,29,1,29,0,0,30,0,2,4,6,8,10,12,14,16,
+        18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,0,
+        7,3,0,133,133,138,138,140,140,1,0,72,78,1,0,79,82,3,0,4,64,66,71,
+        111,111,1,0,133,137,1,0,83,106,1,0,113,120,254,0,64,1,0,0,0,2,71,
+        1,0,0,0,4,73,1,0,0,0,6,84,1,0,0,0,8,86,1,0,0,0,10,97,1,0,0,0,12,
+        111,1,0,0,0,14,113,1,0,0,0,16,119,1,0,0,0,18,126,1,0,0,0,20,134,
+        1,0,0,0,22,143,1,0,0,0,24,163,1,0,0,0,26,165,1,0,0,0,28,168,1,0,
+        0,0,30,175,1,0,0,0,32,177,1,0,0,0,34,180,1,0,0,0,36,183,1,0,0,0,
+        38,194,1,0,0,0,40,200,1,0,0,0,42,202,1,0,0,0,44,204,1,0,0,0,46,216,
+        1,0,0,0,48,224,1,0,0,0,50,226,1,0,0,0,52,230,1,0,0,0,54,232,1,0,
+        0,0,56,237,1,0,0,0,58,239,1,0,0,0,60,63,3,2,1,0,61,63,3,6,3,0,62,
+        60,1,0,0,0,62,61,1,0,0,0,63,66,1,0,0,0,64,62,1,0,0,0,64,65,1,0,0,
+        0,65,67,1,0,0,0,66,64,1,0,0,0,67,68,5,0,0,1,68,1,1,0,0,0,69,72,3,
+        4,2,0,70,72,5,3,0,0,71,69,1,0,0,0,71,70,1,0,0,0,72,3,1,0,0,0,73,
+        77,5,2,0,0,74,76,3,2,1,0,75,74,1,0,0,0,76,79,1,0,0,0,77,75,1,0,0,
+        0,77,78,1,0,0,0,78,80,1,0,0,0,79,77,1,0,0,0,80,81,5,1,0,0,81,5,1,
+        0,0,0,82,85,3,16,8,0,83,85,3,8,4,0,84,82,1,0,0,0,84,83,1,0,0,0,85,
+        7,1,0,0,0,86,87,5,65,0,0,87,88,3,10,5,0,88,92,5,124,0,0,89,91,3,
+        16,8,0,90,89,1,0,0,0,91,94,1,0,0,0,92,90,1,0,0,0,92,93,1,0,0,0,93,
+        95,1,0,0,0,94,92,1,0,0,0,95,96,5,125,0,0,96,9,1,0,0,0,97,102,3,12,
+        6,0,98,99,5,128,0,0,99,101,3,12,6,0,100,98,1,0,0,0,101,104,1,0,0,
+        0,102,100,1,0,0,0,102,103,1,0,0,0,103,11,1,0,0,0,104,102,1,0,0,0,
+        105,112,3,14,7,0,106,109,5,111,0,0,107,108,5,93,0,0,108,110,3,14,
+        7,0,109,107,1,0,0,0,109,110,1,0,0,0,110,112,1,0,0,0,111,105,1,0,
+        0,0,111,106,1,0,0,0,112,13,1,0,0,0,113,114,5,131,0,0,114,115,3,42,
+        21,0,115,116,5,126,0,0,116,117,3,44,22,0,117,118,5,132,0,0,118,15,
+        1,0,0,0,119,120,3,18,9,0,120,122,5,124,0,0,121,123,3,36,18,0,122,
+        121,1,0,0,0,122,123,1,0,0,0,123,124,1,0,0,0,124,125,5,125,0,0,125,
+        17,1,0,0,0,126,131,3,20,10,0,127,128,5,128,0,0,128,130,3,20,10,0,
+        129,127,1,0,0,0,130,133,1,0,0,0,131,129,1,0,0,0,131,132,1,0,0,0,
+        132,19,1,0,0,0,133,131,1,0,0,0,134,140,3,24,12,0,135,136,3,22,11,
+        0,136,137,3,24,12,0,137,139,1,0,0,0,138,135,1,0,0,0,139,142,1,0,
+        0,0,140,138,1,0,0,0,140,141,1,0,0,0,141,21,1,0,0,0,142,140,1,0,0,
+        0,143,144,7,0,0,0,144,23,1,0,0,0,145,148,3,30,15,0,146,148,3,34,
+        17,0,147,145,1,0,0,0,147,146,1,0,0,0,148,154,1,0,0,0,149,153,3,30,
+        15,0,150,153,3,32,16,0,151,153,3,34,17,0,152,149,1,0,0,0,152,150,
+        1,0,0,0,152,151,1,0,0,0,153,156,1,0,0,0,154,152,1,0,0,0,154,155,
+        1,0,0,0,155,164,1,0,0,0,156,154,1,0,0,0,157,160,3,32,16,0,158,160,
+        3,34,17,0,159,157,1,0,0,0,159,158,1,0,0,0,160,161,1,0,0,0,161,159,
+        1,0,0,0,161,162,1,0,0,0,162,164,1,0,0,0,163,147,1,0,0,0,163,159,
+        1,0,0,0,164,25,1,0,0,0,165,166,5,129,0,0,166,167,5,111,0,0,167,27,
+        1,0,0,0,168,169,5,130,0,0,169,170,5,111,0,0,170,29,1,0,0,0,171,176,
+        5,111,0,0,172,176,3,28,14,0,173,176,3,26,13,0,174,176,5,135,0,0,
+        175,171,1,0,0,0,175,172,1,0,0,0,175,173,1,0,0,0,175,174,1,0,0,0,
+        176,31,1,0,0,0,177,178,5,126,0,0,178,179,7,1,0,0,179,33,1,0,0,0,
+        180,181,5,142,0,0,181,182,7,2,0,0,182,35,1,0,0,0,183,188,3,38,19,
+        0,184,185,5,127,0,0,185,187,3,38,19,0,186,184,1,0,0,0,187,190,1,
+        0,0,0,188,186,1,0,0,0,188,189,1,0,0,0,189,192,1,0,0,0,190,188,1,
+        0,0,0,191,193,5,127,0,0,192,191,1,0,0,0,192,193,1,0,0,0,193,37,1,
+        0,0,0,194,195,3,42,21,0,195,196,5,126,0,0,196,198,3,44,22,0,197,
+        199,3,40,20,0,198,197,1,0,0,0,198,199,1,0,0,0,199,39,1,0,0,0,200,
+        201,5,107,0,0,201,41,1,0,0,0,202,203,7,3,0,0,203,43,1,0,0,0,204,
+        208,3,46,23,0,205,207,3,46,23,0,206,205,1,0,0,0,207,210,1,0,0,0,
+        208,206,1,0,0,0,208,209,1,0,0,0,209,45,1,0,0,0,210,208,1,0,0,0,211,
+        217,3,48,24,0,212,213,3,48,24,0,213,214,7,4,0,0,214,215,3,48,24,
+        0,215,217,1,0,0,0,216,211,1,0,0,0,216,212,1,0,0,0,217,47,1,0,0,0,
+        218,225,3,50,25,0,219,225,3,52,26,0,220,225,5,110,0,0,221,225,5,
+        112,0,0,222,225,3,54,27,0,223,225,5,111,0,0,224,218,1,0,0,0,224,
+        219,1,0,0,0,224,220,1,0,0,0,224,221,1,0,0,0,224,222,1,0,0,0,224,
+        223,1,0,0,0,225,49,1,0,0,0,226,228,5,109,0,0,227,229,5,108,0,0,228,
+        227,1,0,0,0,228,229,1,0,0,0,229,51,1,0,0,0,230,231,7,5,0,0,231,53,
+        1,0,0,0,232,233,3,56,28,0,233,234,5,131,0,0,234,235,3,58,29,0,235,
+        236,5,132,0,0,236,55,1,0,0,0,237,238,7,6,0,0,238,57,1,0,0,0,239,
+        246,3,46,23,0,240,242,5,128,0,0,241,240,1,0,0,0,241,242,1,0,0,0,
+        242,243,1,0,0,0,243,245,3,46,23,0,244,241,1,0,0,0,245,248,1,0,0,
+        0,246,244,1,0,0,0,246,247,1,0,0,0,247,59,1,0,0,0,248,246,1,0,0,0,
+        28,62,64,71,77,84,92,102,109,111,122,131,140,147,152,154,159,161,
+        163,175,188,192,198,208,216,224,228,241,246
     ]
 
 class ArabicWebParser ( Parser ):
@@ -108,7 +110,8 @@ class ArabicWebParser ( Parser ):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [ "<INVALID>", "'\\u0639\\u0631\\u0636'", "'\\u0645\\u0648\\u0642\\u0639'", 
+    literalNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                     "'\\u0639\\u0631\\u0636'", "'\\u0645\\u0648\\u0642\\u0639'", 
                      "'\\u0639\\u0631\\u0636-\\u0627\\u0644\\u0645\\u0633\\u0627\\u062D\\u0629'", 
                      "'\\u0637\\u0648\\u0644-\\u0627\\u0644\\u0645\\u0633\\u0627\\u062D\\u0629'", 
                      "'\\u0623\\u0642\\u0635\\u0649-\\u0639\\u0631\\u0636'", 
@@ -184,37 +187,36 @@ class ArabicWebParser ( Parser ):
                      "'\\u062D\\u0633\\u0627\\u0628'", "'\\u0645\\u062A\\u063A\\u064A\\u0631'", 
                      "'\\u062A\\u062F\\u0648\\u064A\\u0631'", "'\\u062A\\u0643\\u0628\\u064A\\u0631'", 
                      "'\\u062A\\u063A\\u0628\\u064A\\u0634'", "<INVALID>", 
-                     "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                     "<INVALID>", "'{'", "'}'", "':'", "'\\u061B'", "'\\u060C'", 
-                     "'.'", "'#'", "'('", "')'", "'+'", "'-'", "'*'", "'/'", 
-                     "'%'", "'>'", "'<'", "'~'", "'!'", "'::'" ]
+                     "<INVALID>", "<INVALID>", "'{'", "'}'", "':'", "'\\u061B'", 
+                     "'\\u060C'", "'.'", "'#'", "'('", "')'", "'+'", "'-'", 
+                     "'*'", "'/'", "'%'", "'>'", "'<'", "'~'", "'!'", "'::'" ]
 
-    symbolicNames = [ "<INVALID>", "DISPLAY", "POSITION", "WIDTH", "HEIGHT", 
-                      "MAX_WIDTH", "MIN_WIDTH", "MAX_HEIGHT", "MIN_HEIGHT", 
-                      "MARGIN", "PADDING", "BORDER", "VISIBILITY", "OVERFLOW", 
-                      "Z_INDEX", "BOX_SIZING", "FLEX", "FLEX_DIR", "FLEX_WRAP", 
-                      "FLEX_GROW", "FLEX_SHRINK", "GRID", "GRID_TEMPLATE", 
-                      "GAP", "JUSTIFY_CONT", "ALIGN_ITEMS", "ALIGN_SELF", 
-                      "ORDER", "COLOR", "BACKGROUND", "BG_IMAGE", "BG_COLOR", 
-                      "BG_SIZE", "BG_REPEAT", "BG_ATTACH", "BG_CLIP", "OPACITY", 
-                      "BOX_SHADOW", "FONT_FAMILY", "FONT_SIZE", "FONT_WEIGHT", 
-                      "FONT_STYLE", "TEXT_ALIGN", "TEXT_DECOR", "TEXT_TRANS", 
-                      "TEXT_SHADOW", "TEXT_INDENT", "LINE_HEIGHT", "LETTER_SPACING", 
-                      "WORD_SPACING", "WHITE_SPACE", "DIRECTION", "WRITING_MODE", 
-                      "BORDER_RADIUS", "BORDER_WIDTH", "BORDER_STYLE", "BORDER_COLOR", 
-                      "OUTLINE", "TOP", "BOTTOM", "RIGHT", "LEFT", "MEDIA", 
-                      "LIST_STYLE", "BORDER_COLLAPSE", "TABLE_LAYOUT", "CAPTION_SIDE", 
-                      "FILTER", "BACKDROP_FILT", "HOVER", "ACTIVE", "FOCUS", 
-                      "VISITED", "ENABLED", "DISABLED", "CHECKED", "BEFORE", 
-                      "AFTER", "PLACEHOLDER", "SELECTION", "INHERIT", "INITIAL", 
-                      "UNSET", "NONE", "AUTO", "CENTER", "SOLID", "DASHED", 
-                      "DOTTED", "DOUBLE", "KW_HIDDEN", "BLOCK", "INLINE", 
-                      "FLEX_VALUE", "ABSOLUTE", "RELATIVE", "FIXED", "STICKY", 
-                      "ROW", "COLUMN", "WRAP", "POINTER", "BOLD", "ITALIC", 
-                      "IMPORTANT", "UNIT", "NUMBER", "HEX_COLOR", "IDENTIFIER", 
-                      "STRING", "URL_FUNC", "RGB_FUNC", "RGBA_FUNC", "CALC_FUNC", 
-                      "VAR_FUNC", "ROTATE_FUNC", "SCALE_FUNC", "BLUR_FUNC", 
-                      "CLOSE_TAG", "OPEN_TAG", "TEXT", "WS", "COMMENT", 
+    symbolicNames = [ "<INVALID>", "CLOSE_TAG", "OPEN_TAG", "TEXT", "DISPLAY", 
+                      "POSITION", "WIDTH", "HEIGHT", "MAX_WIDTH", "MIN_WIDTH", 
+                      "MAX_HEIGHT", "MIN_HEIGHT", "MARGIN", "PADDING", "BORDER", 
+                      "VISIBILITY", "OVERFLOW", "Z_INDEX", "BOX_SIZING", 
+                      "FLEX", "FLEX_DIR", "FLEX_WRAP", "FLEX_GROW", "FLEX_SHRINK", 
+                      "GRID", "GRID_TEMPLATE", "GAP", "JUSTIFY_CONT", "ALIGN_ITEMS", 
+                      "ALIGN_SELF", "ORDER", "COLOR", "BACKGROUND", "BG_IMAGE", 
+                      "BG_COLOR", "BG_SIZE", "BG_REPEAT", "BG_ATTACH", "BG_CLIP", 
+                      "OPACITY", "BOX_SHADOW", "FONT_FAMILY", "FONT_SIZE", 
+                      "FONT_WEIGHT", "FONT_STYLE", "TEXT_ALIGN", "TEXT_DECOR", 
+                      "TEXT_TRANS", "TEXT_SHADOW", "TEXT_INDENT", "LINE_HEIGHT", 
+                      "LETTER_SPACING", "WORD_SPACING", "WHITE_SPACE", "DIRECTION", 
+                      "WRITING_MODE", "BORDER_RADIUS", "BORDER_WIDTH", "BORDER_STYLE", 
+                      "BORDER_COLOR", "OUTLINE", "TOP", "BOTTOM", "RIGHT", 
+                      "LEFT", "MEDIA", "LIST_STYLE", "BORDER_COLLAPSE", 
+                      "TABLE_LAYOUT", "CAPTION_SIDE", "FILTER", "BACKDROP_FILT", 
+                      "HOVER", "ACTIVE", "FOCUS", "VISITED", "ENABLED", 
+                      "DISABLED", "CHECKED", "BEFORE", "AFTER", "PLACEHOLDER", 
+                      "SELECTION", "INHERIT", "INITIAL", "UNSET", "NONE", 
+                      "AUTO", "CENTER", "SOLID", "DASHED", "DOTTED", "DOUBLE", 
+                      "KW_HIDDEN", "BLOCK", "INLINE", "FLEX_VALUE", "ABSOLUTE", 
+                      "RELATIVE", "FIXED", "STICKY", "ROW", "COLUMN", "WRAP", 
+                      "POINTER", "BOLD", "ITALIC", "IMPORTANT", "UNIT", 
+                      "NUMBER", "HEX_COLOR", "IDENTIFIER", "STRING", "URL_FUNC", 
+                      "RGB_FUNC", "RGBA_FUNC", "CALC_FUNC", "VAR_FUNC", 
+                      "ROTATE_FUNC", "SCALE_FUNC", "BLUR_FUNC", "WS", "COMMENT", 
                       "LINE_COMMENT", "LBRACE", "RBRACE", "COLON", "SEMI", 
                       "COMMA", "DOT", "HASH", "LPAREN", "RPAREN", "PLUS", 
                       "MINUS", "STAR", "SLASH", "PERCENT", "GT", "LT", "TILDE", 
@@ -233,151 +235,153 @@ class ArabicWebParser ( Parser ):
     RULE_selector = 10
     RULE_combinator = 11
     RULE_compoundSelector = 12
-    RULE_simpleSelector = 13
-    RULE_pseudoClass = 14
-    RULE_pseudoElement = 15
-    RULE_declarationList = 16
-    RULE_declaration = 17
-    RULE_exprModifier = 18
-    RULE_property = 19
-    RULE_value = 20
-    RULE_expr = 21
-    RULE_term = 22
-    RULE_dimension = 23
-    RULE_keywordValue = 24
-    RULE_functionCall = 25
-    RULE_functionName = 26
-    RULE_arguments = 27
+    RULE_className = 13
+    RULE_idName = 14
+    RULE_simpleSelector = 15
+    RULE_pseudoClass = 16
+    RULE_pseudoElement = 17
+    RULE_declarationList = 18
+    RULE_declaration = 19
+    RULE_exprModifier = 20
+    RULE_property = 21
+    RULE_value = 22
+    RULE_expr = 23
+    RULE_term = 24
+    RULE_dimension = 25
+    RULE_keywordValue = 26
+    RULE_functionCall = 27
+    RULE_functionName = 28
+    RULE_arguments = 29
 
     ruleNames =  [ "document", "element", "tagElement", "statement", "mediaRule", 
                    "mediaQueryList", "mediaQuery", "mediaExpr", "ruleset", 
                    "selectorList", "selector", "combinator", "compoundSelector", 
-                   "simpleSelector", "pseudoClass", "pseudoElement", "declarationList", 
-                   "declaration", "exprModifier", "property", "value", "expr", 
-                   "term", "dimension", "keywordValue", "functionCall", 
-                   "functionName", "arguments" ]
+                   "className", "idName", "simpleSelector", "pseudoClass", 
+                   "pseudoElement", "declarationList", "declaration", "exprModifier", 
+                   "property", "value", "expr", "term", "dimension", "keywordValue", 
+                   "functionCall", "functionName", "arguments" ]
 
     EOF = Token.EOF
-    DISPLAY=1
-    POSITION=2
-    WIDTH=3
-    HEIGHT=4
-    MAX_WIDTH=5
-    MIN_WIDTH=6
-    MAX_HEIGHT=7
-    MIN_HEIGHT=8
-    MARGIN=9
-    PADDING=10
-    BORDER=11
-    VISIBILITY=12
-    OVERFLOW=13
-    Z_INDEX=14
-    BOX_SIZING=15
-    FLEX=16
-    FLEX_DIR=17
-    FLEX_WRAP=18
-    FLEX_GROW=19
-    FLEX_SHRINK=20
-    GRID=21
-    GRID_TEMPLATE=22
-    GAP=23
-    JUSTIFY_CONT=24
-    ALIGN_ITEMS=25
-    ALIGN_SELF=26
-    ORDER=27
-    COLOR=28
-    BACKGROUND=29
-    BG_IMAGE=30
-    BG_COLOR=31
-    BG_SIZE=32
-    BG_REPEAT=33
-    BG_ATTACH=34
-    BG_CLIP=35
-    OPACITY=36
-    BOX_SHADOW=37
-    FONT_FAMILY=38
-    FONT_SIZE=39
-    FONT_WEIGHT=40
-    FONT_STYLE=41
-    TEXT_ALIGN=42
-    TEXT_DECOR=43
-    TEXT_TRANS=44
-    TEXT_SHADOW=45
-    TEXT_INDENT=46
-    LINE_HEIGHT=47
-    LETTER_SPACING=48
-    WORD_SPACING=49
-    WHITE_SPACE=50
-    DIRECTION=51
-    WRITING_MODE=52
-    BORDER_RADIUS=53
-    BORDER_WIDTH=54
-    BORDER_STYLE=55
-    BORDER_COLOR=56
-    OUTLINE=57
-    TOP=58
-    BOTTOM=59
-    RIGHT=60
-    LEFT=61
-    MEDIA=62
-    LIST_STYLE=63
-    BORDER_COLLAPSE=64
-    TABLE_LAYOUT=65
-    CAPTION_SIDE=66
-    FILTER=67
-    BACKDROP_FILT=68
-    HOVER=69
-    ACTIVE=70
-    FOCUS=71
-    VISITED=72
-    ENABLED=73
-    DISABLED=74
-    CHECKED=75
-    BEFORE=76
-    AFTER=77
-    PLACEHOLDER=78
-    SELECTION=79
-    INHERIT=80
-    INITIAL=81
-    UNSET=82
-    NONE=83
-    AUTO=84
-    CENTER=85
-    SOLID=86
-    DASHED=87
-    DOTTED=88
-    DOUBLE=89
-    KW_HIDDEN=90
-    BLOCK=91
-    INLINE=92
-    FLEX_VALUE=93
-    ABSOLUTE=94
-    RELATIVE=95
-    FIXED=96
-    STICKY=97
-    ROW=98
-    COLUMN=99
-    WRAP=100
-    POINTER=101
-    BOLD=102
-    ITALIC=103
-    IMPORTANT=104
-    UNIT=105
-    NUMBER=106
-    HEX_COLOR=107
-    IDENTIFIER=108
-    STRING=109
-    URL_FUNC=110
-    RGB_FUNC=111
-    RGBA_FUNC=112
-    CALC_FUNC=113
-    VAR_FUNC=114
-    ROTATE_FUNC=115
-    SCALE_FUNC=116
-    BLUR_FUNC=117
-    CLOSE_TAG=118
-    OPEN_TAG=119
-    TEXT=120
+    CLOSE_TAG=1
+    OPEN_TAG=2
+    TEXT=3
+    DISPLAY=4
+    POSITION=5
+    WIDTH=6
+    HEIGHT=7
+    MAX_WIDTH=8
+    MIN_WIDTH=9
+    MAX_HEIGHT=10
+    MIN_HEIGHT=11
+    MARGIN=12
+    PADDING=13
+    BORDER=14
+    VISIBILITY=15
+    OVERFLOW=16
+    Z_INDEX=17
+    BOX_SIZING=18
+    FLEX=19
+    FLEX_DIR=20
+    FLEX_WRAP=21
+    FLEX_GROW=22
+    FLEX_SHRINK=23
+    GRID=24
+    GRID_TEMPLATE=25
+    GAP=26
+    JUSTIFY_CONT=27
+    ALIGN_ITEMS=28
+    ALIGN_SELF=29
+    ORDER=30
+    COLOR=31
+    BACKGROUND=32
+    BG_IMAGE=33
+    BG_COLOR=34
+    BG_SIZE=35
+    BG_REPEAT=36
+    BG_ATTACH=37
+    BG_CLIP=38
+    OPACITY=39
+    BOX_SHADOW=40
+    FONT_FAMILY=41
+    FONT_SIZE=42
+    FONT_WEIGHT=43
+    FONT_STYLE=44
+    TEXT_ALIGN=45
+    TEXT_DECOR=46
+    TEXT_TRANS=47
+    TEXT_SHADOW=48
+    TEXT_INDENT=49
+    LINE_HEIGHT=50
+    LETTER_SPACING=51
+    WORD_SPACING=52
+    WHITE_SPACE=53
+    DIRECTION=54
+    WRITING_MODE=55
+    BORDER_RADIUS=56
+    BORDER_WIDTH=57
+    BORDER_STYLE=58
+    BORDER_COLOR=59
+    OUTLINE=60
+    TOP=61
+    BOTTOM=62
+    RIGHT=63
+    LEFT=64
+    MEDIA=65
+    LIST_STYLE=66
+    BORDER_COLLAPSE=67
+    TABLE_LAYOUT=68
+    CAPTION_SIDE=69
+    FILTER=70
+    BACKDROP_FILT=71
+    HOVER=72
+    ACTIVE=73
+    FOCUS=74
+    VISITED=75
+    ENABLED=76
+    DISABLED=77
+    CHECKED=78
+    BEFORE=79
+    AFTER=80
+    PLACEHOLDER=81
+    SELECTION=82
+    INHERIT=83
+    INITIAL=84
+    UNSET=85
+    NONE=86
+    AUTO=87
+    CENTER=88
+    SOLID=89
+    DASHED=90
+    DOTTED=91
+    DOUBLE=92
+    KW_HIDDEN=93
+    BLOCK=94
+    INLINE=95
+    FLEX_VALUE=96
+    ABSOLUTE=97
+    RELATIVE=98
+    FIXED=99
+    STICKY=100
+    ROW=101
+    COLUMN=102
+    WRAP=103
+    POINTER=104
+    BOLD=105
+    ITALIC=106
+    IMPORTANT=107
+    UNIT=108
+    NUMBER=109
+    HEX_COLOR=110
+    IDENTIFIER=111
+    STRING=112
+    URL_FUNC=113
+    RGB_FUNC=114
+    RGBA_FUNC=115
+    CALC_FUNC=116
+    VAR_FUNC=117
+    ROTATE_FUNC=118
+    SCALE_FUNC=119
+    BLUR_FUNC=120
     WS=121
     COMMENT=122
     LINE_COMMENT=123
@@ -445,6 +449,12 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitDocument" ):
                 listener.exitDocument(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDocument" ):
+                return visitor.visitDocument(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -455,29 +465,29 @@ class ArabicWebParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 60
+            self.state = 64
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==62 or ((((_la - 108)) & ~0x3f) == 0 and ((1 << (_la - 108)) & 17320646657) != 0):
-                self.state = 58
+            while ((((_la - 2)) & ~0x3f) == 0 and ((1 << (_la - 2)) & -9223372036854775805) != 0) or ((((_la - 111)) & ~0x3f) == 0 and ((1 << (_la - 111)) & 2165080065) != 0):
+                self.state = 62
                 self._errHandler.sync(self)
                 token = self._input.LA(1)
-                if token in [119, 120]:
-                    self.state = 56
+                if token in [2, 3]:
+                    self.state = 60
                     self.element()
                     pass
-                elif token in [62, 108, 126, 129, 130, 135, 142]:
-                    self.state = 57
+                elif token in [65, 111, 126, 129, 130, 135, 142]:
+                    self.state = 61
                     self.statement()
                     pass
                 else:
                     raise NoViableAltException(self)
 
-                self.state = 62
+                self.state = 66
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 63
+            self.state = 67
             self.match(ArabicWebParser.EOF)
         except RecognitionException as re:
             localctx.exception = re
@@ -513,6 +523,12 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitElement" ):
                 listener.exitElement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitElement" ):
+                return visitor.visitElement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -521,17 +537,17 @@ class ArabicWebParser ( Parser ):
         localctx = ArabicWebParser.ElementContext(self, self._ctx, self.state)
         self.enterRule(localctx, 2, self.RULE_element)
         try:
-            self.state = 67
+            self.state = 71
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [119]:
+            if token in [2]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 65
+                self.state = 69
                 self.tagElement()
                 pass
-            elif token in [120]:
+            elif token in [3]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 66
+                self.state = 70
                 self.match(ArabicWebParser.TEXT)
                 pass
             else:
@@ -577,6 +593,12 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitTagElement" ):
                 listener.exitTagElement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTagElement" ):
+                return visitor.visitTagElement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -587,19 +609,19 @@ class ArabicWebParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 69
-            self.match(ArabicWebParser.OPEN_TAG)
             self.state = 73
+            self.match(ArabicWebParser.OPEN_TAG)
+            self.state = 77
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==119 or _la==120:
-                self.state = 70
+            while _la==2 or _la==3:
+                self.state = 74
                 self.element()
-                self.state = 75
+                self.state = 79
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 76
+            self.state = 80
             self.match(ArabicWebParser.CLOSE_TAG)
         except RecognitionException as re:
             localctx.exception = re
@@ -636,6 +658,12 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitStatement" ):
                 listener.exitStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStatement" ):
+                return visitor.visitStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -644,17 +672,17 @@ class ArabicWebParser ( Parser ):
         localctx = ArabicWebParser.StatementContext(self, self._ctx, self.state)
         self.enterRule(localctx, 6, self.RULE_statement)
         try:
-            self.state = 80
+            self.state = 84
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [108, 126, 129, 130, 135, 142]:
+            if token in [111, 126, 129, 130, 135, 142]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 78
+                self.state = 82
                 self.ruleset()
                 pass
-            elif token in [62]:
+            elif token in [65]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 79
+                self.state = 83
                 self.mediaRule()
                 pass
             else:
@@ -707,6 +735,12 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitMediaRule" ):
                 listener.exitMediaRule(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMediaRule" ):
+                return visitor.visitMediaRule(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -717,23 +751,23 @@ class ArabicWebParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 82
+            self.state = 86
             self.match(ArabicWebParser.MEDIA)
-            self.state = 83
+            self.state = 87
             self.mediaQueryList()
-            self.state = 84
-            self.match(ArabicWebParser.LBRACE)
             self.state = 88
+            self.match(ArabicWebParser.LBRACE)
+            self.state = 92
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while ((((_la - 108)) & ~0x3f) == 0 and ((1 << (_la - 108)) & 17320640513) != 0):
-                self.state = 85
+            while ((((_la - 111)) & ~0x3f) == 0 and ((1 << (_la - 111)) & 2165080065) != 0):
+                self.state = 89
                 self.ruleset()
-                self.state = 90
+                self.state = 94
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 91
+            self.state = 95
             self.match(ArabicWebParser.RBRACE)
         except RecognitionException as re:
             localctx.exception = re
@@ -775,6 +809,12 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitMediaQueryList" ):
                 listener.exitMediaQueryList(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMediaQueryList" ):
+                return visitor.visitMediaQueryList(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -785,17 +825,17 @@ class ArabicWebParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 93
+            self.state = 97
             self.mediaQuery()
-            self.state = 98
+            self.state = 102
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==128:
-                self.state = 94
+                self.state = 98
                 self.match(ArabicWebParser.COMMA)
-                self.state = 95
+                self.state = 99
                 self.mediaQuery()
-                self.state = 100
+                self.state = 104
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -836,6 +876,12 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitMediaQuery" ):
                 listener.exitMediaQuery(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMediaQuery" ):
+                return visitor.visitMediaQuery(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -845,25 +891,25 @@ class ArabicWebParser ( Parser ):
         self.enterRule(localctx, 12, self.RULE_mediaQuery)
         self._la = 0 # Token type
         try:
-            self.state = 107
+            self.state = 111
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [131]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 101
+                self.state = 105
                 self.mediaExpr()
                 pass
-            elif token in [108]:
+            elif token in [111]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 102
+                self.state = 106
                 self.match(ArabicWebParser.IDENTIFIER)
-                self.state = 105
+                self.state = 109
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if _la==90:
-                    self.state = 103
+                if _la==93:
+                    self.state = 107
                     self.match(ArabicWebParser.KW_HIDDEN)
-                    self.state = 104
+                    self.state = 108
                     self.mediaExpr()
 
 
@@ -915,6 +961,12 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitMediaExpr" ):
                 listener.exitMediaExpr(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMediaExpr" ):
+                return visitor.visitMediaExpr(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -924,15 +976,15 @@ class ArabicWebParser ( Parser ):
         self.enterRule(localctx, 14, self.RULE_mediaExpr)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 109
-            self.match(ArabicWebParser.LPAREN)
-            self.state = 110
-            self.property_()
-            self.state = 111
-            self.match(ArabicWebParser.COLON)
-            self.state = 112
-            self.value()
             self.state = 113
+            self.match(ArabicWebParser.LPAREN)
+            self.state = 114
+            self.property_()
+            self.state = 115
+            self.match(ArabicWebParser.COLON)
+            self.state = 116
+            self.value()
+            self.state = 117
             self.match(ArabicWebParser.RPAREN)
         except RecognitionException as re:
             localctx.exception = re
@@ -975,6 +1027,12 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitRuleset" ):
                 listener.exitRuleset(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRuleset" ):
+                return visitor.visitRuleset(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -985,19 +1043,19 @@ class ArabicWebParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 115
+            self.state = 119
             self.selectorList()
-            self.state = 116
+            self.state = 120
             self.match(ArabicWebParser.LBRACE)
-            self.state = 118
+            self.state = 122
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if (((_la) & ~0x3f) == 0 and ((1 << _la) & -4611686018427387906) != 0) or ((((_la - 64)) & ~0x3f) == 0 and ((1 << (_la - 64)) & 17592186044447) != 0):
-                self.state = 117
+            if (((_la) & ~0x3f) == 0 and ((1 << _la) & -16) != 0) or ((((_la - 64)) & ~0x3f) == 0 and ((1 << (_la - 64)) & 140737488355581) != 0):
+                self.state = 121
                 self.declarationList()
 
 
-            self.state = 120
+            self.state = 124
             self.match(ArabicWebParser.RBRACE)
         except RecognitionException as re:
             localctx.exception = re
@@ -1039,6 +1097,12 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitSelectorList" ):
                 listener.exitSelectorList(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSelectorList" ):
+                return visitor.visitSelectorList(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1049,17 +1113,17 @@ class ArabicWebParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 122
+            self.state = 126
             self.selector()
-            self.state = 127
+            self.state = 131
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==128:
-                self.state = 123
+                self.state = 127
                 self.match(ArabicWebParser.COMMA)
-                self.state = 124
+                self.state = 128
                 self.selector()
-                self.state = 129
+                self.state = 133
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -1104,6 +1168,12 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitSelector" ):
                 listener.exitSelector(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSelector" ):
+                return visitor.visitSelector(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1114,17 +1184,17 @@ class ArabicWebParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 130
+            self.state = 134
             self.compoundSelector()
-            self.state = 136
+            self.state = 140
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while ((((_la - 133)) & ~0x3f) == 0 and ((1 << (_la - 133)) & 161) != 0):
-                self.state = 131
+                self.state = 135
                 self.combinator()
-                self.state = 132
+                self.state = 136
                 self.compoundSelector()
-                self.state = 138
+                self.state = 142
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -1164,6 +1234,12 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitCombinator" ):
                 listener.exitCombinator(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCombinator" ):
+                return visitor.visitCombinator(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1174,7 +1250,7 @@ class ArabicWebParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 139
+            self.state = 143
             _la = self._input.LA(1)
             if not(((((_la - 133)) & ~0x3f) == 0 and ((1 << (_la - 133)) & 161) != 0)):
                 self._errHandler.recoverInline(self)
@@ -1229,6 +1305,12 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitCompoundSelector" ):
                 listener.exitCompoundSelector(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCompoundSelector" ):
+                return visitor.visitCompoundSelector(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1238,48 +1320,48 @@ class ArabicWebParser ( Parser ):
         self.enterRule(localctx, 24, self.RULE_compoundSelector)
         self._la = 0 # Token type
         try:
-            self.state = 159
+            self.state = 163
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,17,self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 143
+                self.state = 147
                 self._errHandler.sync(self)
                 token = self._input.LA(1)
-                if token in [108, 129, 130, 135]:
-                    self.state = 141
+                if token in [111, 129, 130, 135]:
+                    self.state = 145
                     self.simpleSelector()
                     pass
                 elif token in [142]:
-                    self.state = 142
+                    self.state = 146
                     self.pseudoElement()
                     pass
                 else:
                     raise NoViableAltException(self)
 
-                self.state = 150
+                self.state = 154
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                while ((((_la - 108)) & ~0x3f) == 0 and ((1 << (_la - 108)) & 17320640513) != 0):
-                    self.state = 148
+                while ((((_la - 111)) & ~0x3f) == 0 and ((1 << (_la - 111)) & 2165080065) != 0):
+                    self.state = 152
                     self._errHandler.sync(self)
                     token = self._input.LA(1)
-                    if token in [108, 129, 130, 135]:
-                        self.state = 145
+                    if token in [111, 129, 130, 135]:
+                        self.state = 149
                         self.simpleSelector()
                         pass
                     elif token in [126]:
-                        self.state = 146
+                        self.state = 150
                         self.pseudoClass()
                         pass
                     elif token in [142]:
-                        self.state = 147
+                        self.state = 151
                         self.pseudoElement()
                         pass
                     else:
                         raise NoViableAltException(self)
 
-                    self.state = 152
+                    self.state = 156
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
 
@@ -1287,25 +1369,25 @@ class ArabicWebParser ( Parser ):
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 155 
+                self.state = 159 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 while True:
-                    self.state = 155
+                    self.state = 159
                     self._errHandler.sync(self)
                     token = self._input.LA(1)
                     if token in [126]:
-                        self.state = 153
+                        self.state = 157
                         self.pseudoClass()
                         pass
                     elif token in [142]:
-                        self.state = 154
+                        self.state = 158
                         self.pseudoElement()
                         pass
                     else:
                         raise NoViableAltException(self)
 
-                    self.state = 157 
+                    self.state = 161 
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
                     if not (_la==126 or _la==142):
@@ -1314,6 +1396,110 @@ class ArabicWebParser ( Parser ):
                 pass
 
 
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class ClassNameContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def DOT(self):
+            return self.getToken(ArabicWebParser.DOT, 0)
+
+        def IDENTIFIER(self):
+            return self.getToken(ArabicWebParser.IDENTIFIER, 0)
+
+        def getRuleIndex(self):
+            return ArabicWebParser.RULE_className
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterClassName" ):
+                listener.enterClassName(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitClassName" ):
+                listener.exitClassName(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitClassName" ):
+                return visitor.visitClassName(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def className(self):
+
+        localctx = ArabicWebParser.ClassNameContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 26, self.RULE_className)
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 165
+            self.match(ArabicWebParser.DOT)
+            self.state = 166
+            self.match(ArabicWebParser.IDENTIFIER)
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class IdNameContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def HASH(self):
+            return self.getToken(ArabicWebParser.HASH, 0)
+
+        def IDENTIFIER(self):
+            return self.getToken(ArabicWebParser.IDENTIFIER, 0)
+
+        def getRuleIndex(self):
+            return ArabicWebParser.RULE_idName
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterIdName" ):
+                listener.enterIdName(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitIdName" ):
+                listener.exitIdName(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIdName" ):
+                return visitor.visitIdName(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def idName(self):
+
+        localctx = ArabicWebParser.IdNameContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 28, self.RULE_idName)
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 168
+            self.match(ArabicWebParser.HASH)
+            self.state = 169
+            self.match(ArabicWebParser.IDENTIFIER)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -1333,11 +1519,13 @@ class ArabicWebParser ( Parser ):
         def IDENTIFIER(self):
             return self.getToken(ArabicWebParser.IDENTIFIER, 0)
 
-        def HASH(self):
-            return self.getToken(ArabicWebParser.HASH, 0)
+        def idName(self):
+            return self.getTypedRuleContext(ArabicWebParser.IdNameContext,0)
 
-        def DOT(self):
-            return self.getToken(ArabicWebParser.DOT, 0)
+
+        def className(self):
+            return self.getTypedRuleContext(ArabicWebParser.ClassNameContext,0)
+
 
         def STAR(self):
             return self.getToken(ArabicWebParser.STAR, 0)
@@ -1353,39 +1541,41 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitSimpleSelector" ):
                 listener.exitSimpleSelector(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSimpleSelector" ):
+                return visitor.visitSimpleSelector(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
     def simpleSelector(self):
 
         localctx = ArabicWebParser.SimpleSelectorContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 26, self.RULE_simpleSelector)
+        self.enterRule(localctx, 30, self.RULE_simpleSelector)
         try:
-            self.state = 167
+            self.state = 175
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [108]:
+            if token in [111]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 161
+                self.state = 171
                 self.match(ArabicWebParser.IDENTIFIER)
                 pass
             elif token in [130]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 162
-                self.match(ArabicWebParser.HASH)
-                self.state = 163
-                self.match(ArabicWebParser.IDENTIFIER)
+                self.state = 172
+                self.idName()
                 pass
             elif token in [129]:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 164
-                self.match(ArabicWebParser.DOT)
-                self.state = 165
-                self.match(ArabicWebParser.IDENTIFIER)
+                self.state = 173
+                self.className()
                 pass
             elif token in [135]:
                 self.enterOuterAlt(localctx, 4)
-                self.state = 166
+                self.state = 174
                 self.match(ArabicWebParser.STAR)
                 pass
             else:
@@ -1442,21 +1632,27 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitPseudoClass" ):
                 listener.exitPseudoClass(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPseudoClass" ):
+                return visitor.visitPseudoClass(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
     def pseudoClass(self):
 
         localctx = ArabicWebParser.PseudoClassContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 28, self.RULE_pseudoClass)
+        self.enterRule(localctx, 32, self.RULE_pseudoClass)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 169
+            self.state = 177
             self.match(ArabicWebParser.COLON)
-            self.state = 170
+            self.state = 178
             _la = self._input.LA(1)
-            if not(((((_la - 69)) & ~0x3f) == 0 and ((1 << (_la - 69)) & 127) != 0)):
+            if not(((((_la - 72)) & ~0x3f) == 0 and ((1 << (_la - 72)) & 127) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -1503,21 +1699,27 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitPseudoElement" ):
                 listener.exitPseudoElement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPseudoElement" ):
+                return visitor.visitPseudoElement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
     def pseudoElement(self):
 
         localctx = ArabicWebParser.PseudoElementContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 30, self.RULE_pseudoElement)
+        self.enterRule(localctx, 34, self.RULE_pseudoElement)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 172
+            self.state = 180
             self.match(ArabicWebParser.DBL_COLON)
-            self.state = 173
+            self.state = 181
             _la = self._input.LA(1)
-            if not(((((_la - 76)) & ~0x3f) == 0 and ((1 << (_la - 76)) & 15) != 0)):
+            if not(((((_la - 79)) & ~0x3f) == 0 and ((1 << (_la - 79)) & 15) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -1562,36 +1764,42 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitDeclarationList" ):
                 listener.exitDeclarationList(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDeclarationList" ):
+                return visitor.visitDeclarationList(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
     def declarationList(self):
 
         localctx = ArabicWebParser.DeclarationListContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 32, self.RULE_declarationList)
+        self.enterRule(localctx, 36, self.RULE_declarationList)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 175
+            self.state = 183
             self.declaration()
-            self.state = 180
+            self.state = 188
             self._errHandler.sync(self)
             _alt = self._interp.adaptivePredict(self._input,19,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                 if _alt==1:
-                    self.state = 176
+                    self.state = 184
                     self.match(ArabicWebParser.SEMI)
-                    self.state = 177
+                    self.state = 185
                     self.declaration() 
-                self.state = 182
+                self.state = 190
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input,19,self._ctx)
 
-            self.state = 184
+            self.state = 192
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==127:
-                self.state = 183
+                self.state = 191
                 self.match(ArabicWebParser.SEMI)
 
 
@@ -1637,27 +1845,33 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitDeclaration" ):
                 listener.exitDeclaration(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDeclaration" ):
+                return visitor.visitDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
     def declaration(self):
 
         localctx = ArabicWebParser.DeclarationContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 34, self.RULE_declaration)
+        self.enterRule(localctx, 38, self.RULE_declaration)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 186
+            self.state = 194
             self.property_()
-            self.state = 187
+            self.state = 195
             self.match(ArabicWebParser.COLON)
-            self.state = 188
+            self.state = 196
             self.value()
-            self.state = 190
+            self.state = 198
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if _la==104:
-                self.state = 189
+            if _la==107:
+                self.state = 197
                 self.exprModifier()
 
 
@@ -1691,16 +1905,22 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitExprModifier" ):
                 listener.exitExprModifier(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExprModifier" ):
+                return visitor.visitExprModifier(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
     def exprModifier(self):
 
         localctx = ArabicWebParser.ExprModifierContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 36, self.RULE_exprModifier)
+        self.enterRule(localctx, 40, self.RULE_exprModifier)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 192
+            self.state = 200
             self.match(ArabicWebParser.IMPORTANT)
         except RecognitionException as re:
             localctx.exception = re
@@ -1933,19 +2153,25 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitProperty" ):
                 listener.exitProperty(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitProperty" ):
+                return visitor.visitProperty(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
     def property_(self):
 
         localctx = ArabicWebParser.PropertyContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 38, self.RULE_property)
+        self.enterRule(localctx, 42, self.RULE_property)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 194
+            self.state = 202
             _la = self._input.LA(1)
-            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & -4611686018427387906) != 0) or ((((_la - 64)) & ~0x3f) == 0 and ((1 << (_la - 64)) & 17592186044447) != 0)):
+            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & -16) != 0) or ((((_la - 64)) & ~0x3f) == 0 and ((1 << (_la - 64)) & 140737488355581) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -1984,25 +2210,31 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitValue" ):
                 listener.exitValue(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitValue" ):
+                return visitor.visitValue(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
     def value(self):
 
         localctx = ArabicWebParser.ValueContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 40, self.RULE_value)
+        self.enterRule(localctx, 44, self.RULE_value)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 196
+            self.state = 204
             self.expr()
-            self.state = 200
+            self.state = 208
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while ((((_la - 80)) & ~0x3f) == 0 and ((1 << (_la - 80)) & 274827575295) != 0):
-                self.state = 197
+            while ((((_la - 83)) & ~0x3f) == 0 and ((1 << (_la - 83)) & 274827575295) != 0):
+                self.state = 205
                 self.expr()
-                self.state = 202
+                self.state = 210
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -2055,36 +2287,42 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitExpr" ):
                 listener.exitExpr(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExpr" ):
+                return visitor.visitExpr(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
     def expr(self):
 
         localctx = ArabicWebParser.ExprContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 42, self.RULE_expr)
+        self.enterRule(localctx, 46, self.RULE_expr)
         self._la = 0 # Token type
         try:
-            self.state = 208
+            self.state = 216
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,23,self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 203
+                self.state = 211
                 self.term()
                 pass
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 204
+                self.state = 212
                 self.term()
-                self.state = 205
+                self.state = 213
                 _la = self._input.LA(1)
                 if not(((((_la - 133)) & ~0x3f) == 0 and ((1 << (_la - 133)) & 31) != 0)):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
                     self.consume()
-                self.state = 206
+                self.state = 214
                 self.term()
                 pass
 
@@ -2137,45 +2375,51 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitTerm" ):
                 listener.exitTerm(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTerm" ):
+                return visitor.visitTerm(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
     def term(self):
 
         localctx = ArabicWebParser.TermContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 44, self.RULE_term)
+        self.enterRule(localctx, 48, self.RULE_term)
         try:
-            self.state = 216
+            self.state = 224
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [106]:
+            if token in [109]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 210
+                self.state = 218
                 self.dimension()
                 pass
-            elif token in [80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103]:
+            elif token in [83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 211
+                self.state = 219
                 self.keywordValue()
                 pass
-            elif token in [107]:
+            elif token in [110]:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 212
+                self.state = 220
                 self.match(ArabicWebParser.HEX_COLOR)
                 pass
-            elif token in [109]:
+            elif token in [112]:
                 self.enterOuterAlt(localctx, 4)
-                self.state = 213
+                self.state = 221
                 self.match(ArabicWebParser.STRING)
                 pass
-            elif token in [110, 111, 112, 113, 114, 115, 116, 117]:
+            elif token in [113, 114, 115, 116, 117, 118, 119, 120]:
                 self.enterOuterAlt(localctx, 5)
-                self.state = 214
+                self.state = 222
                 self.functionCall()
                 pass
-            elif token in [108]:
+            elif token in [111]:
                 self.enterOuterAlt(localctx, 6)
-                self.state = 215
+                self.state = 223
                 self.match(ArabicWebParser.IDENTIFIER)
                 pass
             else:
@@ -2214,23 +2458,29 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitDimension" ):
                 listener.exitDimension(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDimension" ):
+                return visitor.visitDimension(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
     def dimension(self):
 
         localctx = ArabicWebParser.DimensionContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 46, self.RULE_dimension)
+        self.enterRule(localctx, 50, self.RULE_dimension)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 218
+            self.state = 226
             self.match(ArabicWebParser.NUMBER)
-            self.state = 220
+            self.state = 228
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if _la==105:
-                self.state = 219
+            if _la==108:
+                self.state = 227
                 self.match(ArabicWebParser.UNIT)
 
 
@@ -2333,19 +2583,25 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitKeywordValue" ):
                 listener.exitKeywordValue(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitKeywordValue" ):
+                return visitor.visitKeywordValue(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
     def keywordValue(self):
 
         localctx = ArabicWebParser.KeywordValueContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 48, self.RULE_keywordValue)
+        self.enterRule(localctx, 52, self.RULE_keywordValue)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 222
+            self.state = 230
             _la = self._input.LA(1)
-            if not(((((_la - 80)) & ~0x3f) == 0 and ((1 << (_la - 80)) & 16777215) != 0)):
+            if not(((((_la - 83)) & ~0x3f) == 0 and ((1 << (_la - 83)) & 16777215) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -2391,22 +2647,28 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitFunctionCall" ):
                 listener.exitFunctionCall(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFunctionCall" ):
+                return visitor.visitFunctionCall(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
     def functionCall(self):
 
         localctx = ArabicWebParser.FunctionCallContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 50, self.RULE_functionCall)
+        self.enterRule(localctx, 54, self.RULE_functionCall)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 224
+            self.state = 232
             self.functionName()
-            self.state = 225
+            self.state = 233
             self.match(ArabicWebParser.LPAREN)
-            self.state = 226
+            self.state = 234
             self.arguments()
-            self.state = 227
+            self.state = 235
             self.match(ArabicWebParser.RPAREN)
         except RecognitionException as re:
             localctx.exception = re
@@ -2459,19 +2721,25 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitFunctionName" ):
                 listener.exitFunctionName(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFunctionName" ):
+                return visitor.visitFunctionName(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
     def functionName(self):
 
         localctx = ArabicWebParser.FunctionNameContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 52, self.RULE_functionName)
+        self.enterRule(localctx, 56, self.RULE_functionName)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 229
+            self.state = 237
             _la = self._input.LA(1)
-            if not(((((_la - 110)) & ~0x3f) == 0 and ((1 << (_la - 110)) & 255) != 0)):
+            if not(((((_la - 113)) & ~0x3f) == 0 and ((1 << (_la - 113)) & 255) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -2516,33 +2784,39 @@ class ArabicWebParser ( Parser ):
             if hasattr( listener, "exitArguments" ):
                 listener.exitArguments(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitArguments" ):
+                return visitor.visitArguments(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
     def arguments(self):
 
         localctx = ArabicWebParser.ArgumentsContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 54, self.RULE_arguments)
+        self.enterRule(localctx, 58, self.RULE_arguments)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 231
+            self.state = 239
             self.expr()
-            self.state = 238
+            self.state = 246
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while ((((_la - 80)) & ~0x3f) == 0 and ((1 << (_la - 80)) & 281749804285951) != 0):
-                self.state = 233
+            while ((((_la - 83)) & ~0x3f) == 0 and ((1 << (_la - 83)) & 35459199664127) != 0):
+                self.state = 241
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if _la==128:
-                    self.state = 232
+                    self.state = 240
                     self.match(ArabicWebParser.COMMA)
 
 
-                self.state = 235
+                self.state = 243
                 self.expr()
-                self.state = 240
+                self.state = 248
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 

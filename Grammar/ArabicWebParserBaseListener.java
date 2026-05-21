@@ -172,6 +172,30 @@ public class ArabicWebParserBaseListener implements ArabicWebParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterClassName(ArabicWebParser.ClassNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitClassName(ArabicWebParser.ClassNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIdName(ArabicWebParser.IdNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIdName(ArabicWebParser.IdNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterSimpleSelector(ArabicWebParser.SimpleSelectorContext ctx) { }
 	/**
 	 * {@inheritDoc}

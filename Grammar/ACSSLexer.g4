@@ -1,6 +1,6 @@
 lexer grammar ACSSLexer;
 
-import ArabicHtmlLexer;
+import CommonLexer;
 options {
     superClass = ArabicLexerBase;
 }

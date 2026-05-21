@@ -1,6 +1,6 @@
 parser grammar ArabicWebParser;
 options {
-    tokenVocab = ACSSLexer;
+    tokenVocab = ArabicHtmlLexer;
 }
 
 document
@@ -60,10 +60,13 @@ compoundSelector
     | (pseudoClass | pseudoElement)+
     ;
 
+className : DOT IDENTIFIER ;
+idName    : HASH IDENTIFIER ;
+
 simpleSelector
     : IDENTIFIER         
-    | HASH IDENTIFIER    
-    | DOT IDENTIFIER     
+    | idName   
+    | className    
     | STAR               
     ;
 
