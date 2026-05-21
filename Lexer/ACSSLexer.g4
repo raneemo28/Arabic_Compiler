@@ -1,35 +1,9 @@
 lexer grammar ACSSLexer;
 
+import ArabicHtmlLexer;
 options {
     superClass = ArabicLexerBase;
 }
-// --- Channels ---
-WS : [ \t\r\n]+ -> skip ;
-COMMENT : '/*' .*? '*/' -> skip ;
-
-// --- Syntax Symbols ---
-LBRACE : '{' ;
-RBRACE : '}' ;
-COLON  : ':' ;
-SEMI   : '؛' ;
-COMMA  : '،' ;
-DOT    : '.' ;
-HASH   : '#' ;
-LPAREN : '(' ;
-RPAREN : ')' ;
-PLUS   : '+' ;
-MINUS  : '-' ;
-STAR   : '*' ;
-SLASH  : '/' ;
-PERCENT: '%' ;
-GT     : '>' ;
-LT     : '<' ;
-TILDE  : '~' ;
-BANG   : '!' ;
-DBL_COLON : '::' ;
-
-
-///////CSS///////
 
 // --- Layout & Box Model ---
 DISPLAY       : 'عرض' ;
