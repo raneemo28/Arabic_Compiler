@@ -9,8 +9,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from antlr4 import CommonTokenStream, FileStream, ParseTreeWalker
 from antlr4.error.ErrorListener import ErrorListener
 
-from Lexer.ArabicHtmlLexer   import ArabicHtmlLexer
-from ArabicHtmlParser  import ArabicHtmlParser
+from Grammar.ArabicHtmlLexer   import ArabicHtmlLexer
+from Grammar  import ArabicWebParser
 from AST.ast_visitor       import ArabicHtmlAstVisitor
 from AST.ast_nodes         import ASTNode
 
@@ -69,7 +69,7 @@ def stage_parse(token_stream: CommonTokenStream,
     DocumentContext (the root of the ANTLR parse tree).
     """
     print("[2/3] Parsing  : building parse tree")
-    parser = ArabicHtmlParser(token_stream)
+    parser = ArabicWebParser(token_stream)
     parser.removeErrorListeners()
     parser.addErrorListener(error_listener)
 

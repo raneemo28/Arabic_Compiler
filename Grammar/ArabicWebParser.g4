@@ -1,5 +1,4 @@
 parser grammar ArabicWebParser;
-
 options {
     tokenVocab = ACSSLexer;
 }
