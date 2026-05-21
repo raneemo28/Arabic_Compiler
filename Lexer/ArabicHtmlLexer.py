@@ -11,7 +11,7 @@ else:
 if "." in __name__:
     from .ArabicLexerBase import ArabicLexerBase
 else:
-    from ArabicLexerBase import ArabicLexerBase
+    from Lexer.ArabicLexerBase import ArabicLexerBase
 
 def serializedATN():
     return [

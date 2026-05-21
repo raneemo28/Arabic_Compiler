@@ -1,23 +1,3 @@
-# =============================================================================
-#  main.py
-#  Full pipeline driver: .ahtml file → Lex → Parse → AST → pprint
-#
-#  Run:
-#      python main.py sample.ahtml
-#
-#  All generated ANTLR files and the hand-written support files must be
-#  in the same directory as this script:
-#
-#      ArabicHtmlLexer.py          (generated)
-#      ArabicHtmlLexer.tokens      (generated)
-#      ArabicHtmlParser.py         (generated)
-#      ArabicHtmlParserVisitor.py  (generated)
-#      ArabicLexerBase.py          (hand-written, from Step 1)
-#      ast_nodes.py                (hand-written, this project)
-#      ast_visitor.py              (hand-written, this project)
-#      main.py                     ← you are here
-# =============================================================================
-
 import sys
 import pprint
 from dataclasses import asdict
@@ -25,10 +5,10 @@ from dataclasses import asdict
 from antlr4 import CommonTokenStream, FileStream, ParseTreeWalker
 from antlr4.error.ErrorListener import ErrorListener
 
-from ArabicHtmlLexer   import ArabicHtmlLexer
+from Lexer.ArabicHtmlLexer   import ArabicHtmlLexer
 from ArabicHtmlParser  import ArabicHtmlParser
-from ast_visitor       import ArabicHtmlAstVisitor
-from ast_nodes         import ASTNode
+from AST.ast_visitor       import ArabicHtmlAstVisitor
+from AST.ast_nodes         import ASTNode
 
 
 # =============================================================================
@@ -119,14 +99,13 @@ def _ast_to_dict(node: ASTNode) -> dict:
     # asdict() converts nested dataclasses to plain dicts too, but loses the
     # class name — so we rebuild children lists with type annotations.
     if "children" in d:
-        from ast_nodes import TagNode, TextNode, DocumentNode
+        from AST.ast_nodes import TagNode, TextNode, DocumentNode
         original_children = (
             node.children if hasattr(node, "children") else []
         )
         d["children"] = [_ast_to_dict(child) for child in original_children]
 
     return d
-
 
 # =============================================================================
 # Entry point

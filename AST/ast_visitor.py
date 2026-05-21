@@ -17,9 +17,9 @@
 #    TEXT      text is verbatim content; strip surrounding whitespace.
 # =============================================================================
 
-from ArabicHtmlParserVisitor import ArabicHtmlParserVisitor   # ANTLR-generated
-from ArabicHtmlParser        import ArabicHtmlParser          # ANTLR-generated
-from ast_nodes               import ASTNode, DocumentNode, TagNode, TextNode
+from ..Parser.ArabicHtmlParserVisitor import ArabicHtmlParserVisitor   # ANTLR-generated
+from ..Parser.ArabicHtmlParser        import ArabicHtmlParser          # ANTLR-generated
+from AST.ast_nodes               import ASTNode, DocumentNode, TagNode, TextNode
 
 
 def _tag_name_from_open(token_text: str) -> str:
