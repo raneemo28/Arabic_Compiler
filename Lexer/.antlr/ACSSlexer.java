@@ -1,4 +1,4 @@
-// Generated from c:/Users/Asus/Desktop/Arabic_Compiler/CSS/ACSSlexer.g4 by ANTLR 4.13.1
+// Generated from c:/Users/Asus/Desktop/Arabic_Compiler/Lexer/ACSSLexer.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -9,7 +9,7 @@ import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue", "this-escape"})
-public class ACSSlexer extends Lexer {
+public class ACSSLexer extends ArabicLexerBase {
 	static { RuntimeMetaData.checkVersion("4.13.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -210,13 +210,13 @@ public class ACSSlexer extends Lexer {
 	}
 
 
-	public ACSSlexer(CharStream input) {
+	public ACSSLexer(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
 	@Override
-	public String getGrammarFileName() { return "ACSSlexer.g4"; }
+	public String getGrammarFileName() { return "ACSSLexer.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }

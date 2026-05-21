@@ -1,5 +1,5 @@
 import unicodedata
-from antlr4 import Lexer, InputStream  # <-- لاحظ أننا أضفنا InputStream هنا
+from antlr4 import Lexer, InputStream 
 
 
 class ArabicLexerBase(Lexer):

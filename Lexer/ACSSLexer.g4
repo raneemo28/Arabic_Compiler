@@ -1,5 +1,8 @@
 lexer grammar ACSSLexer;
 
+options {
+    superClass = ArabicLexerBase;
+}
 // --- Channels ---
 WS : [ \t\r\n]+ -> skip ;
 COMMENT : '/*' .*? '*/' -> skip ;
