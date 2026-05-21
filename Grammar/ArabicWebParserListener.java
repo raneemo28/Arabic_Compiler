@@ -137,6 +137,26 @@ public interface ArabicWebParserListener extends ParseTreeListener {
 	 */
 	void exitCompoundSelector(ArabicWebParser.CompoundSelectorContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ArabicWebParser#className}.
+	 * @param ctx the parse tree
+	 */
+	void enterClassName(ArabicWebParser.ClassNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArabicWebParser#className}.
+	 * @param ctx the parse tree
+	 */
+	void exitClassName(ArabicWebParser.ClassNameContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ArabicWebParser#idName}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdName(ArabicWebParser.IdNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArabicWebParser#idName}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdName(ArabicWebParser.IdNameContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ArabicWebParser#simpleSelector}.
 	 * @param ctx the parse tree
 	 */

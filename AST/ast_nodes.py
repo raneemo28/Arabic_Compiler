@@ -1,70 +1,133 @@
-# =============================================================================
-#  ast_nodes.py
-#  Abstract Syntax Tree node definitions for the Arabic HTML compiler.
-#
-#  Design notes (Lecture 8 / Lab 5 conventions):
-#    - Every node carries line + column metadata for error reporting.
-#    - @dataclass generates __init__, __repr__, and __eq__ automatically.
-#    - Fields use English names throughout (interoperability requirement),
-#      even though the data they hold comes from Arabic source text.
-#    - `children` in TagNode uses a default_factory so each instance gets
-#      its own list — never share a mutable default across instances.
-# =============================================================================
-
-from __future__ import annotations          # allows forward references in hints
+from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import List, Union
+from typing import List, Union, Optional
+from abc import ABC, abstractmethod
 
-
-# -----------------------------------------------------------------------------
-# Base node — all AST nodes inherit from this.
-# Stores source-location metadata so error messages can say "line 3, col 7".
-# -----------------------------------------------------------------------------
 @dataclass
-class ASTNode:
-    """Abstract base for every node in the Arabic HTML AST."""
-    line:   int   # 1-based line number from the ANTLR token
-    column: int   # 0-based character offset within the line
+class ASTNode(ABC):
+    line: int = 0   
+    column: int = 0
+    
+    @abstractmethod
+    def accept(self, visitor):
+        pass
 
-
-# -----------------------------------------------------------------------------
-# Leaf node — raw text content appearing between tags.
-#
-# Example source:  <مقال>مرحبا بالعالم</مقال>
-#                           ^^^^^^^^^^^^^^
-#                           TextNode(content="مرحبا بالعالم", line=1, column=7)
-# -----------------------------------------------------------------------------
 @dataclass
 class TextNode(ASTNode):
-    """Represents a raw text token between tags."""
-    content: str   # the verbatim text string (may contain Arabic + spaces)
+    content: str = ""
 
+    def accept(self, visitor):
+        return visitor.visit_TextNode(self)
 
-# -----------------------------------------------------------------------------
-# Interior node — a matched open/close tag pair with nested content.
-#
-# `tag_name` holds only the identifier stripped of angle-brackets, e.g.
-#   OPEN_TAG token text "<مقال>"  →  tag_name = "مقال"
-#
-# `children` is an ordered list of the nodes directly inside this tag.
-# Each child is either another TagNode (nested tag) or a TextNode.
-# The Union type hint documents that mix explicitly.
-# -----------------------------------------------------------------------------
 @dataclass
 class TagNode(ASTNode):
-    """Represents a <tag>…</tag> element with optional nested content."""
-    tag_name: str                                      # Arabic identifier only
-    children: List[Union["TagNode", TextNode]] = field(default_factory=list)
+    tag_name: str = ""
+    children: List[Union[TagNode, TextNode]] = field(default_factory=list)
 
+    def accept(self, visitor):
+        return visitor.visit_TagNode(self)
 
-# -----------------------------------------------------------------------------
-# Root node — the entire parsed document.
-#
-# A document is a flat list of top-level elements (tags or stray text).
-# In a well-formed file there is typically one root tag, but the grammar
-# allows multiple top-level nodes, so the list handles that naturally.
-# -----------------------------------------------------------------------------
 @dataclass
 class DocumentNode(ASTNode):
-    """Root node of the AST — holds all top-level elements."""
-    children: List[Union[TagNode, TextNode]] = field(default_factory=list)
+    children: List[Union[TagNode, TextNode, RulesetNode, MediaRuleNode]] = field(default_factory=list)
+
+    def accept(self, visitor):
+        return visitor.visit_DocumentNode(self)
+
+@dataclass
+class MediaRuleNode(ASTNode):
+    queries: List[MediaQueryNode] = field(default_factory=list)
+    rulesets: List[RulesetNode] = field(default_factory=list)
+
+    def accept(self, visitor):
+        return visitor.visit_MediaRuleNode(self)
+
+@dataclass
+class MediaQueryNode(ASTNode):
+    expression: Optional[MediaExprNode] = None
+    identifier: Optional[str] = None
+    is_hidden_modifier: bool = False  
+
+    def accept(self, visitor):
+        return visitor.visit_MediaQueryNode(self)
+
+@dataclass
+class MediaExprNode(ASTNode):
+    property_name: str = ""
+    value: Optional[ValueNode] = None
+
+    def accept(self, visitor):
+        return visitor.visit_MediaExprNode(self)
+
+@dataclass
+class RulesetNode(ASTNode):
+    selectors: List[SelectorNode] = field(default_factory=list)
+    declarations: List[DeclarationNode] = field(default_factory=list)
+
+    def accept(self, visitor):
+        return visitor.visit_RulesetNode(self)
+
+@dataclass
+class SelectorNode(ASTNode):
+    parts: List[Union[CompoundSelectorNode, str]] = field(default_factory=list) 
+
+    def accept(self, visitor):
+        return visitor.visit_SelectorNode(self)
+
+@dataclass
+class CompoundSelectorNode(ASTNode):
+    base_selectors: List[str] = field(default_factory=list)    
+    pseudo_classes: List[str] = field(default_factory=list)    
+    pseudo_elements: List[str] = field(default_factory=list)   
+
+    def accept(self, visitor):
+        return visitor.visit_CompoundSelectorNode(self)
+
+@dataclass
+class DeclarationNode(ASTNode):
+    property_name: str = ""
+    value: Optional[ValueNode] = None
+    is_important: bool = False  
+
+    def accept(self, visitor):
+        return visitor.visit_DeclarationNode(self)
+
+@dataclass
+class ValueNode(ASTNode):
+    expressions: List[ExpressionNode] = field(default_factory=list)
+
+    def accept(self, visitor):
+        return visitor.visit_ValueNode(self)
+
+@dataclass
+class ExpressionNode(ASTNode):
+    left_term: Optional[TermNode] = None
+    operator: Optional[str] = None  
+    right_term: Optional[TermNode] = None
+
+    def accept(self, visitor):
+        return visitor.visit_ExpressionNode(self)
+
+@dataclass
+class TermNode(ASTNode):
+    value: Optional[Union[DimensionNode, FunctionCallNode, str]] = None
+    type: str = ""  
+
+    def accept(self, visitor):
+        return visitor.visit_TermNode(self)
+
+@dataclass
+class DimensionNode(ASTNode):
+    number: str = ""
+    unit: Optional[str] = None
+
+    def accept(self, visitor):
+        return visitor.visit_DimensionNode(self)
+
+@dataclass
+class FunctionCallNode(ASTNode):
+    function_name: str = ""
+    arguments: List[ExpressionNode] = field(default_factory=list)
+
+    def accept(self, visitor):
+        return visitor.visit_FunctionCallNode(self)

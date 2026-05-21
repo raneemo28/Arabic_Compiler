@@ -1,6 +1,6 @@
 lexer grammar ArabicHtmlLexer;
 
-import CommonLexer;
+import ACSSLexer;
 options {
     superClass = ArabicLexerBase;
 }
@@ -13,15 +13,14 @@ OPEN_TAG
     : '<' ARABIC_ID '>'
     ;
 
-TEXT
-    : ~[<]+
-    ;
-
-
 fragment ARABIC_LETTER
     : [\u0621-\u064A]
     ;
 
 fragment ARABIC_ID
     : ARABIC_LETTER+
+    ;
+
+TEXT
+    : ~[<>{};؛]+
     ;
