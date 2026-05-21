@@ -1,6 +1,10 @@
 import sys
 import pprint
 from dataclasses import asdict
+import os
+
+# Add parent directory to sys.path to resolve sibling imports (Lexer, AST) when run directly
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from antlr4 import CommonTokenStream, FileStream, ParseTreeWalker
 from antlr4.error.ErrorListener import ErrorListener
