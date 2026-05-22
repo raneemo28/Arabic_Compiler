@@ -8,6 +8,11 @@ else:
     from typing.io import TextIO
 
 
+if "." in __name__:
+    from .ArabicLexerBase import ArabicLexerBase
+else:
+    from ArabicLexerBase import ArabicLexerBase
+
 def serializedATN():
     return [
         4,0,22,116,6,-1,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,
@@ -50,7 +55,7 @@ def serializedATN():
         44,1,0,0,0,4,0,48,58,72,1,6,0,0
     ]
 
-class CommonLexer(Lexer):
+class CommonLexer(ArabicLexerBase):
 
     atn = ATNDeserializer().deserialize(serializedATN())
 
