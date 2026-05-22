@@ -1,6 +1,5 @@
 lexer grammar ACSSLexer;
 
-import CommonLexer;
 options {
     superClass = ArabicLexerBase;
 }
@@ -121,9 +120,9 @@ INLINE        : 'سطري' ;
 FLEX_VALUE    : 'مرونة' ;
 ABSOLUTE      : 'مطلق' ;
 RELATIVE      : 'نسبي' ;
-FIXED         : 'ثابت' ;
+FIXED         : 'مثبت' ;
 STICKY        : 'لاصق' ;
-ROW           : 'صف' ;
+ROW           : 'سطر' ;
 COLUMN        : 'عمود' ;
 WRAP          : 'لف' ;
 POINTER       : 'مؤشر' ;
@@ -131,21 +130,14 @@ BOLD          : 'عريض' ;
 ITALIC        : 'مائل' ;
 IMPORTANT     : 'هام' ;
 
-// --- Units & Literals ---
-UNIT          : ('بكسل' | '%' | 'ثانية' | 'ملي-ثانية' | 'درجة' | 'em' | 'rem' | 'vh' | 'vw') ;
-NUMBER        :  ([0-9] | [\u0660-\u0669])+ ('.' ([0-9] | [\u0660-\u0669])+)? ;
-HEX_COLOR     : '#' [a-fA-F0-9] ( [a-fA-F0-9] [a-fA-F0-9] [a-fA-F0-9]? [a-fA-F0-9]? [a-fA-F0-9]? )? ;
-
-// --- Identifiers (Selectors/Classes/IDs) ---
-IDENTIFIER    : [\u0621-\u064A] [\u0621-\u064A\u0660-\u06690-9_]* ;
-STRING        : '"' (~["\r\n])* '"' | '\'' (~['\r\n])* '\'' ;
-
 // --- Functions ---
 URL_FUNC      : 'رابط' ;
 RGB_FUNC      : 'نظام-ر_ج_ب' ;
 RGBA_FUNC     : 'نظام-ر_ج_ب_ا' ;
 CALC_FUNC     : 'حساب' ;
-VAR_FUNC      : 'متغير' ;
+VAR_FUNC      : 'دالة_متغير' ;
 ROTATE_FUNC   : 'تدوير' ;
 SCALE_FUNC    : 'تكبير' ;
 BLUR_FUNC     : 'تغبيش' ;
+
+UNIT          : ('بكسل' | '%' | 'ثانية' | 'ملي-ثانية' | 'درجة' | 'em' | 'rem' | 'vh' | 'vw') ;
