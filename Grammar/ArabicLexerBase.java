@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.misc.Interval;
 public abstract class ArabicLexerBase extends Lexer {
 
     public ArabicLexerBase(CharStream input) {
-        super(stripTashkeel(input));
+        super(input == null ? CharStreams.fromString("") : stripTashkeel(input));
     }
 
     private static CharStream stripTashkeel(CharStream input) {
