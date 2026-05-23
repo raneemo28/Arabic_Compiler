@@ -8,49 +8,25 @@ options {
 // --- ATOMIC FRAGMENTS (Building Blocks, emit NO tokens) ---
 // ============================================================
 
-// Pure Arabic alphabet (Unicode Arabic letters block)
-fragment ARABIC_CHAR
-    : [\u0621-\u064A]
-    ;
-
-// Pure English alphabet characters
-fragment ENGLISH_CHAR
-    : [a-zA-Z]
-    ;
-
-// Any letter (Arabic or English)
-fragment LETTER
-    : ARABIC_CHAR
-    | ENGLISH_CHAR
-    ;
-
-// Standard digits (Western) + Arabic-Indic digits (٠-٩)
-fragment DIGIT
-    : [0-9]
-    | [\u0660-\u0669]
-    ;
-
-// Special symbols allowed inside identifier names
-fragment ID_SYMBOL
-    : [$_]
-    ;
+fragment ARABIC_CHAR  : [\u0621-\u064A] ;
+fragment ENGLISH_CHAR : [a-zA-Z] ;
+fragment LETTER       : ARABIC_CHAR | ENGLISH_CHAR ;
+fragment DIGIT        : [0-9] | [\u0660-\u0669] ;
+fragment ID_SYMBOL    : [$_] ;
 
 // ============================================================
-// --- STRICT COMPOSED FRAGMENTS (for specific use cases) ---
+// --- STRICT COMPOSED FRAGMENTS ---
 // ============================================================
 
-// Strictly Arabic-only word (used for HTML tag names)
 fragment ARABIC_WORD
     : ARABIC_CHAR+
     ;
 
-// Full identifier start: letter or $ or _
 fragment ID_START
     : LETTER
     | ID_SYMBOL
     ;
 
-// Full identifier continuation: letter, digit, special symbol, or dash
 fragment ID_CONTINUE
     : LETTER
     | DIGIT
@@ -59,11 +35,13 @@ fragment ID_CONTINUE
     ;
 
 // ============================================================
-// --- WHITESPACE & COMMENTS ---
+// --- WHITESPACE & COMMENTS (shared across ALL modes) ---
+// NOTE: these are defined per-mode in the main lexer file.
+// Keep them here only as reference — the main file overrides.
 // ============================================================
 
-WS          : [ \t\r\n]+     -> skip ;
-COMMENT     : '/*' .*? '*/' -> skip ;
+WS           : [ \t\r\n]+    -> skip ;
+COMMENT      : '/*' .*? '*/' -> skip ;
 LINE_COMMENT : '//' ~[\r\n]* -> skip ;
 
 // ============================================================
