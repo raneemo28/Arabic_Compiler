@@ -1,4 +1,4 @@
-// Generated from e:/compiler's project/Arabic_Compiler/Arabic_Compiler/Grammar/CommonLexer.g4 by ANTLR 4.13.1
+// Generated from d:/Documents/Hiast/FourthYear/SecondSemester/Compilers/theoretical/Arabic_Compiler/Grammar/CommonLexer.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
