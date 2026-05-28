@@ -1,62 +1,23 @@
 lexer grammar ArabicHtmlLexer;
 
-// ============================================================
-// ARCHITECTURE:
-//   DEFAULT_MODE  → HTML tokens only
-//   CSS_MODE      → CSS tokens only  (entered via <نمط>)
-//   JS_MODE       → JS tokens only   (entered via <سكريبت>)
-//
-// The user writes natural mixed code — the lexer switches
-// modes automatically based on wrapper tags.
-//
-// NOTE: Because modes cannot span imported files, ALL token
-// definitions are inlined here. CommonLexer is kept for
-// fragments only (ARABIC_WORD, ID_START, ID_CONTINUE, DIGIT).
-// ============================================================
-
 options {
     superClass = ArabicLexerBase;
 }
+
 fragment ARABIC_CHAR : [\u0621-\u064A] ;
 fragment ARABIC_WORD : ARABIC_CHAR+ ;
+// ============================================================
+// ============= HTML KEYWORDS =============
+// ============================================================
+
+CLOSE_TAG  : '</' ARABIC_WORD '>' ;
+OPEN_TAG   : '<'  ARABIC_WORD '>' ;
+SELF_CLOSE : '<'  ARABIC_WORD '/>' ;
 
 
 // ============================================================
-// =================== DEFAULT MODE (HTML) ====================
+// ============= CSS KEYWORDS =============
 // ============================================================
-
-// --- Mode trigger tags (highest priority) ---
-// These switch the lexer into CSS or JS mode
-CSS_OPEN    : '<نمط>'      -> pushMode(CSS_MODE) ;
-CSS_CLOSE   : '</نمط>'     -> popMode ;
-JS_OPEN     : '<سكريبت>'   -> pushMode(JS_MODE) ;
-JS_CLOSE    : '</سكريبت>'  -> popMode ;
-
-// --- HTML structural tags ---
-CLOSE_TAG   : '</' ARABIC_WORD '>' ;
-OPEN_TAG    : '<'  ARABIC_WORD '>' ;
-SELF_CLOSE  : '<'  ARABIC_WORD '/>' ;
-
-// --- HTML free text (safe here — CSS_MODE and JS_MODE are isolated) ---
-TEXT        : ~[<>]+ ;
-
-// --- Shared whitespace ---
-HTML_WS     : [ \t\r\n]+ -> skip ;
-
-
-
-// ============================================================
-// ======================= CSS MODE ===========================
-// ============================================================
-
-mode CSS_MODE;
-
-// --- Exit trigger ---
-CSS_CLOSE_TAG : '</نمط>' -> popMode ;
-
-// --- Whitespace & comments ---
-CSS_WS           : [ \t\r\n]+    -> skip ;
-CSS_COMMENT      : '/*' .*? '*/' -> skip ;
 
 // --- Layout & Box Model ---
 CSS_DISPLAY       : 'عرض' ;
@@ -141,8 +102,8 @@ CSS_TABLE_LAYOUT    : 'تنسيق-الجدول' ;
 CSS_CAPTION_SIDE    : 'مكان-العنوان' ;
 
 // --- Visual Effects ---
-CSS_FILTER       : 'مرشح' ;
-CSS_BACKDROP_FILT: 'مرشح-الخلفية' ;
+CSS_FILTER        : 'مرشح' ;
+CSS_BACKDROP_FILT : 'مرشح-الخلفية' ;
 
 // --- Pseudo-classes & Pseudo-elements ---
 CSS_HOVER       : 'حوم' ;
@@ -158,9 +119,9 @@ CSS_PLACEHOLDER : 'نص-مؤقت' ;
 CSS_SELECTION   : 'تحديد' ;
 
 // --- Value Keywords ---
-CSS_INHERIT    : 'وراثة' ;
-CSS_INITIAL    : 'أولي' ;
-CSS_UNSET      : 'غير محدد' ;
+CSS_INHERIT : 'وراثة' ;
+CSS_INITIAL : 'أولي' ;
+CSS_UNSET      : 'غير-محدد' ;
 CSS_NONE       : 'لا-شيء' ;
 CSS_AUTO       : 'تلقائي' ;
 CSS_CENTER     : 'مركز' ;
@@ -194,61 +155,10 @@ CSS_ROTATE_FUNC : 'تدوير' ;
 CSS_SCALE_FUNC  : 'تكبير' ;
 CSS_BLUR_FUNC   : 'تغبيش' ;
 
-// --- Numbers, Units, Colors, Identifiers ---
-// Unit must come BEFORE NUMBER to handle "20بكسل" as one token
-CSS_UNIT
-    : [0-9]+ ('.' [0-9]+)? ('بكسل' | '%' | 'ثانية' | 'ملي-ثانية' | 'درجة' | 'em' | 'rem' | 'vh' | 'vw')
-    ;
-
-CSS_HEX_COLOR
-    : '#' [a-fA-F0-9]
-      ( [a-fA-F0-9] [a-fA-F0-9]
-        [a-fA-F0-9]? [a-fA-F0-9]? [a-fA-F0-9]?
-      )?
-    ;
-
-CSS_NUMBER
-    : [0-9]+ ('.' [0-9]+)?
-    ;
-
-CSS_STRING
-    : '"'  (~["\r\n])* '"'
-    | '\'' (~['\r\n])* '\''
-    ;
-
-// --- CSS syntax symbols ---
-CSS_LBRACE    : '{' ;
-CSS_RBRACE    : '}' ;
-CSS_COLON     : ':' ;
-CSS_SEMI      : '؛' ;
-CSS_COMMA     : '،' ;
-CSS_DOT       : '.' ;
-CSS_HASH      : '#' ;
-CSS_LPAREN    : '(' ;
-CSS_RPAREN    : ')' ;
-CSS_GT        : '>' ;
-CSS_TILDE     : '~' ;
-CSS_DBL_COLON : '::' ;
-
-// --- CSS selector identifiers (Arabic tag/class names) ---
-CSS_IDENTIFIER
-    : [\u0621-\u064A] ([\u0621-\u064A] | [0-9] | [$_-])*
-    ;
-
 
 // ============================================================
-// ======================== JS MODE ===========================
+// ============= JS KEYWORDS ==============
 // ============================================================
-
-mode JS_MODE;
-
-// --- Exit trigger ---
-JS_CLOSE_TAG : '</سكريبت>' -> popMode ;
-
-// --- Whitespace & comments ---
-JS_WS           : [ \t\r\n]+    -> skip ;
-JS_COMMENT      : '/*' .*? '*/' -> skip ;
-JS_LINE_COMMENT : '//' ~[\r\n]* -> skip ;
 
 // --- Variable Declarations ---
 JS_VAR   : 'متغير' ;
@@ -271,14 +181,14 @@ JS_IF      : 'إذا' | 'اذا' ;
 JS_ELSE    : 'إلا' | 'وإلا' | 'والا' ;
 JS_SWITCH  : 'اختبر' ;
 JS_CASE    : 'حالة' ;
-JS_DEFAULT : 'بشكل افتراضي' ;
+JS_DEFAULT : 'بشكل-افتراضي' ;
 
 // --- Loops ---
 JS_FOR      : 'لأجل' | 'لكل' ;
 JS_WHILE    : 'طالما' ;
 JS_DO       : 'نفذ' ;
 JS_BREAK    : 'إيقاف' ;
-JS_CONTINUE : 'تخطى ثم تابع' ;
+JS_CONTINUE : 'تخطى-ثم-تابع' ;
 JS_OF       : 'في' ;
 JS_IN       : 'ضمن' ;
 
@@ -303,7 +213,7 @@ JS_THROW     : 'اطلق' | 'أطلق' ;
 JS_EXCEPTION : 'استثناء' ;
 
 // --- OOP ---
-JS_NEW         : 'عنصر جديد' ;
+JS_NEW         : 'عنصر-جديد' ;
 JS_CLASS       : 'فئة' | 'صف' ;
 JS_EXTENDS     : 'يرث_من' ;
 JS_SUPER       : 'الاب' ;
@@ -353,11 +263,48 @@ JS_LOG          : 'اطبع' ;
 JS_ALERT        : 'تنبيه' ;
 JS_PROMPT       : 'ادخل' ;
 
-// --- Operators ---
+
+// ============================================================
+// ================ GENERAL IDENTIFIER ========================
+// ============================================================
+IDENTIFIER
+    : [\u0621-\u064A] ([\u0621-\u064A] | [0-9] | [$_-])*
+    ;
+
+
+// ============================================================
+// =================== NUMBERS & UNITS ========================
+// ============================================================
+
+CSS_UNIT
+    : [0-9]+ ('.' [0-9]+)? ('بكسل' | '%' | 'ثانية' | 'ملي-ثانية' | 'درجة' | 'em' | 'rem' | 'vh' | 'vw')
+    ;
+
+NUMBER
+    : [0-9]+ ('.' [0-9]+)?
+    ;
+
+
+// ============================================================
+// =================== HEX COLOR (before HASH) ================
+// ============================================================
+CSS_HEX_COLOR
+    : '#' ( [a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9]
+           | [a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9]
+           | [a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9]
+           | [a-fA-F0-9][a-fA-F0-9][a-fA-F0-9]
+           )
+    ;
+
+
+// ============================================================
+// =================== OPERATORS & PUNCTUATION ================
+// ============================================================
+
 JS_INC        : '++' ;
 JS_DEC        : '--' ;
-JS_EXP        : '**' ;
-JS_EXP_ASSIGN : '**=' ;
+JS_EXP_ASSIGN : '**=' ;      
+JS_EXP        : '**' ;       
 JS_ADD_ASSIGN : '+=' ;
 JS_SUB_ASSIGN : '-=' ;
 JS_MUL_ASSIGN : '*=' ;
@@ -366,59 +313,59 @@ JS_MOD_ASSIGN : '%=' ;
 JS_AND_ASSIGN : '&&=' ;
 JS_OR_ASSIGN  : '||=' ;
 JS_NULL_ASSIGN: '??=' ;
-JS_ASSIGN     : '=' ;
-JS_STREQ      : '===' ;
-JS_STRNEQ     : '!==' ;
-JS_EQ         : '==' ;
-JS_NEQ        : '!=' ;
-JS_GTE        : '>=' ;
-JS_LTE        : '<=' ;
+JS_SPREAD     : '...' ;      
+JS_ARROW      : '=>' ;       
+JS_STREQ      : '===' ;      
+JS_STRNEQ     : '!==' ;      
+JS_EQ         : '==' ;      
+JS_NEQ        : '!=' ;       
+JS_GTE        : '>=' ;       
+JS_LTE        : '<=' ;       
 JS_AND        : '&&' ;
 JS_OR         : '||' ;
 JS_NULL_COAL  : '??' ;
-JS_URSH       : '>>>' ;
-JS_LSH        : '<<' ;
-JS_RSH        : '>>' ;
+JS_URSH       : '>>>' ;      
+JS_RSH        : '>>' ;       
+JS_LSH        : '<<' ;       
+JS_ASSIGN     : '=' ;
 JS_BIT_AND    : '&' ;
 JS_BIT_OR     : '|' ;
 JS_BIT_XOR    : '^' ;
 JS_QUESTION   : '?' ;
-JS_ARROW      : '=>' ;
-JS_SPREAD     : '...' ;
 
-// --- JS literals ---
-JS_NUMBER
-    : [0-9]+ ('.' [0-9]+)?
-    ;
+// Single-character operators / punctuation
+LBRACE    : '{' ;
+RBRACE    : '}' ;
+COLON     : ':' ;
+SEMI      : '؛' ;
+COMMA     : '،' ;
+DOT       : '.' ;
+HASH      : '#' ;
+LPAREN    : '(' ;
+RPAREN    : ')' ;
+TILDE     : '~' ;
+DBL_COLON : '::' ;
+LBRACK    : '[' ;
+RBRACK    : ']' ;
+PLUS      : '+' ;
+MINUS     : '-' ;
+STAR      : '*' ;
+SLASH     : '/' ;
+PERCENT   : '%' ;
+LT        : '<' ;
+GT        : '>' ;
+BANG      : '!' ;
 
-JS_STRING
+
+// ============================================================
+// =================== SKIPPED TOKENS =========================
+// ============================================================
+
+WS            : [ \t\r\n]+  -> skip ;
+BLOCK_COMMENT : '/*' .*? '*/' -> skip ;
+LINE_COMMENT  : '//' ~[\r\n]* -> skip ;
+
+STRING
     : '"'  (~["\r\n])* '"'
     | '\'' (~['\r\n])* '\''
-    | '`'  (~[`])*     '`'
-    ;
-
-// --- JS syntax symbols ---
-JS_LBRACE  : '{' ;
-JS_RBRACE  : '}' ;
-JS_LPAREN  : '(' ;
-JS_RPAREN  : ')' ;
-JS_LBRACK  : '[' ;
-JS_RBRACK  : ']' ;
-JS_SEMI    : '؛' | ';' ;
-JS_COMMA   : '،' | ',' ;
-JS_DOT     : '.' ;
-JS_COLON   : ':' ;
-JS_PLUS    : '+' ;
-JS_MINUS   : '-' ;
-JS_STAR    : '*' ;
-JS_SLASH   : '/' ;
-JS_PERCENT : '%' ;
-JS_LT      : '<' ;
-JS_GT      : '>' ;
-JS_BANG    : '!' ;
-
-// --- JS identifiers (Arabic, English, mixed) ---
-JS_IDENTIFIER
-    : ( [\u0621-\u064A] | [a-zA-Z] | [$_] )
-      ( [\u0621-\u064A] | [a-zA-Z] | [0-9] | [$_] )*
     ;

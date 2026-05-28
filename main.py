@@ -5,7 +5,7 @@ from Grammar.ArabicHtmlLexer import ArabicHtmlLexer
 
 def main():
     # 1) قراءة الملف المصدري باستخدام ترميز UTF‑8
-    source_file = "example.aweb"
+    source_file = "tests/sample.arweb"
 
     try:
         input_stream = FileStream(source_file, encoding='utf-8')
