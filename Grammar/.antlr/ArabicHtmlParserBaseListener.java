@@ -1,4 +1,4 @@
-// Generated from ArabicHtmlParser.g4 by ANTLR 4.13.2
+// Generated from c:/Users/Asus/Desktop/Arabic_Compiler/Grammar/ArabicHtmlParser.g4 by ANTLR 4.13.1
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -407,18 +407,6 @@ public class ArabicHtmlParserBaseListener implements ArabicHtmlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMultiplicativeExpression(ArabicHtmlParser.MultiplicativeExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterMemberExpression(ArabicHtmlParser.MemberExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMemberExpression(ArabicHtmlParser.MemberExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

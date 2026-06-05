@@ -1,4 +1,4 @@
-// Generated from ArabicHtmlParser.g4 by ANTLR 4.13.2
+// Generated from c:/Users/Asus/Desktop/Arabic_Compiler/Grammar/ArabicHtmlParser.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -336,16 +336,6 @@ public interface ArabicHtmlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMultiplicativeExpression(ArabicHtmlParser.MultiplicativeExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ArabicHtmlParser#memberExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterMemberExpression(ArabicHtmlParser.MemberExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ArabicHtmlParser#memberExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitMemberExpression(ArabicHtmlParser.MemberExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ArabicHtmlParser#primaryExpression}.
 	 * @param ctx the parse tree
