@@ -11,10 +11,14 @@ fragment ARABIC_WORD : ARABIC_CHAR+ ;
 // ============================================================
 
 CLOSE_TAG  : '</' ARABIC_WORD '>' ;
-OPEN_TAG   : '<'  ARABIC_WORD '>' ;
-SELF_CLOSE : '<'  ARABIC_WORD '/>' ;
+OPEN_TAG_START : '<' ARABIC_WORD ;
+SELF_CLOSE_END : '/>' ;
 
 
+ATTR_ID    : 'معرف' ;
+ATTR_CLASS : 'صنف' ;
+ATTR_SRC   : 'مصدر' ;
+ATTR_HREF  : 'وجهة' ;
 // ============================================================
 // ============= CSS KEYWORDS =============
 // ============================================================

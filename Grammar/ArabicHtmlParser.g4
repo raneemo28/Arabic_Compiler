@@ -10,9 +10,18 @@ program
     ;
 
 // --- HTML Rules ---
+
+attribute
+    : ATTR_ID    JS_ASSIGN STRING   # idAttribute
+    | ATTR_CLASS JS_ASSIGN STRING   # classAttribute
+    | ATTR_SRC   JS_ASSIGN STRING   # srcAttribute
+    | ATTR_HREF  JS_ASSIGN STRING   # hrefAttribute
+    ;
+    
+// CORRECT
 htmlElement
-    : OPEN_TAG htmlContent CLOSE_TAG 
-    | SELF_CLOSE 
+    : OPEN_TAG_START attribute* GT htmlContent CLOSE_TAG   # parentElement
+    | OPEN_TAG_START attribute* SELF_CLOSE_END             # selfClosingElement
     ;
 
 htmlContent

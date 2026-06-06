@@ -17,15 +17,77 @@ public interface ArabicHtmlParserListener extends ParseTreeListener {
 	 */
 	void exitProgram(ArabicHtmlParser.ProgramContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ArabicHtmlParser#htmlElement}.
+	 * Enter a parse tree produced by the {@code idAttribute}
+	 * labeled alternative in {@link ArabicHtmlParser#attribute}.
 	 * @param ctx the parse tree
 	 */
-	void enterHtmlElement(ArabicHtmlParser.HtmlElementContext ctx);
+	void enterIdAttribute(ArabicHtmlParser.IdAttributeContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ArabicHtmlParser#htmlElement}.
+	 * Exit a parse tree produced by the {@code idAttribute}
+	 * labeled alternative in {@link ArabicHtmlParser#attribute}.
 	 * @param ctx the parse tree
 	 */
-	void exitHtmlElement(ArabicHtmlParser.HtmlElementContext ctx);
+	void exitIdAttribute(ArabicHtmlParser.IdAttributeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code classAttribute}
+	 * labeled alternative in {@link ArabicHtmlParser#attribute}.
+	 * @param ctx the parse tree
+	 */
+	void enterClassAttribute(ArabicHtmlParser.ClassAttributeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code classAttribute}
+	 * labeled alternative in {@link ArabicHtmlParser#attribute}.
+	 * @param ctx the parse tree
+	 */
+	void exitClassAttribute(ArabicHtmlParser.ClassAttributeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code srcAttribute}
+	 * labeled alternative in {@link ArabicHtmlParser#attribute}.
+	 * @param ctx the parse tree
+	 */
+	void enterSrcAttribute(ArabicHtmlParser.SrcAttributeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code srcAttribute}
+	 * labeled alternative in {@link ArabicHtmlParser#attribute}.
+	 * @param ctx the parse tree
+	 */
+	void exitSrcAttribute(ArabicHtmlParser.SrcAttributeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code hrefAttribute}
+	 * labeled alternative in {@link ArabicHtmlParser#attribute}.
+	 * @param ctx the parse tree
+	 */
+	void enterHrefAttribute(ArabicHtmlParser.HrefAttributeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code hrefAttribute}
+	 * labeled alternative in {@link ArabicHtmlParser#attribute}.
+	 * @param ctx the parse tree
+	 */
+	void exitHrefAttribute(ArabicHtmlParser.HrefAttributeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code parentElement}
+	 * labeled alternative in {@link ArabicHtmlParser#htmlElement}.
+	 * @param ctx the parse tree
+	 */
+	void enterParentElement(ArabicHtmlParser.ParentElementContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code parentElement}
+	 * labeled alternative in {@link ArabicHtmlParser#htmlElement}.
+	 * @param ctx the parse tree
+	 */
+	void exitParentElement(ArabicHtmlParser.ParentElementContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code selfClosingElement}
+	 * labeled alternative in {@link ArabicHtmlParser#htmlElement}.
+	 * @param ctx the parse tree
+	 */
+	void enterSelfClosingElement(ArabicHtmlParser.SelfClosingElementContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code selfClosingElement}
+	 * labeled alternative in {@link ArabicHtmlParser#htmlElement}.
+	 * @param ctx the parse tree
+	 */
+	void exitSelfClosingElement(ArabicHtmlParser.SelfClosingElementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ArabicHtmlParser#htmlContent}.
 	 * @param ctx the parse tree
