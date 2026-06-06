@@ -1,4 +1,4 @@
-// Generated from c:/Users/Asus/Desktop/Arabic_Compiler/Grammar/ArabicHtmlParser.g4 by ANTLR 4.13.1
+// Generated from e:/compiler's project/Arabic_Compiler/Arabic_Compiler/Grammar/ArabicHtmlParser.g4 by ANTLR 4.13.1
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -28,13 +28,73 @@ public class ArabicHtmlParserBaseListener implements ArabicHtmlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterHtmlElement(ArabicHtmlParser.HtmlElementContext ctx) { }
+	@Override public void enterIdAttribute(ArabicHtmlParser.IdAttributeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitHtmlElement(ArabicHtmlParser.HtmlElementContext ctx) { }
+	@Override public void exitIdAttribute(ArabicHtmlParser.IdAttributeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterClassAttribute(ArabicHtmlParser.ClassAttributeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitClassAttribute(ArabicHtmlParser.ClassAttributeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSrcAttribute(ArabicHtmlParser.SrcAttributeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSrcAttribute(ArabicHtmlParser.SrcAttributeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterHrefAttribute(ArabicHtmlParser.HrefAttributeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitHrefAttribute(ArabicHtmlParser.HrefAttributeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterParentElement(ArabicHtmlParser.ParentElementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParentElement(ArabicHtmlParser.ParentElementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSelfClosingElement(ArabicHtmlParser.SelfClosingElementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSelfClosingElement(ArabicHtmlParser.SelfClosingElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -407,6 +467,18 @@ public class ArabicHtmlParserBaseListener implements ArabicHtmlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMultiplicativeExpression(ArabicHtmlParser.MultiplicativeExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMemberExpression(ArabicHtmlParser.MemberExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMemberExpression(ArabicHtmlParser.MemberExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
