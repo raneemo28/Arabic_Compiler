@@ -6,16 +6,16 @@ options {
 
 // --- Entry Point ---
 program
-    : (htmlElement | cssRule | jsStatement)* EOF
+    : (htmlElement | cssRule | tsStatement)* EOF
     ;
 
 // --- HTML Rules ---
 
 attribute
-    : ATTR_ID    JS_ASSIGN STRING   # idAttribute
-    | ATTR_CLASS JS_ASSIGN STRING   # classAttribute
-    | ATTR_SRC   JS_ASSIGN STRING   # srcAttribute
-    | ATTR_HREF  JS_ASSIGN STRING   # hrefAttribute
+    : ATTR_ID    TS_ASSIGN STRING   # idAttribute
+    | ATTR_CLASS TS_ASSIGN STRING   # classAttribute
+    | ATTR_SRC   TS_ASSIGN STRING   # srcAttribute
+    | ATTR_HREF  TS_ASSIGN STRING   # hrefAttribute
     ;
     
 // CORRECT
@@ -25,7 +25,7 @@ htmlElement
     ;
 
 htmlContent
-    : (htmlElement | jsStatement | cssRule | text)* 
+    : (htmlElement | tsStatement | cssRule | text)* 
     ;
 
 // Allows keywords to be treated as plain text inside HTML tags
@@ -38,10 +38,10 @@ text
 
 // Groups all keywords that might appear as natural language in HTML
 arabicKeyword
-    : JS_IF | JS_ELSE 
-    | JS_FOR | JS_WHILE | JS_FUNCTION | JS_RETURN
-    | JS_OF | JS_IN | JS_VAR | JS_LET 
-    | JS_CONST | JS_TRUE | JS_FALSE 
+    : TS_IF | TS_ELSE 
+    | TS_FOR | TS_WHILE | TS_FUNCTION | TS_RETURN
+    | TS_OF | TS_IN | TS_VAR | TS_LET 
+    | TS_CONST | TS_TRUE | TS_FALSE 
     | CSS_DISPLAY | CSS_MARGIN | CSS_PADDING | CSS_CENTER 
     | CSS_BLOCK 
     ;
@@ -95,12 +95,20 @@ cssFunction
       LPAREN (expression (COMMA expression)*)? RPAREN 
     ;
 
-// --- JavaScript Rules ---
-jsStatement
-    : variableDeclaration 
+tsType
+    : TS_STRING_KW 
+    | TS_NUMBER_KW 
+    | TS_BOOLEAN_KW
+    | TS_ANY_KW
+    | TS_BIGINT_KW
+    ;
+// --- Typescript Rules ---
+tsStatement
+    : tsDeclaration
     | assignmentStatement 
     | ifStatement 
-    | forLoop 
+    | arrayLoop 
+    | forLoop
     | whileLoop 
     | functionDeclaration 
     | returnStatement 
@@ -110,33 +118,49 @@ jsStatement
     | block 
     ;
 
-block
-    : LBRACE jsStatement* RBRACE 
+// قاعدة موحدة للتعريفات مع تأخير القرار
+variableDeclaration
+    : (TS_VAR | TS_LET | TS_CONST) IDENTIFIER COLON tsType (TS_ASSIGN expression)?  SEMI
     ;
 
-variableDeclaration
-    : (JS_VAR | JS_LET | JS_CONST) IDENTIFIER (JS_ASSIGN expression)? SEMI 
+tsDeclaration
+    : (TS_VAR | TS_LET | TS_CONST) 
+      (
+        IDENTIFIER COLON tsType (TS_ASSIGN expression)?                            
+        | IDENTIFIER COLON tsType LBRACK RBRACK (TS_ASSIGN arrayLiteral)? 
+        | IDENTIFIER TS_ASSIGN objectLiteral
+      ) 
+      SEMI
     ;
+
+block
+    : LBRACE tsStatement* RBRACE 
+    ;
+
 
 assignmentStatement
-    : IDENTIFIER (JS_ASSIGN | JS_ADD_ASSIGN | JS_SUB_ASSIGN | JS_MUL_ASSIGN | JS_DIV_ASSIGN) expression SEMI 
+    : IDENTIFIER (TS_ASSIGN | TS_ADD_ASSIGN | TS_SUB_ASSIGN | TS_MUL_ASSIGN | TS_DIV_ASSIGN) expression SEMI 
     ;
 
 ifStatement
-    : JS_IF LPAREN expression RPAREN jsStatement (JS_ELSE jsStatement)? 
+    : TS_IF LPAREN expression RPAREN tsStatement (TS_ELSE tsStatement)? 
     ;
 
 forLoop
-    : JS_FOR LPAREN (variableDeclaration | expression SEMI expression SEMI expression) RPAREN jsStatement 
-    | JS_FOR LPAREN (JS_LET | JS_VAR) IDENTIFIER (JS_OF | JS_IN) expression RPAREN jsStatement 
+    : TS_FOR LPAREN ((variableDeclaration | assignmentExpression) expression SEMI expression) RPAREN block
+    ;
+    
+arrayLoop
+    : TS_FOR LPAREN TS_CONST IDENTIFIER (TS_OF|TS_IN) expression RPAREN block 
     ;
 
+
 whileLoop
-    : JS_WHILE LPAREN expression RPAREN jsStatement 
+    : TS_WHILE LPAREN expression RPAREN block 
     ;
 
 functionDeclaration
-    : JS_FUNCTION IDENTIFIER LPAREN parameterList? RPAREN block 
+    : TS_FUNCTION IDENTIFIER LPAREN parameterList? RPAREN block 
     ;
 
 parameterList
@@ -144,11 +168,11 @@ parameterList
     ;
 
 returnStatement
-    : JS_RETURN expression? SEMI 
+    : TS_RETURN expression? SEMI 
     ;
 
 tryCatchStatement
-    : JS_TRY block JS_CATCH LPAREN IDENTIFIER RPAREN block (JS_FINALLY block)? 
+    : TS_TRY block TS_CATCH LPAREN IDENTIFIER RPAREN block (TS_FINALLY block)? 
     ;
 
 expressionStatement
@@ -156,32 +180,32 @@ expressionStatement
     ;
 
 builtInCall
-    : (JS_CONSOLE DOT JS_LOG | JS_ALERT | JS_PROMPT) LPAREN (expression (COMMA expression)*)? RPAREN SEMI 
+    : (TS_CONSOLE DOT TS_LOG | TS_ALERT | TS_PROMPT) LPAREN (expression (COMMA expression)*)? RPAREN SEMI 
     ;
 
-// --- JS Expression Hierarchy ---
+// --- TS Expression Hierarchy ---
 expression
     : assignmentExpression 
     ;
 
 assignmentExpression
-    : logicalOrExpression (JS_ASSIGN expression)? 
+    : logicalOrExpression (TS_ASSIGN expression)? 
     ;
 
 logicalOrExpression
-    : logicalAndExpression (JS_OR logicalAndExpression)* 
+    : logicalAndExpression (TS_OR logicalAndExpression)* 
     ;
 
 logicalAndExpression
-    : equalityExpression (JS_AND equalityExpression)* 
+    : equalityExpression (TS_AND equalityExpression)* 
     ;
 
 equalityExpression
-    : relationalExpression ((JS_STREQ | JS_STRNEQ | JS_EQ | JS_NEQ) relationalExpression)* 
+    : relationalExpression ((TS_STREQ | TS_STRNEQ | TS_EQ | TS_NEQ) relationalExpression)* 
     ;
 
 relationalExpression
-    : additiveExpression ((LT | GT | JS_GTE | JS_LTE | JS_INSTANCEOF | JS_IN) additiveExpression)* 
+    : additiveExpression ((LT | GT | TS_GTE | TS_LTE | TS_INSTANCEOF | TS_IN) additiveExpression)* 
     ;
 
 additiveExpression
@@ -196,7 +220,7 @@ multiplicativeExpression
 memberExpression
     : primaryExpression (
         LPAREN (expression (COMMA expression)*)? RPAREN 
-        | DOT (IDENTIFIER | JS_LOG | JS_ADD_LISTENER | JS_INNER_TEXT | JS_STYLE) 
+        | DOT (IDENTIFIER | TS_LOG | TS_ADD_LISTENER | TS_INNER_TEXT | TS_STYLE) 
         | LBRACK expression RBRACK 
     )*
     ;
@@ -205,17 +229,24 @@ primaryExpression
     : IDENTIFIER 
     | NUMBER 
     | STRING 
-    | JS_TRUE | JS_FALSE | JS_NULL | JS_UNDEFINED | JS_THIS | JS_NAN 
-    | JS_DOCUMENT | JS_WINDOW 
+    | TS_TRUE | TS_FALSE | TS_NULL | TS_UNDEFINED | TS_THIS | TS_NAN 
+    | TS_DOCUMENT | TS_WINDOW 
     | LPAREN expression RPAREN 
-    | arrayLiteral 
-    | objectLiteral 
     ;
+
 
 arrayLiteral
     : LBRACK (expression (COMMA expression)*)? RBRACK 
     ;
 
+// arrayDeclaration
+//     : (TS_VAR | TS_LET | TS_CONST) TS_ARRAY_KW IDENTIFIER COLON tsType LBRACK RBRACK (TS_ASSIGN arrayLiteral)? SEMI
+//     ;
+
 objectLiteral
     : LBRACE (IDENTIFIER COLON expression (COMMA IDENTIFIER COLON expression)*)? RBRACE 
     ;
+
+// objectDeclaration
+//     : (TS_VAR | TS_LET | TS_CONST) TS_OBJECT_KW COLON tsType LBRACE RBRACE IDENTIFIER (TS_ASSIGN objectLiteral)? SEMI 
+//     ;

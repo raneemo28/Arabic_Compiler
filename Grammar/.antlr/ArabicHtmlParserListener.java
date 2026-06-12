@@ -1,4 +1,4 @@
-// Generated from e:/compiler's project/Arabic_Compiler/Arabic_Compiler/Grammar/ArabicHtmlParser.g4 by ANTLR 4.13.1
+// Generated from c:/Users/ElectoMall/OneDrive/Desktop/projects/MiniProjects/compilers/Arabic_Compiler/Grammar/ArabicHtmlParser.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -189,15 +189,25 @@ public interface ArabicHtmlParserListener extends ParseTreeListener {
 	 */
 	void exitCssFunction(ArabicHtmlParser.CssFunctionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ArabicHtmlParser#jsStatement}.
+	 * Enter a parse tree produced by {@link ArabicHtmlParser#tsType}.
 	 * @param ctx the parse tree
 	 */
-	void enterJsStatement(ArabicHtmlParser.JsStatementContext ctx);
+	void enterTsType(ArabicHtmlParser.TsTypeContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ArabicHtmlParser#jsStatement}.
+	 * Exit a parse tree produced by {@link ArabicHtmlParser#tsType}.
 	 * @param ctx the parse tree
 	 */
-	void exitJsStatement(ArabicHtmlParser.JsStatementContext ctx);
+	void exitTsType(ArabicHtmlParser.TsTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ArabicHtmlParser#tsStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterTsStatement(ArabicHtmlParser.TsStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArabicHtmlParser#tsStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitTsStatement(ArabicHtmlParser.TsStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ArabicHtmlParser#block}.
 	 * @param ctx the parse tree
@@ -429,6 +439,16 @@ public interface ArabicHtmlParserListener extends ParseTreeListener {
 	 */
 	void exitArrayLiteral(ArabicHtmlParser.ArrayLiteralContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ArabicHtmlParser#arrayDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayDeclaration(ArabicHtmlParser.ArrayDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArabicHtmlParser#arrayDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayDeclaration(ArabicHtmlParser.ArrayDeclarationContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ArabicHtmlParser#objectLiteral}.
 	 * @param ctx the parse tree
 	 */
@@ -438,4 +458,14 @@ public interface ArabicHtmlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitObjectLiteral(ArabicHtmlParser.ObjectLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ArabicHtmlParser#objectDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterObjectDeclaration(ArabicHtmlParser.ObjectDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArabicHtmlParser#objectDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitObjectDeclaration(ArabicHtmlParser.ObjectDeclarationContext ctx);
 }

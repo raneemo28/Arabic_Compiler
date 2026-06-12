@@ -1,4 +1,4 @@
-// Generated from e:/compiler's project/Arabic_Compiler/Arabic_Compiler/Grammar/ArabicHtmlParser.g4 by ANTLR 4.13.1
+// Generated from c:/Users/ElectoMall/OneDrive/Desktop/projects/MiniProjects/compilers/Arabic_Compiler/Grammar/ArabicHtmlParser.g4 by ANTLR 4.13.1
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -220,13 +220,25 @@ public class ArabicHtmlParserBaseListener implements ArabicHtmlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterJsStatement(ArabicHtmlParser.JsStatementContext ctx) { }
+	@Override public void enterTsType(ArabicHtmlParser.TsTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitJsStatement(ArabicHtmlParser.JsStatementContext ctx) { }
+	@Override public void exitTsType(ArabicHtmlParser.TsTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTsStatement(ArabicHtmlParser.TsStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTsStatement(ArabicHtmlParser.TsStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -508,6 +520,18 @@ public class ArabicHtmlParserBaseListener implements ArabicHtmlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterArrayDeclaration(ArabicHtmlParser.ArrayDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayDeclaration(ArabicHtmlParser.ArrayDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterObjectLiteral(ArabicHtmlParser.ObjectLiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -515,6 +539,18 @@ public class ArabicHtmlParserBaseListener implements ArabicHtmlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitObjectLiteral(ArabicHtmlParser.ObjectLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterObjectDeclaration(ArabicHtmlParser.ObjectDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitObjectDeclaration(ArabicHtmlParser.ObjectDeclarationContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
