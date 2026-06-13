@@ -1,4 +1,4 @@
-# Generated from Grammar/ArabicHtmlParser.g4 by ANTLR 4.13.2
+# Generated from ArabicHtmlParser.g4 by ANTLR 4.13.2
 from antlr4 import *
 if "." in __name__:
     from .ArabicHtmlParser import ArabicHtmlParser
@@ -161,21 +161,21 @@ class ArabicHtmlParserListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by ArabicHtmlParser#jsStatement.
-    def enterJsStatement(self, ctx:ArabicHtmlParser.JsStatementContext):
+    # Enter a parse tree produced by ArabicHtmlParser#tsType.
+    def enterTsType(self, ctx:ArabicHtmlParser.TsTypeContext):
         pass
 
-    # Exit a parse tree produced by ArabicHtmlParser#jsStatement.
-    def exitJsStatement(self, ctx:ArabicHtmlParser.JsStatementContext):
+    # Exit a parse tree produced by ArabicHtmlParser#tsType.
+    def exitTsType(self, ctx:ArabicHtmlParser.TsTypeContext):
         pass
 
 
-    # Enter a parse tree produced by ArabicHtmlParser#block.
-    def enterBlock(self, ctx:ArabicHtmlParser.BlockContext):
+    # Enter a parse tree produced by ArabicHtmlParser#tsStatement.
+    def enterTsStatement(self, ctx:ArabicHtmlParser.TsStatementContext):
         pass
 
-    # Exit a parse tree produced by ArabicHtmlParser#block.
-    def exitBlock(self, ctx:ArabicHtmlParser.BlockContext):
+    # Exit a parse tree produced by ArabicHtmlParser#tsStatement.
+    def exitTsStatement(self, ctx:ArabicHtmlParser.TsStatementContext):
         pass
 
 
@@ -185,6 +185,24 @@ class ArabicHtmlParserListener(ParseTreeListener):
 
     # Exit a parse tree produced by ArabicHtmlParser#variableDeclaration.
     def exitVariableDeclaration(self, ctx:ArabicHtmlParser.VariableDeclarationContext):
+        pass
+
+
+    # Enter a parse tree produced by ArabicHtmlParser#tsDeclaration.
+    def enterTsDeclaration(self, ctx:ArabicHtmlParser.TsDeclarationContext):
+        pass
+
+    # Exit a parse tree produced by ArabicHtmlParser#tsDeclaration.
+    def exitTsDeclaration(self, ctx:ArabicHtmlParser.TsDeclarationContext):
+        pass
+
+
+    # Enter a parse tree produced by ArabicHtmlParser#block.
+    def enterBlock(self, ctx:ArabicHtmlParser.BlockContext):
+        pass
+
+    # Exit a parse tree produced by ArabicHtmlParser#block.
+    def exitBlock(self, ctx:ArabicHtmlParser.BlockContext):
         pass
 
 
@@ -212,6 +230,15 @@ class ArabicHtmlParserListener(ParseTreeListener):
 
     # Exit a parse tree produced by ArabicHtmlParser#forLoop.
     def exitForLoop(self, ctx:ArabicHtmlParser.ForLoopContext):
+        pass
+
+
+    # Enter a parse tree produced by ArabicHtmlParser#arrayLoop.
+    def enterArrayLoop(self, ctx:ArabicHtmlParser.ArrayLoopContext):
+        pass
+
+    # Exit a parse tree produced by ArabicHtmlParser#arrayLoop.
+    def exitArrayLoop(self, ctx:ArabicHtmlParser.ArrayLoopContext):
         pass
 
 

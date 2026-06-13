@@ -28,13 +28,13 @@ CSS_DISPLAY       : 'عرض' ;
 CSS_POSITION      : 'موقع' ;
 CSS_WIDTH         : 'عرض-المساحة' ;
 CSS_HEIGHT        : 'طول-المساحة' ;
-CSS_MAX_WIDTH     : 'أقصى-عرض' ;
-CSS_MIN_WIDTH     : 'أقل-عرض' ;
-CSS_MAX_HEIGHT    : 'أقصى-طول' ;
-CSS_MIN_HEIGHT    : 'أقل-طول' ;
+CSS_MAX_WIDTH     : 'اقصى-عرض' ;
+CSS_MIN_WIDTH     : 'اقل-عرض' ;
+CSS_MAX_HEIGHT    : 'اقصى-طول' ;
+CSS_MIN_HEIGHT    : 'اقل-طول' ;
 CSS_MARGIN        : 'هامش' ;
 CSS_PADDING       : 'حشو' ;
-CSS_BORDER        : 'إطار' ;
+CSS_BORDER        : 'اطار' ;
 CSS_VISIBILITY    : 'الظهور' ;
 CSS_OVERFLOW      : 'فائض' ;
 CSS_Z_INDEX       : 'ترتيب-العمق' ;
@@ -75,24 +75,24 @@ CSS_TEXT_ALIGN     : 'محاذاة-النص' ;
 CSS_TEXT_DECOR     : 'زخرفة-النص' ;
 CSS_TEXT_TRANS     : 'تحويل-النص' ;
 CSS_TEXT_SHADOW    : 'ظل-النص' ;
-CSS_TEXT_INDENT    : 'إزاحة-النص' ;
+CSS_TEXT_INDENT    : 'ازاحة-النص' ;
 CSS_LINE_HEIGHT    : 'ارتفاع-السطر' ;
-CSS_LETTER_SPACING : 'تباعد-الأحرف' ;
+CSS_LETTER_SPACING : 'تباعد-الاحرف' ;
 CSS_WORD_SPACING   : 'تباعد-الكلمات' ;
 CSS_WHITE_SPACE    : 'المساحة-البيضاء' ;
 CSS_DIRECTION      : 'اتجاه-الكتابة' ;
 CSS_WRITING_MODE   : 'نمط-الكتابة' ;
 
 // --- Borders & Outlines ---
-CSS_BORDER_RADIUS  : 'انحناء-الإطار' ;
-CSS_BORDER_WIDTH   : 'سمك-الإطار' ;
-CSS_BORDER_STYLE   : 'نمط-الإطار' ;
-CSS_BORDER_COLOR   : 'لون-الإطار' ;
+CSS_BORDER_RADIUS  : 'انحناء-الاطار' ;
+CSS_BORDER_WIDTH   : 'سمك-الاطار' ;
+CSS_BORDER_STYLE   : 'نمط-الاطار' ;
+CSS_BORDER_COLOR   : 'لون-الاطار' ;
 CSS_OUTLINE        : 'خط-خارجي' ;
 
 // --- Positioning ---
-CSS_TOP    : 'أعلى' ;
-CSS_BOTTOM : 'أسفل' ;
+CSS_TOP    : 'اعلى' ;
+CSS_BOTTOM : 'اسفل' ;
 CSS_RIGHT  : 'يمين' ;
 CSS_LEFT   : 'يسار' ;
 
@@ -124,7 +124,7 @@ CSS_SELECTION   : 'تحديد' ;
 
 // --- Value Keywords ---
 CSS_INHERIT : 'وراثة' ;
-CSS_INITIAL : 'أولي' ;
+CSS_INITIAL : 'اولي' ;
 CSS_UNSET      : 'غير-محدد' ;
 CSS_NONE       : 'لا-شيء' ;
 CSS_AUTO       : 'تلقائي' ;
@@ -161,111 +161,113 @@ CSS_BLUR_FUNC   : 'تغبيش' ;
 
 
 // ============================================================
-// ============= JS KEYWORDS ==============
+// ============= TS KEYWORDS ==============
 // ============================================================
 
 // --- Variable Declarations ---
-JS_VAR   : 'متغير' ;
-JS_LET   : 'لنفرض' ;
-JS_CONST : 'ثابت' ;
+TS_VAR   : 'متغير' ;
+TS_LET   : 'دع' ; //
+TS_CONST : 'ثابت' ;
 
 // --- Data Types ---
-JS_ARRAY_KW   : 'مصفوفة' ;
-JS_STRING_KW  : 'سلسلة' ;
-JS_NUMBER_KW  : 'عدد' ;
-JS_BOOLEAN_KW : 'منطقي' ;
-JS_SYMBOL_KW  : 'رمز' ;
-JS_MAP_KW     : 'خريطة' ;
-JS_SET_KW     : 'مجموعة' ;
-JS_DATE_KW    : 'تاريخ' ;
-JS_OBJECT_KW  : 'كائن' ;
+// --- Primitive Types ---
+TS_ANY_KW  : 'اي' ;
+TS_BIGINT_KW  : 'رقم_كبير' ;
+TS_ARRAY_KW   : 'مصفوفة' ;
+TS_STRING_KW  : 'سلسلة' ;
+TS_NUMBER_KW  : 'عدد' ;
+TS_BOOLEAN_KW : 'منطقي' ;
+// TS_SYMBOL_KW  : 'رمز' ;
+TS_MAP_KW     : 'خريطة' ;
+TS_SET_KW     : 'مجموعة' ;
+TS_DATE_KW    : 'تاريخ' ;
+TS_OBJECT_KW  : 'كائن' ;
 
 // --- Control Flow ---
-JS_IF      : 'إذا' | 'اذا' ;
-JS_ELSE    : 'إلا' | 'وإلا' | 'والا' ;
-JS_SWITCH  : 'اختبر' ;
-JS_CASE    : 'حالة' ;
-JS_DEFAULT : 'بشكل-افتراضي' ;
+TS_IF      : 'اذا' ;
+TS_ELSE    : 'الا' | 'والا';
+TS_SWITCH  : 'اختبر' ;
+TS_CASE    : 'حالة' ;
+TS_DEFAULT : 'بشكل-افتراضي' ;
 
 // --- Loops ---
-JS_FOR      : 'لأجل' | 'لكل' ;
-JS_WHILE    : 'طالما' ;
-JS_DO       : 'نفذ' ;
-JS_BREAK    : 'إيقاف' ;
-JS_CONTINUE : 'تخطى-ثم-تابع' ;
-JS_OF       : 'في' ;
-JS_IN       : 'ضمن' ;
+TS_FOR      : 'حلقة' ;//تم تغييرها
+TS_WHILE    : 'طالما' ;
+TS_DO       : 'نفذ' ;
+TS_BREAK    : 'ايقاف' ;
+TS_CONTINUE : 'تجاوز' ; //تم تغييرها
+TS_OF       : 'في' ;
+TS_IN       : 'ضمن' ;
 
 // --- Functions ---
-JS_FUNCTION : 'دالة' ;
-JS_RETURN   : 'أرجع' | 'ارجع' ;
-
+TS_FUNCTION : 'دالة' ;
+TS_RETURN   : 'ارجع' ; // لازم احذف الهمزة
 // --- Logical Constants ---
-JS_TRUE      : 'صحيح' ;
-JS_FALSE     : 'خاطئ' ;
-JS_NULL      : 'غير_موجود' ;
-JS_UNDEFINED : 'غير_معرف' ;
-JS_THIS      : 'هذا' ;
-JS_NAN       : 'ليس_رقم' ;
-JS_INFINITY  : 'لانهاية' ;
+TS_TRUE      : 'صحيح' ;
+TS_FALSE     : 'خاطئ' ;
+TS_NULL      : 'غير_موجود' ;
+TS_UNDEFINED : 'غير_معرف' ;
+TS_THIS      : 'هذا' ;
+TS_NAN       : 'ليس_رقم' ;
+TS_INFINITY  : 'لانهاية' ;
 
 // --- Exception Handling ---
-JS_TRY       : 'حاول' ;
-JS_CATCH     : 'امسك' ;
-JS_FINALLY   : 'أخيرا' | 'اخيرا' ;
-JS_THROW     : 'اطلق' | 'أطلق' ;
-JS_EXCEPTION : 'استثناء' ;
+TS_TRY       : 'حاول' ;
+TS_CATCH     : 'امسك' ;
+TS_FINALLY   : 'اخيرا' ; // لازم احذف الهمزة
+TS_THROW     : 'اطلق' ; // لازم احذف الهمزة
+TS_EXCEPTION : 'استثناء' ;
 
 // --- OOP ---
-JS_NEW         : 'عنصر-جديد' ;
-JS_CLASS       : 'فئة' | 'صف' ;
-JS_EXTENDS     : 'يرث_من' ;
-JS_SUPER       : 'الاب' ;
-JS_IMPLEMENTS  : 'يطبق' ;
-JS_INTERFACE   : 'واجهة' ;
-JS_CONSTRUCTOR : 'منشئ' ;
-JS_PRIVATE     : 'خاص' ;
-JS_PROTECTED   : 'محمي' ;
-JS_PUBLIC      : 'عام' ;
-JS_STATIC      : 'صف_ثابت' ;
-JS_ENUM        : 'تعداد' ;
-JS_PACKAGE     : 'حزمة' ;
+TS_NEW         : 'عنصر-جديد' ;
+TS_CLASS       : 'فئة' | 'صف' ;
+TS_EXTENDS     : 'يرث_من' ;
+TS_SUPER       : 'الاب' ;
+TS_IMPLEMENTS  : 'يطبق' ;
+TS_INTERFACE   : 'واجهة' ;
+TS_CONSTRUCTOR : 'منشئ' ;
+TS_PRIVATE     : 'خاص' ;
+TS_PROTECTED   : 'محمي' ;
+TS_PUBLIC      : 'عام' ;
+TS_STATIC      : 'صف_ثابت' ;
+TS_ENUM        : 'تعداد' ;
+TS_PACKAGE     : 'حزمة' ;
 
 // --- Modules ---
-JS_IMPORT     : 'استورد' ;
-JS_EXPORT     : 'تصدير' ;
-JS_FROM       : 'من' ;
-JS_AS         : 'كـ' | 'كما' ;
-JS_TYPEOF     : 'من_نوع' ;
-JS_INSTANCEOF : 'عنصر_من' ;
-JS_DELETE     : 'احذف' ;
+TS_IMPORT     : 'استورد' ;
+TS_EXPORT     : 'تصدير' ;
+TS_FROM       : 'من' ;
+TS_AS         : 'ك' | 'كما' ; // لازم احذف المد بالتانية
+TS_TYPEOF     : 'من_نوع' ;
+TS_INSTANCEOF : 'عنصر_من' ;
+TS_DELETE     : 'احذف' ;
 
 // --- DOM ---
-JS_DOCUMENT        : 'الوثيقة' ;
-JS_WINDOW          : 'النافذة' ;
-JS_CONSOLE         : 'المراقب' ;
-JS_EVENT           : 'حدث' ;
-JS_NODE            : 'عقدة' ;
-JS_ELEMENT         : 'عنصر' ;
-JS_LISTENER        : 'مستمع' ;
-JS_LOCAL_STORAGE   : 'تخزين_محلي' ;
-JS_SESSION_STORAGE : 'تخزين_جلسة' ;
-JS_GET_ELEMENT     : 'احضرعنصر' ;
-JS_GET_ELEMENTS    : 'احضرعناصر' ;
-JS_CREATE_EL       : 'انشئ_عنصر' ;
-JS_INNER_TEXT      : 'النص_الداخلي' ;
-JS_INNER_HTML      : 'كود_html' ;
-JS_STYLE           : 'التنسيق' ;
+TS_DOCUMENT        : 'الوثيقة' ;
+TS_WINDOW          : 'النافذة' ;
+TS_CONSOLE         : 'المراقب' ;
+TS_EVENT           : 'حدث' ;
+TS_NODE            : 'عقدة' ;
+TS_ELEMENT         : 'عنصر' ;
+TS_LISTENER        : 'مستمع' ;
+TS_LOCAL_STORAGE   : 'تخزين_محلي' ;
+TS_SESSION_STORAGE : 'تخزين_جلسة' ;
+TS_GET_ELEMENT     : 'احضرعنصر' ;
+TS_GET_ELEMENTS    : 'احضرعناصر' ;
+TS_CREATE_EL       : 'انشئ_عنصر' ;
+TS_INNER_TEXT      : 'النص_الداخلي' ;
+TS_INNER_HTML      : 'كود_html' ;
+TS_STYLE           : 'التنسيق' ;
 
 // --- Events & Dev Tools ---
-JS_ADD_LISTENER : 'عند_الحدث' | 'استمع_للحدث' ;
-JS_ON_CLICK     : 'عند_النقر' ;
-JS_ON_SUBMIT    : 'عند_الإرسال' ;
-JS_ON_CHANGE    : 'عند_التغيير' ;
-JS_ON_LOAD      : 'عند_التحميل' ;
-JS_LOG          : 'اطبع' ;
-JS_ALERT        : 'تنبيه' ;
-JS_PROMPT       : 'ادخل' ;
+TS_ADD_LISTENER : 'عند_الحدث' | 'استمع_للحدث' ;
+TS_ON_CLICK     : 'عند_النقر' ;
+TS_ON_SUBMIT    : 'عند_الارسال' ;
+TS_ON_CHANGE    : 'عند_التغيير' ;
+TS_ON_LOAD      : 'عند_التحميل' ;
+TS_LOG          : 'اطبع' ;
+TS_ALERT        : 'تنبيه' ;
+TS_PROMPT       : 'ادخل' ;
 
 
 // ============================================================
@@ -305,37 +307,38 @@ CSS_HEX_COLOR
 // =================== OPERATORS & PUNCTUATION ================
 // ============================================================
 
-JS_INC        : '++' ;
-JS_DEC        : '--' ;
-JS_EXP_ASSIGN : '**=' ;      
-JS_EXP        : '**' ;       
-JS_ADD_ASSIGN : '+=' ;
-JS_SUB_ASSIGN : '-=' ;
-JS_MUL_ASSIGN : '*=' ;
-JS_DIV_ASSIGN : '/=' ;
-JS_MOD_ASSIGN : '%=' ;
-JS_AND_ASSIGN : '&&=' ;
-JS_OR_ASSIGN  : '||=' ;
-JS_NULL_ASSIGN: '??=' ;
-JS_SPREAD     : '...' ;      
-JS_ARROW      : '=>' ;       
-JS_STREQ      : '===' ;      
-JS_STRNEQ     : '!==' ;      
-JS_EQ         : '==' ;      
-JS_NEQ        : '!=' ;       
-JS_GTE        : '>=' ;       
-JS_LTE        : '<=' ;       
-JS_AND        : '&&' ;
-JS_OR         : '||' ;
-JS_NULL_COAL  : '??' ;
-JS_URSH       : '>>>' ;      
-JS_RSH        : '>>' ;       
-JS_LSH        : '<<' ;       
-JS_ASSIGN     : '=' ;
-JS_BIT_AND    : '&' ;
-JS_BIT_OR     : '|' ;
-JS_BIT_XOR    : '^' ;
-JS_QUESTION   : '?' ;
+
+TS_INC        : '++' ;
+TS_DEC        : '--' ;
+TS_EXP_ASSIGN : '**=' ;      
+TS_EXP        : '**' ;       
+TS_ADD_ASSIGN : '+=' ;
+TS_SUB_ASSIGN : '-=' ;
+TS_MUL_ASSIGN : '*=' ;
+TS_DIV_ASSIGN : '/=' ;
+TS_MOD_ASSIGN : '%=' ;
+TS_AND_ASSIGN : '&&=' ;
+TS_OR_ASSIGN  : '||=' ;
+TS_NULL_ASSIGN: '??=' ;
+TS_SPREAD     : '...' ;      
+TS_ARROW      : '=>' ;       
+TS_STREQ      : '===' ;      
+TS_STRNEQ     : '!==' ;      
+TS_EQ         : '==' ;      
+TS_NEQ        : '!=' ;       
+TS_GTE        : '>=' ;       
+TS_LTE        : '<=' ;       
+TS_AND        : '&&' ;
+TS_OR         : '||' ;
+TS_NULL_COAL  : '??' ;
+TS_URSH       : '>>>' ;      
+TS_RSH        : '>>' ;       
+TS_LSH        : '<<' ;       
+TS_ASSIGN     : '=' ;
+TS_BIT_AND    : '&' ;
+TS_BIT_OR     : '|' ;
+TS_BIT_XOR    : '^' ;
+TS_QUESTION   : '?' ;
 
 // Single-character operators / punctuation
 LBRACE    : '{' ;
@@ -373,3 +376,4 @@ STRING
     : '"'  (~["\r\n])* '"'
     | '\'' (~['\r\n])* '\''
     ;
+

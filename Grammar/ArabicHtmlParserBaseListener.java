@@ -220,25 +220,25 @@ public class ArabicHtmlParserBaseListener implements ArabicHtmlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterJsStatement(ArabicHtmlParser.JsStatementContext ctx) { }
+	@Override public void enterTsType(ArabicHtmlParser.TsTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitJsStatement(ArabicHtmlParser.JsStatementContext ctx) { }
+	@Override public void exitTsType(ArabicHtmlParser.TsTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBlock(ArabicHtmlParser.BlockContext ctx) { }
+	@Override public void enterTsStatement(ArabicHtmlParser.TsStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBlock(ArabicHtmlParser.BlockContext ctx) { }
+	@Override public void exitTsStatement(ArabicHtmlParser.TsStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -251,6 +251,30 @@ public class ArabicHtmlParserBaseListener implements ArabicHtmlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitVariableDeclaration(ArabicHtmlParser.VariableDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTsDeclaration(ArabicHtmlParser.TsDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTsDeclaration(ArabicHtmlParser.TsDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBlock(ArabicHtmlParser.BlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBlock(ArabicHtmlParser.BlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -287,6 +311,18 @@ public class ArabicHtmlParserBaseListener implements ArabicHtmlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitForLoop(ArabicHtmlParser.ForLoopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArrayLoop(ArabicHtmlParser.ArrayLoopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayLoop(ArabicHtmlParser.ArrayLoopContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
