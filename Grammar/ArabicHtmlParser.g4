@@ -10,7 +10,6 @@ program
     ;
 
 // --- HTML Rules ---
-
 attribute
     : ATTR_ID    TS_ASSIGN STRING   # idAttribute
     | ATTR_CLASS TS_ASSIGN STRING   # classAttribute
@@ -18,7 +17,6 @@ attribute
     | ATTR_HREF  TS_ASSIGN STRING   # hrefAttribute
     ;
     
-// CORRECT
 htmlElement
     : OPEN_TAG_START attribute* GT htmlContent CLOSE_TAG   # parentElement
     | OPEN_TAG_START attribute* SELF_CLOSE_END             # selfClosingElement
@@ -28,7 +26,6 @@ htmlContent
     : (htmlElement | tsStatement | cssRule | text)* 
     ;
 
-// Allows keywords to be treated as plain text inside HTML tags
 text
     : STRING 
     | IDENTIFIER 
@@ -36,7 +33,6 @@ text
     | arabicKeyword 
     ;
 
-// Groups all keywords that might appear as natural language in HTML
 arabicKeyword
     : TS_IF | TS_ELSE 
     | TS_FOR | TS_WHILE | TS_FUNCTION | TS_RETURN
@@ -52,14 +48,15 @@ cssRule
     ;
 
 selector
-    : IDENTIFIER 
-    | HASH IDENTIFIER     // ID selector [cite: 149]
-    | DOT IDENTIFIER      // Class selector [cite: 150]
-    | CSS_MEDIA IDENTIFIER // @media rule 
+    : identifier 
+    | HASH identifier     
+    | DOT identifier      
+    | CSS_MEDIA identifier
     ;
 
+// FIXED: Allow empty blocks like { }
 declarationList
-    : declaration (SEMI declaration)* SEMI? 
+    : (declaration (SEMI declaration)*)? SEMI?
     ;
 
 declaration
@@ -79,6 +76,7 @@ cssProperty
     | CSS_WRITING_MODE | CSS_BORDER_RADIUS | CSS_BORDER_WIDTH | CSS_BORDER_STYLE 
     | CSS_BORDER_COLOR | CSS_OUTLINE | CSS_LIST_STYLE | CSS_BORDER_COLLAPSE | CSS_TABLE_LAYOUT | CSS_CAPTION_SIDE 
     | CSS_FILTER | CSS_BACKDROP_FILT 
+    | CSS_TOP | CSS_BOTTOM | CSS_RIGHT | CSS_LEFT // FIXED: Added missing positioning properties
     ;
 
 cssValue
@@ -87,12 +85,14 @@ cssValue
     | CSS_SOLID | CSS_DASHED | CSS_DOTTED | CSS_DOUBLE | CSS_HIDDEN | CSS_BLOCK
     | CSS_INLINE | CSS_FLEX_VALUE | CSS_ABSOLUTE | CSS_RELATIVE | CSS_FIXED 
     | CSS_STICKY | CSS_ROW | CSS_COLUMN | CSS_WRAP | CSS_BOLD | CSS_ITALIC 
+    | CSS_FLEX | CSS_GRID // FIXED: Added missing value keywords
     | cssFunction 
     ;
 
+// FIXED: Changed 'expression' to 'cssValue' so it accepts units like 5بكسل
 cssFunction
     : (CSS_URL_FUNC | CSS_RGB_FUNC | CSS_RGBA_FUNC | CSS_CALC_FUNC | CSS_VAR_FUNC | CSS_ROTATE_FUNC | CSS_SCALE_FUNC | CSS_BLUR_FUNC) 
-      LPAREN (expression (COMMA expression)*)? RPAREN 
+      LPAREN (cssValue (COMMA cssValue)*)? RPAREN
     ;
 
 tsType
@@ -102,6 +102,7 @@ tsType
     | TS_ANY_KW
     | TS_BIGINT_KW
     ;
+
 // --- Typescript Rules ---
 tsStatement
     : tsDeclaration
@@ -116,19 +117,24 @@ tsStatement
     | expressionStatement 
     | builtInCall 
     | block 
+    | interfaceDeclaration // FIXED: Added interface support
     ;
 
-// قاعدة موحدة للتعريفات مع تأخير القرار
+// FIXED: New rule to handle 'واجهة { }'
+interfaceDeclaration
+    : TS_INTERFACE IDENTIFIER LBRACE RBRACE
+    ;
+
 variableDeclaration
-    : (TS_VAR | TS_LET | TS_CONST) IDENTIFIER COLON tsType (TS_ASSIGN expression)?  SEMI
+    : (TS_VAR | TS_LET | TS_CONST) identifier COLON tsType (TS_ASSIGN expression)?  SEMI
     ;
 
 tsDeclaration
     : (TS_VAR | TS_LET | TS_CONST) 
       (
-        IDENTIFIER COLON tsType (TS_ASSIGN expression)?                            
-        | IDENTIFIER COLON tsType LBRACK RBRACK (TS_ASSIGN arrayLiteral)? 
-        | IDENTIFIER TS_ASSIGN objectLiteral
+        identifier COLON tsType (TS_ASSIGN expression)?                            
+        | identifier COLON tsType LBRACK RBRACK (TS_ASSIGN arrayLiteral)? 
+        | identifier TS_ASSIGN objectLiteral
       ) 
       SEMI
     ;
@@ -137,9 +143,8 @@ block
     : LBRACE tsStatement* RBRACE 
     ;
 
-
 assignmentStatement
-    : IDENTIFIER (TS_ASSIGN | TS_ADD_ASSIGN | TS_SUB_ASSIGN | TS_MUL_ASSIGN | TS_DIV_ASSIGN) expression SEMI 
+    : identifier (TS_ASSIGN | TS_ADD_ASSIGN | TS_SUB_ASSIGN | TS_MUL_ASSIGN | TS_DIV_ASSIGN) expression SEMI 
     ;
 
 ifStatement
@@ -150,21 +155,21 @@ forLoop
     : TS_FOR LPAREN ((variableDeclaration | assignmentExpression) expression SEMI expression) RPAREN block
     ;
     
+// FIXED: Changed IDENTIFIER to identifier to allow 'عنصر' as a loop variable
 arrayLoop
-    : TS_FOR LPAREN TS_CONST IDENTIFIER (TS_OF|TS_IN) expression RPAREN block 
+    : TS_FOR LPAREN TS_CONST identifier (TS_OF|TS_IN) expression RPAREN block 
     ;
-
 
 whileLoop
     : TS_WHILE LPAREN expression RPAREN block 
     ;
 
 functionDeclaration
-    : TS_FUNCTION IDENTIFIER LPAREN parameterList? RPAREN block 
+    : TS_FUNCTION identifier LPAREN parameterList? RPAREN block 
     ;
 
 parameterList
-    : IDENTIFIER (COMMA IDENTIFIER)* 
+    : identifier (COMMA identifier)* 
     ;
 
 returnStatement
@@ -172,15 +177,16 @@ returnStatement
     ;
 
 tryCatchStatement
-    : TS_TRY block TS_CATCH LPAREN IDENTIFIER RPAREN block (TS_FINALLY block)? 
+    : TS_TRY block TS_CATCH LPAREN identifier RPAREN block (TS_FINALLY block)? 
     ;
 
 expressionStatement
     : expression SEMI 
     ;
 
+// FIXED: Added TS_LOG so 'اطبع(...)' works without 'المراقب.'
 builtInCall
-    : (TS_CONSOLE DOT TS_LOG | TS_ALERT | TS_PROMPT) LPAREN (expression (COMMA expression)*)? RPAREN SEMI 
+    : (TS_CONSOLE DOT TS_LOG | TS_LOG | TS_ALERT | TS_PROMPT) LPAREN (expression (COMMA expression)*)? RPAREN SEMI 
     ;
 
 // --- TS Expression Hierarchy ---
@@ -216,7 +222,6 @@ multiplicativeExpression
     : memberExpression ((STAR | SLASH | PERCENT) memberExpression)* 
     ;
 
-// Fixed left-recursion by separating primary and member expressions
 memberExpression
     : primaryExpression (
         LPAREN (expression (COMMA expression)*)? RPAREN 
@@ -225,8 +230,9 @@ memberExpression
     )*
     ;
 
+// FIXED: Changed IDENTIFIER to identifier
 primaryExpression
-    : IDENTIFIER 
+    : identifier 
     | NUMBER 
     | STRING 
     | TS_TRUE | TS_FALSE | TS_NULL | TS_UNDEFINED | TS_THIS | TS_NAN 
@@ -234,19 +240,16 @@ primaryExpression
     | LPAREN expression RPAREN 
     ;
 
-
 arrayLiteral
     : LBRACK (expression (COMMA expression)*)? RBRACK 
     ;
 
-// arrayDeclaration
-//     : (TS_VAR | TS_LET | TS_CONST) TS_ARRAY_KW IDENTIFIER COLON tsType LBRACK RBRACK (TS_ASSIGN arrayLiteral)? SEMI
-//     ;
-
 objectLiteral
-    : LBRACE (IDENTIFIER COLON expression (COMMA IDENTIFIER COLON expression)*)? RBRACE 
+    : LBRACE (identifier COLON expression (COMMA identifier COLON expression)*)? RBRACE 
     ;
 
-// objectDeclaration
-//     : (TS_VAR | TS_LET | TS_CONST) TS_OBJECT_KW COLON tsType LBRACE RBRACE IDENTIFIER (TS_ASSIGN objectLiteral)? SEMI 
-//     ;
+// FIXED: New rule to allow keywords (like 'عنصر') to be used as variable names
+identifier
+    : IDENTIFIER
+    | TS_ELEMENT
+    ;

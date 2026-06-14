@@ -209,6 +209,16 @@ public interface ArabicHtmlParserListener extends ParseTreeListener {
 	 */
 	void exitTsStatement(ArabicHtmlParser.TsStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ArabicHtmlParser#interfaceDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterInterfaceDeclaration(ArabicHtmlParser.InterfaceDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArabicHtmlParser#interfaceDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitInterfaceDeclaration(ArabicHtmlParser.InterfaceDeclarationContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ArabicHtmlParser#variableDeclaration}.
 	 * @param ctx the parse tree
 	 */
@@ -468,4 +478,14 @@ public interface ArabicHtmlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitObjectLiteral(ArabicHtmlParser.ObjectLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ArabicHtmlParser#identifier}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentifier(ArabicHtmlParser.IdentifierContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArabicHtmlParser#identifier}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentifier(ArabicHtmlParser.IdentifierContext ctx);
 }

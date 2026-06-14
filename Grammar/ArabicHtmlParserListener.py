@@ -179,6 +179,15 @@ class ArabicHtmlParserListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by ArabicHtmlParser#interfaceDeclaration.
+    def enterInterfaceDeclaration(self, ctx:ArabicHtmlParser.InterfaceDeclarationContext):
+        pass
+
+    # Exit a parse tree produced by ArabicHtmlParser#interfaceDeclaration.
+    def exitInterfaceDeclaration(self, ctx:ArabicHtmlParser.InterfaceDeclarationContext):
+        pass
+
+
     # Enter a parse tree produced by ArabicHtmlParser#variableDeclaration.
     def enterVariableDeclaration(self, ctx:ArabicHtmlParser.VariableDeclarationContext):
         pass
@@ -410,6 +419,15 @@ class ArabicHtmlParserListener(ParseTreeListener):
 
     # Exit a parse tree produced by ArabicHtmlParser#objectLiteral.
     def exitObjectLiteral(self, ctx:ArabicHtmlParser.ObjectLiteralContext):
+        pass
+
+
+    # Enter a parse tree produced by ArabicHtmlParser#identifier.
+    def enterIdentifier(self, ctx:ArabicHtmlParser.IdentifierContext):
+        pass
+
+    # Exit a parse tree produced by ArabicHtmlParser#identifier.
+    def exitIdentifier(self, ctx:ArabicHtmlParser.IdentifierContext):
         pass
 
 
