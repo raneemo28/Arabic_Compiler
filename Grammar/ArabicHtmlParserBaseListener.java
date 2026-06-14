@@ -244,6 +244,18 @@ public class ArabicHtmlParserBaseListener implements ArabicHtmlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterInterfaceDeclaration(ArabicHtmlParser.InterfaceDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInterfaceDeclaration(ArabicHtmlParser.InterfaceDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterVariableDeclaration(ArabicHtmlParser.VariableDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -551,6 +563,18 @@ public class ArabicHtmlParserBaseListener implements ArabicHtmlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitObjectLiteral(ArabicHtmlParser.ObjectLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIdentifier(ArabicHtmlParser.IdentifierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIdentifier(ArabicHtmlParser.IdentifierContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
