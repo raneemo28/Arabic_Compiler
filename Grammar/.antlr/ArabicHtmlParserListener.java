@@ -209,15 +209,15 @@ public interface ArabicHtmlParserListener extends ParseTreeListener {
 	 */
 	void exitTsStatement(ArabicHtmlParser.TsStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ArabicHtmlParser#block}.
+	 * Enter a parse tree produced by {@link ArabicHtmlParser#interfaceDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void enterBlock(ArabicHtmlParser.BlockContext ctx);
+	void enterInterfaceDeclaration(ArabicHtmlParser.InterfaceDeclarationContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ArabicHtmlParser#block}.
+	 * Exit a parse tree produced by {@link ArabicHtmlParser#interfaceDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void exitBlock(ArabicHtmlParser.BlockContext ctx);
+	void exitInterfaceDeclaration(ArabicHtmlParser.InterfaceDeclarationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ArabicHtmlParser#variableDeclaration}.
 	 * @param ctx the parse tree
@@ -228,6 +228,26 @@ public interface ArabicHtmlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVariableDeclaration(ArabicHtmlParser.VariableDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ArabicHtmlParser#tsDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterTsDeclaration(ArabicHtmlParser.TsDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArabicHtmlParser#tsDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitTsDeclaration(ArabicHtmlParser.TsDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ArabicHtmlParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlock(ArabicHtmlParser.BlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArabicHtmlParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlock(ArabicHtmlParser.BlockContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ArabicHtmlParser#assignmentStatement}.
 	 * @param ctx the parse tree
@@ -258,6 +278,16 @@ public interface ArabicHtmlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitForLoop(ArabicHtmlParser.ForLoopContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ArabicHtmlParser#arrayLoop}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayLoop(ArabicHtmlParser.ArrayLoopContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ArabicHtmlParser#arrayLoop}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayLoop(ArabicHtmlParser.ArrayLoopContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ArabicHtmlParser#whileLoop}.
 	 * @param ctx the parse tree
@@ -439,16 +469,6 @@ public interface ArabicHtmlParserListener extends ParseTreeListener {
 	 */
 	void exitArrayLiteral(ArabicHtmlParser.ArrayLiteralContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ArabicHtmlParser#arrayDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void enterArrayDeclaration(ArabicHtmlParser.ArrayDeclarationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ArabicHtmlParser#arrayDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void exitArrayDeclaration(ArabicHtmlParser.ArrayDeclarationContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link ArabicHtmlParser#objectLiteral}.
 	 * @param ctx the parse tree
 	 */
@@ -459,13 +479,13 @@ public interface ArabicHtmlParserListener extends ParseTreeListener {
 	 */
 	void exitObjectLiteral(ArabicHtmlParser.ObjectLiteralContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ArabicHtmlParser#objectDeclaration}.
+	 * Enter a parse tree produced by {@link ArabicHtmlParser#identifier}.
 	 * @param ctx the parse tree
 	 */
-	void enterObjectDeclaration(ArabicHtmlParser.ObjectDeclarationContext ctx);
+	void enterIdentifier(ArabicHtmlParser.IdentifierContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ArabicHtmlParser#objectDeclaration}.
+	 * Exit a parse tree produced by {@link ArabicHtmlParser#identifier}.
 	 * @param ctx the parse tree
 	 */
-	void exitObjectDeclaration(ArabicHtmlParser.ObjectDeclarationContext ctx);
+	void exitIdentifier(ArabicHtmlParser.IdentifierContext ctx);
 }
