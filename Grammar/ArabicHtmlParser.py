@@ -798,6 +798,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitProgram" ):
                 listener.exitProgram(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitProgram" ):
+                return visitor.visitProgram(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -884,6 +890,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitIdAttribute" ):
                 listener.exitIdAttribute(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIdAttribute" ):
+                return visitor.visitIdAttribute(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ClassAttributeContext(AttributeContext):
 
@@ -905,6 +917,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitClassAttribute" ):
                 listener.exitClassAttribute(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitClassAttribute" ):
+                return visitor.visitClassAttribute(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class HrefAttributeContext(AttributeContext):
@@ -928,6 +946,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitHrefAttribute" ):
                 listener.exitHrefAttribute(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHrefAttribute" ):
+                return visitor.visitHrefAttribute(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class SrcAttributeContext(AttributeContext):
 
@@ -949,6 +973,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSrcAttribute" ):
                 listener.exitSrcAttribute(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSrcAttribute" ):
+                return visitor.visitSrcAttribute(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1054,6 +1084,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitSelfClosingElement" ):
                 listener.exitSelfClosingElement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSelfClosingElement" ):
+                return visitor.visitSelfClosingElement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ParentElementContext(HtmlElementContext):
 
@@ -1084,6 +1120,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitParentElement" ):
                 listener.exitParentElement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitParentElement" ):
+                return visitor.visitParentElement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1194,6 +1236,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitHtmlContent" ):
                 listener.exitHtmlContent(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHtmlContent" ):
+                return visitor.visitHtmlContent(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1275,6 +1323,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitText" ):
                 listener.exitText(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitText" ):
+                return visitor.visitText(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1391,6 +1445,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitArabicKeyword" ):
                 listener.exitArabicKeyword(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitArabicKeyword" ):
+                return visitor.visitArabicKeyword(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1449,6 +1509,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitCssRule" ):
                 listener.exitCssRule(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCssRule" ):
+                return visitor.visitCssRule(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1505,6 +1571,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitSelector" ):
                 listener.exitSelector(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSelector" ):
+                return visitor.visitSelector(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1586,6 +1658,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitDeclarationList" ):
                 listener.exitDeclarationList(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDeclarationList" ):
+                return visitor.visitDeclarationList(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1662,6 +1740,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDeclaration" ):
                 listener.exitDeclaration(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDeclaration" ):
+                return visitor.visitDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1906,6 +1990,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitCssProperty" ):
                 listener.exitCssProperty(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCssProperty" ):
+                return visitor.visitCssProperty(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -2043,6 +2133,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCssValue" ):
                 listener.exitCssValue(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCssValue" ):
+                return visitor.visitCssValue(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2283,6 +2379,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitCssFunction" ):
                 listener.exitCssFunction(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCssFunction" ):
+                return visitor.visitCssFunction(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -2365,6 +2467,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTsType" ):
                 listener.exitTsType(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTsType" ):
+                return visitor.visitTsType(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2461,6 +2569,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTsStatement" ):
                 listener.exitTsStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTsStatement" ):
+                return visitor.visitTsStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2591,6 +2705,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitInterfaceDeclaration" ):
                 listener.exitInterfaceDeclaration(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitInterfaceDeclaration" ):
+                return visitor.visitInterfaceDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -2664,6 +2784,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitVariableDeclaration" ):
                 listener.exitVariableDeclaration(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitVariableDeclaration" ):
+                return visitor.visitVariableDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2770,6 +2896,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTsDeclaration" ):
                 listener.exitTsDeclaration(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTsDeclaration" ):
+                return visitor.visitTsDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2885,6 +3017,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitBlock" ):
                 listener.exitBlock(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBlock" ):
+                return visitor.visitBlock(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -2962,6 +3100,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitAssignmentStatement" ):
                 listener.exitAssignmentStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAssignmentStatement" ):
+                return visitor.visitAssignmentStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -3034,6 +3178,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitIfStatement" ):
                 listener.exitIfStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIfStatement" ):
+                return visitor.visitIfStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3121,6 +3271,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitForLoop" ):
                 listener.exitForLoop(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitForLoop" ):
+                return visitor.visitForLoop(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3217,6 +3373,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitArrayLoop" ):
                 listener.exitArrayLoop(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitArrayLoop" ):
+                return visitor.visitArrayLoop(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -3292,6 +3454,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitWhileLoop" ):
                 listener.exitWhileLoop(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitWhileLoop" ):
+                return visitor.visitWhileLoop(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -3358,6 +3526,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitFunctionDeclaration" ):
                 listener.exitFunctionDeclaration(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFunctionDeclaration" ):
+                return visitor.visitFunctionDeclaration(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3439,6 +3613,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitParameterList" ):
                 listener.exitParameterList(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitParameterList" ):
+                return visitor.visitParameterList(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -3503,6 +3683,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitReturnStatement" ):
                 listener.exitReturnStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitReturnStatement" ):
+                return visitor.visitReturnStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3579,6 +3765,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitTryCatchStatement" ):
                 listener.exitTryCatchStatement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTryCatchStatement" ):
+                return visitor.visitTryCatchStatement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -3646,6 +3838,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitExpressionStatement" ):
                 listener.exitExpressionStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExpressionStatement" ):
+                return visitor.visitExpressionStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3723,6 +3921,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitBuiltInCall" ):
                 listener.exitBuiltInCall(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBuiltInCall" ):
+                return visitor.visitBuiltInCall(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3817,6 +4021,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitExpression" ):
                 listener.exitExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExpression" ):
+                return visitor.visitExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -3865,6 +4075,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAssignmentExpression" ):
                 listener.exitAssignmentExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAssignmentExpression" ):
+                return visitor.visitAssignmentExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3927,6 +4143,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLogicalOrExpression" ):
                 listener.exitLogicalOrExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLogicalOrExpression" ):
+                return visitor.visitLogicalOrExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3991,6 +4213,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitLogicalAndExpression" ):
                 listener.exitLogicalAndExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLogicalAndExpression" ):
+                return visitor.visitLogicalAndExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -4073,6 +4301,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitEqualityExpression" ):
                 listener.exitEqualityExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitEqualityExpression" ):
+                return visitor.visitEqualityExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -4173,6 +4407,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitRelationalExpression" ):
                 listener.exitRelationalExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRelationalExpression" ):
+                return visitor.visitRelationalExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -4247,6 +4487,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAdditiveExpression" ):
                 listener.exitAdditiveExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAdditiveExpression" ):
+                return visitor.visitAdditiveExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -4328,6 +4574,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitMultiplicativeExpression" ):
                 listener.exitMultiplicativeExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMultiplicativeExpression" ):
+                return visitor.visitMultiplicativeExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -4461,6 +4713,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitMemberExpression" ):
                 listener.exitMemberExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMemberExpression" ):
+                return visitor.visitMemberExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -4605,6 +4863,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitPrimaryExpression" ):
                 listener.exitPrimaryExpression(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrimaryExpression" ):
+                return visitor.visitPrimaryExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -4729,6 +4993,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitArrayLiteral" ):
                 listener.exitArrayLiteral(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitArrayLiteral" ):
+                return visitor.visitArrayLiteral(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -4822,6 +5092,12 @@ class ArabicHtmlParser ( Parser ):
             if hasattr( listener, "exitObjectLiteral" ):
                 listener.exitObjectLiteral(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitObjectLiteral" ):
+                return visitor.visitObjectLiteral(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -4896,6 +5172,12 @@ class ArabicHtmlParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitIdentifier" ):
                 listener.exitIdentifier(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIdentifier" ):
+                return visitor.visitIdentifier(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
