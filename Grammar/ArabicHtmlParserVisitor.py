@@ -1,4 +1,4 @@
-# Generated from Grammar/ArabicHtmlParser.g4 by ANTLR 4.13.2
+# Generated from ArabicHtmlParser.g4 by ANTLR 4.13.2
 from antlr4 import *
 if "." in __name__:
     from .ArabicHtmlParser import ArabicHtmlParser
@@ -94,18 +94,33 @@ class ArabicHtmlParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by ArabicHtmlParser#jsStatement.
-    def visitJsStatement(self, ctx:ArabicHtmlParser.JsStatementContext):
+    # Visit a parse tree produced by ArabicHtmlParser#tsType.
+    def visitTsType(self, ctx:ArabicHtmlParser.TsTypeContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by ArabicHtmlParser#block.
-    def visitBlock(self, ctx:ArabicHtmlParser.BlockContext):
+    # Visit a parse tree produced by ArabicHtmlParser#tsStatement.
+    def visitTsStatement(self, ctx:ArabicHtmlParser.TsStatementContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by ArabicHtmlParser#interfaceDeclaration.
+    def visitInterfaceDeclaration(self, ctx:ArabicHtmlParser.InterfaceDeclarationContext):
         return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by ArabicHtmlParser#variableDeclaration.
     def visitVariableDeclaration(self, ctx:ArabicHtmlParser.VariableDeclarationContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by ArabicHtmlParser#tsDeclaration.
+    def visitTsDeclaration(self, ctx:ArabicHtmlParser.TsDeclarationContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by ArabicHtmlParser#block.
+    def visitBlock(self, ctx:ArabicHtmlParser.BlockContext):
         return self.visitChildren(ctx)
 
 
@@ -121,6 +136,11 @@ class ArabicHtmlParserVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by ArabicHtmlParser#forLoop.
     def visitForLoop(self, ctx:ArabicHtmlParser.ForLoopContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by ArabicHtmlParser#arrayLoop.
+    def visitArrayLoop(self, ctx:ArabicHtmlParser.ArrayLoopContext):
         return self.visitChildren(ctx)
 
 
@@ -216,6 +236,11 @@ class ArabicHtmlParserVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by ArabicHtmlParser#objectLiteral.
     def visitObjectLiteral(self, ctx:ArabicHtmlParser.ObjectLiteralContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by ArabicHtmlParser#identifier.
+    def visitIdentifier(self, ctx:ArabicHtmlParser.IdentifierContext):
         return self.visitChildren(ctx)
 
 

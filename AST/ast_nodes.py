@@ -440,6 +440,64 @@ class JsBlockNode(JsStatementNode):
         return visitor.visit_JsBlockNode(self)
 
 
+
+
+# ── 1. Interface declaration ──────────────────────────────────────────────────
+
+@dataclass
+class JsInterfaceDeclarationNode(JsStatementNode):
+    """
+    TypeScript interface declaration: واجهة IDENTIFIER { }
+
+    Grammar rule:
+        interfaceDeclaration : TS_INTERFACE IDENTIFIER LBRACE RBRACE ;
+
+    Fields
+    ------
+    name : the interface name (IDENTIFIER token text)
+
+    Note: the grammar currently requires an empty body (LBRACE RBRACE).
+    When the grammar is extended to allow members, add a `members` field here.
+    """
+    name: str = ""
+
+    def accept(self, visitor):
+        return visitor.visit_JsInterfaceDeclarationNode(self)
+
+
+# ── 2. Typed variable / array declaration ─────────────────────────────────────
+
+@dataclass
+class TsTypedDeclarationNode(JsStatementNode):
+    """
+    A TypeScript-style variable declaration that carries an explicit type
+    annotation, covering both primitive and typed-array forms:
+
+        ثابت أسماء: سلسلة = "علي"؛           ← primitive
+        ثابت أرقام: مصفوفة<عدد> = [١، ٢]؛   ← typed array  (TS-style)
+
+    Grammar alternatives inside tsDeclaration:
+        identifier COLON tsType (TS_ASSIGN expression)?
+        identifier COLON TS_ARRAY_KW LT tsType GT (TS_ASSIGN arrayLiteral)?
+
+    Fields
+    ------
+    keyword         : 'var' | 'let' | 'const'  (Arabic keyword text)
+    name            : the variable IDENTIFIER text
+    type_name       : the tsType keyword text  (e.g. 'عدد', 'سلسلة', 'منطقي')
+    is_array        : True for the مصفوفة<type> form, False for primitives
+    initializer     : optional expression / arrayLiteral node; None if omitted
+    """
+    keyword: str = ""
+    name: str = ""
+    type_name: str = ""         # e.g. 'عدد'  →  TS_NUMBER_KW token text
+    is_array: bool = False      # True  →  مصفوفة<عدد>   False →  عدد
+    initializer: Optional[ASTNode] = None
+
+    def accept(self, visitor):
+        return visitor.visit_TsTypedDeclarationNode(self)
+
+
 # ── JS Expressions ────────────────────────────────────────────────────────────
 
 @dataclass

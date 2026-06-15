@@ -329,47 +329,37 @@
 # if __name__ == "__main__":
 #     main()
 
-import sys
-# استيراد مكتبات التشغيل الخاصة بـ ANTLR
-# مرجع المكتبة: https://github.com/antlr/antlr4/tree/master/runtime/Python3
-from antlr4 import *
+# main.py
+import sys, pprint, dataclasses
+from antlr4 import CommonTokenStream, FileStream
+from Grammar.ArabicHtmlLexer  import ArabicHtmlLexer
+from Grammar.ArabicHtmlParser import ArabicHtmlParser
+from AST.ast_visitor      import ArabicHtmlAstVisitor
+from AST.ast_nodes        import ASTNode
 
-# استيراد الماسح المعجمي الذي تم توليده
-from Grammar.ArabicHtmlLexer import ArabicHtmlLexer
+def to_dict(node):
+    if not isinstance(node, ASTNode):
+        return str(node)
+    d = {"type": type(node).__name__}
+    for k, v in vars(node).items():       # ← use vars() not dataclasses.asdict()
+        if k in ("line", "column"):
+            d[k] = v
+        elif isinstance(v, list):
+            d[k] = [to_dict(i) if isinstance(i, ASTNode) else i for i in v]
+        elif isinstance(v, ASTNode):
+            d[k] = to_dict(v)
+        else:
+            d[k] = v
+    return d
 
-def main():
-    # 1. قراءة الملف المصدري
-    # استخدام ترميز utf-8 هنا إجباري كما تعلمنا في المحاضرة النظرية لتجنب تدمير الحروف العربية
-    try:
-        input_stream = FileStream('./tests/sample.arweb', encoding='utf-8')
-    except FileNotFoundError:
-        print("خطأ: لم يتم العثور على الملف program.arabic")
-        sys.exit(1)
+source = sys.argv[1] if len(sys.argv) > 1 else "tests/sample.arweb"
+stream = FileStream(source, encoding="utf-8")
+lexer  = ArabicHtmlLexer(stream)
+tokens = CommonTokenStream(lexer)
+parser = ArabicHtmlParser(tokens)
+tree   = parser.program()          # ← entry rule is now `program`
 
-    # 2. إنشاء كائن الماسح المعجمي وتغذيته بالنص
-    lexer = ArabicHtmlLexer(input_stream)
+visitor = ArabicHtmlAstVisitor()
+ast     = visitor.visit(tree)
 
-    # 3. سحب الرموز (Tokens) من الماسح وضعها في شريط أو مكدس
-    token_stream = CommonTokenStream(lexer)
-
-    # إجبار الماسح على قراءة كل الملف وتوليد الرموز فوراً
-    token_stream.fill()
-
-    # 4. طباعة النتائج بشكل هندسي جميل
-    print("=" * 50)
-    print(f"{'النص Lexeme':<15} | {'نوع الرمز Token':<15} | {'السطر':<5}")
-    print("=" * 50)
-
-    for token in token_stream.tokens:
-        # التوقف عند الوصول إلى علامة نهاية الملف EOF
-        if token.type == Token.EOF:
-            break
-        
-        # جلب الاسم البرمجي للرمز (مثل NUMBER أو VAR) بدلاً من رقمه الداخلي
-        token_name = lexer.symbolicNames[token.type]
-        
-        # طباعة النتيجة
-        print(f"{token.text:<15} | {token_name:<15} | {token.line:<5}")
-
-if __name__ == '__main__':
-    main()
+pprint.pprint(to_dict(ast), sort_dicts=False, width=80)
