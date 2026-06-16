@@ -20,11 +20,7 @@ from Grammar.ArabicHtmlLexer import ArabicHtmlLexer
 
 
 def tokenize(filepath):
-    print(f"\n{'─'*60}")
-    print(f"  File : {filepath}")
-    print(f"{'─'*60}")
-    print(f"  {'MODE':<6}  {'TOKEN TYPE':<25}  TEXT")
-    print(f"{'─'*60}")
+   
 
     input_stream = FileStream(filepath, encoding='utf-8')
     lexer = ArabicHtmlLexer(input_stream)

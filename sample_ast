@@ -1,0 +1,230 @@
+// Arabic Compiler AST
+digraph {
+	node [fillcolor=lightblue fontname=Arial shape=box style="rounded,filled"]
+	1379495969184 [label="Program
+برنامج" fillcolor="#B0C4FF"]
+	1379494621136 [label="TagNode
+صفحة" fillcolor="#AEE6D0"]
+	1379495969856 [label="TagNode
+عنوان" fillcolor="#AEE6D0"]
+	1379495969520 [label="Text
+\"مرحبا\"" fillcolor=white]
+	1379495969856 -> 1379495969520 [label=""]
+	1379494621136 -> 1379495969856 [label=""]
+	1379495969184 -> 1379494621136 [label=""]
+	1379495971536 [label=CssRule fillcolor="#FFE4B0"]
+	1379495970192 [label="Selector
+لوحة" fillcolor="#FFD580"]
+	1379495971536 -> 1379495970192 [label=selector]
+	1379495971200 [label=DeclarationList fillcolor="#FFE4B0"]
+	1379495970864 [label="Declaration
+لون" fillcolor="#FFF0C0"]
+	1379495970528 [label="CssValue
+أحمر" fillcolor=white]
+	1379495970864 -> 1379495970528 [label=value]
+	1379495971200 -> 1379495970864 [label=""]
+	1379494621776 [label="Declaration
+هامش" fillcolor="#FFF0C0"]
+	1379494621456 [label="CssValue
+10بكسل" fillcolor=white]
+	1379494621776 -> 1379494621456 [label=value]
+	1379495971200 -> 1379494621776 [label=""]
+	1379495971536 -> 1379495971200 [label=declarations]
+	1379495969184 -> 1379495971536 [label=""]
+	1379495972208 [label="TypedDecl
+ثابت اسم
+: سلسلة" fillcolor="#C8E6C9"]
+	1379495971872 [label="string
+علي" fillcolor=white]
+	1379495972208 -> 1379495971872 [label="="]
+	1379495969184 -> 1379495972208 [label=""]
+	1379494622736 [label="TypedDecl
+ثابت أرقام
+: عدد[]" fillcolor="#C8E6C9"]
+	1379494942736 [label="Array " fillcolor=white]
+	1379494622096 [label="number
+1" fillcolor=white]
+	1379494942736 -> 1379494622096 [label=item]
+	1379494622416 [label="number
+2" fillcolor=white]
+	1379494942736 -> 1379494622416 [label=item]
+	1379494942432 [label="number
+3" fillcolor=white]
+	1379494942736 -> 1379494942432 [label=item]
+	1379494622736 -> 1379494942736 [label="="]
+	1379495969184 -> 1379494622736 [label=""]
+	1379494943040 [label="TagNode
+صفحة" fillcolor="#AEE6D0"]
+	1379495972544 [label="Attribute
+id=\"رئيسية\"" fillcolor="#D4F0E0"]
+	1379494943040 -> 1379495972544 [label=attr]
+	1379494623376 [label="TagNode
+عنوان" fillcolor="#AEE6D0"]
+	1379494623056 [label="Text
+\"مرحبا\"" fillcolor=white]
+	1379494623376 -> 1379494623056 [label=""]
+	1379494943040 -> 1379494623376 [label=""]
+	1379495972880 [label="SelfClose
+صورة" fillcolor="#AEE6D0"]
+	1379494623696 [label="Attribute
+src=\"test.png\"" fillcolor="#D4F0E0"]
+	1379495972880 -> 1379494623696 [label=attr]
+	1379494943040 -> 1379495972880 [label=""]
+	1379495969184 -> 1379494943040 [label=""]
+	1379495985232 [label=CssRule fillcolor="#FFE4B0"]
+	1379494624016 [label="Selector
+لوحة" fillcolor="#FFD580"]
+	1379495985232 -> 1379494624016 [label=selector]
+	1379494624976 [label=DeclarationList fillcolor="#FFE4B0"]
+	1379494624656 [label="Declaration
+لون-الخلفية" fillcolor="#FFF0C0"]
+	1379494624336 [label="CssValue
+#FF0000" fillcolor=white]
+	1379494624656 -> 1379494624336 [label=value]
+	1379494624976 -> 1379494624656 [label=""]
+	1379494943648 [label="Declaration
+عرض" fillcolor="#FFF0C0"]
+	1379494943344 [label="CssValue
+تلقائي" fillcolor=white]
+	1379494943648 -> 1379494943344 [label=value]
+	1379494624976 -> 1379494943648 [label=""]
+	1379495985232 -> 1379494624976 [label=declarations]
+	1379495969184 -> 1379495985232 [label=""]
+	1379495985552 [label="TypedDecl
+ثابت اسم
+: سلسلة" fillcolor="#C8E6C9"]
+	1379495187312 [label="string
+علي" fillcolor=white]
+	1379495985552 -> 1379495187312 [label="="]
+	1379495969184 -> 1379495985552 [label=""]
+	1379494943952 [label="TypedDecl
+ثابت أرقام
+: عدد[]" fillcolor="#C8E6C9"]
+	1379494605136 [label="Array " fillcolor=white]
+	1379495561424 [label="number
+1" fillcolor=white]
+	1379494605136 -> 1379495561424 [label=item]
+	1379495561968 [label="number
+2" fillcolor=white]
+	1379494605136 -> 1379495561968 [label=item]
+	1379494604880 [label="number
+3" fillcolor=white]
+	1379494605136 -> 1379494604880 [label=item]
+	1379494943952 -> 1379494605136 [label="="]
+	1379495969184 -> 1379494943952 [label=""]
+	1379495973888 [label="Function
+دالة مرحبا
+params: (اسم)" fillcolor="#CE93D8"]
+	1379495973552 [label=Block
+ fillcolor="#E0E0E0"]
+	1379495973216 [label="BuiltIn
+اطبع" fillcolor="#F48FB1"]
+	1379495332512 [label="string
+مرحبا" fillcolor=white]
+	1379495973216 -> 1379495332512 [label=arg]
+	1379495973552 -> 1379495973216 [label=""]
+	1379495973888 -> 1379495973552 [label=body]
+	1379495969184 -> 1379495973888 [label=""]
+	1379495974224 [label="If
+اذا" fillcolor="#FFB347"]
+	1379495333712 [label="boolean
+صحيح" fillcolor=white]
+	1379495974224 -> 1379495333712 [label=condition]
+	1379495985872 [label=Block
+ fillcolor="#E0E0E0"]
+	1379494944256 [label="TypedDecl
+ثابت س
+: عدد" fillcolor="#C8E6C9"]
+	1379495174992 [label="number
+5" fillcolor=white]
+	1379494944256 -> 1379495174992 [label="="]
+	1379495985872 -> 1379494944256 [label=""]
+	1379495974224 -> 1379495985872 [label=then]
+	1379495969184 -> 1379495974224 [label=""]
+	1379495187600 [label="TypedDecl
+ثابت عداد
+: عدد" fillcolor="#C8E6C9"]
+	1379495175216 [label="number
+0" fillcolor=white]
+	1379495187600 -> 1379495175216 [label="="]
+	1379495969184 -> 1379495187600 [label=""]
+	1379495974560 [label="Assign
+عداد =" fillcolor="#C8E6C9"]
+	1379483498384 [label="number
+10" fillcolor=white]
+	1379495974560 -> 1379483498384 [label=value]
+	1379495969184 -> 1379495974560 [label=""]
+	1379495974896 [label="ForLoop
+حلقة classic" fillcolor="#FFB347"]
+	1379495562240 [label="TypedDecl
+ثابت ي
+: عدد" fillcolor="#C8E6C9"]
+	1379495464784 [label="number
+0" fillcolor=white]
+	1379495562240 -> 1379495464784 [label="="]
+	1379495974896 -> 1379495562240 [label=init]
+	1379495465168 [label="identifier
+ي" fillcolor=white]
+	1379495974896 -> 1379495465168 [label=condition]
+	1379494782848 [label="identifier
+ي" fillcolor=white]
+	1379495974896 -> 1379494782848 [label=update]
+	1379495986512 [label=Block
+ fillcolor="#E0E0E0"]
+	1379495986192 [label="BuiltIn
+اطبع" fillcolor="#F48FB1"]
+	1379494783200 [label="string
+حلقة" fillcolor=white]
+	1379495986192 -> 1379494783200 [label=arg]
+	1379495986512 -> 1379495986192 [label=""]
+	1379495974896 -> 1379495986512 [label=body]
+	1379495969184 -> 1379495974896 [label=""]
+	1379495975232 [label="WhileLoop
+طالما" fillcolor="#FFB347"]
+	1379495554224 [label="boolean
+صحيح" fillcolor=white]
+	1379495975232 -> 1379495554224 [label=condition]
+	1379494944560 [label=Block
+ fillcolor="#E0E0E0"]
+	1379495986832 [label="BuiltIn
+اطبع" fillcolor="#F48FB1"]
+	1379495553744 [label="string
+تكرار" fillcolor=white]
+	1379495986832 -> 1379495553744 [label=arg]
+	1379494944560 -> 1379495986832 [label=""]
+	1379495975232 -> 1379494944560 [label=body]
+	1379495969184 -> 1379495975232 [label=""]
+	1379495975568 [label="TryCatch
+حاول / امسك (خطأ)" fillcolor="#EF9A9A"]
+	1379494945168 [label=Block
+ fillcolor="#E0E0E0"]
+	1379494944864 [label="BuiltIn
+اطبع" fillcolor="#F48FB1"]
+	1379495093328 [label="string
+محاولة" fillcolor=white]
+	1379494944864 -> 1379495093328 [label=arg]
+	1379494945168 -> 1379494944864 [label=""]
+	1379495975568 -> 1379494945168 [label=try]
+	1379495187888 [label=Block
+ fillcolor="#E0E0E0"]
+	1379494945472 [label="BuiltIn
+اطبع" fillcolor="#F48FB1"]
+	1379495853776 [label="string
+خطأ" fillcolor=white]
+	1379494945472 -> 1379495853776 [label=arg]
+	1379495187888 -> 1379494945472 [label=""]
+	1379495975568 -> 1379495187888 [label=catch]
+	1379495562512 [label=Block
+ fillcolor="#E0E0E0"]
+	1379495188176 [label="BuiltIn
+اطبع" fillcolor="#F48FB1"]
+	1379495853904 [label="string
+أخيرا" fillcolor=white]
+	1379495188176 -> 1379495853904 [label=arg]
+	1379495562512 -> 1379495188176 [label=""]
+	1379495975568 -> 1379495562512 [label=finally]
+	1379495969184 -> 1379495975568 [label=""]
+	1379495975904 [label="Interface
+واجهة مستخدم" fillcolor="#80DEEA"]
+	1379495969184 -> 1379495975904 [label=""]
+}

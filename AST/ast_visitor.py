@@ -28,14 +28,14 @@ import sys
 import os
 
 # Tell Python where to find the ANTLR-generated files
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'Grammar'))
+# sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'Grammar'))
 
 from typing import Optional
 from Grammar.ArabicHtmlParserVisitor import ArabicHtmlParserVisitor
 from Grammar.ArabicHtmlParser import ArabicHtmlParser
 
 # All AST node classes
-from .ast_nodes import (
+from AST.ast_nodes import (
     ASTNode,
     # HTML
     ProgramNode, TagNode, SelfClosingTagNode, AttributeNode,
@@ -83,19 +83,34 @@ class ArabicHtmlAstVisitor(ArabicHtmlParserVisitor):
     # 1. PROGRAM — entry point
     # =========================================================================
 
+
+    def visit(self, tree):
+        """
+        Override ANTLR's visit to call our methods directly by context class name.
+        This bypasses the accept() dispatch which fails due to module import conflicts.
+        """
+        if tree is None:
+            return None
+        class_name = type(tree).__name__  # e.g. 'ParentElementContext'
+        # strip 'Context' suffix and add 'visit' prefix
+        method_name = 'visit' + class_name.replace('Context', '')
+        method = getattr(self, method_name, None)
+        if method:
+            return method(tree)
+        # fallback
+        return self.visitChildren(tree)
     def visitProgram(self, ctx: ArabicHtmlParser.ProgramContext) -> ProgramNode:
-        """
-        program : (htmlElement | cssRule | tsStatement)* EOF ;
-        """
+       
         node = ProgramNode(**_tok(ctx))
         for child in ctx.children or []:
-            # Skip the EOF terminal
             if isinstance(child, ArabicHtmlParser.HtmlElementContext):
                 node.children.append(self.visit(child))
             elif isinstance(child, ArabicHtmlParser.CssRuleContext):
                 node.children.append(self.visit(child))
             elif isinstance(child, ArabicHtmlParser.TsStatementContext):
                 node.children.append(self.visit(child))
+            else:
+                print(f"DEBUG → NO MATCH for {type(child).__name__}")
         return node
 
     # =========================================================================
@@ -108,6 +123,9 @@ class ArabicHtmlAstVisitor(ArabicHtmlParserVisitor):
             : OPEN_TAG_START attribute* GT htmlContent CLOSE_TAG
         """
         # OPEN_TAG_START text is e.g. '<مقال'  → strip the leading '<'
+
+        print(f"DEBUG visitParentElement called, tag={ctx.OPEN_TAG_START().getText()}")
+
         tag_name = ctx.OPEN_TAG_START().getText()[1:]
 
         attrs = [self.visit(a) for a in (ctx.attribute() or [])]
@@ -270,14 +288,15 @@ class ArabicHtmlAstVisitor(ArabicHtmlParserVisitor):
     # =========================================================================
 
     def visitTsStatement(self, ctx: ArabicHtmlParser.TsStatementContext) -> ASTNode:
-        """
-        tsStatement : tsDeclaration | assignmentStatement | ifStatement
-                    | arrayLoop | forLoop | whileLoop | functionDeclaration
-                    | returnStatement | tryCatchStatement | expressionStatement
-                    | builtInCall | block | interfaceDeclaration ;
-        Delegate to whichever child is present.
-        """
-        return self.visitChildren(ctx)
+        # find the single real child and visit it directly
+        for i in range(ctx.getChildCount()):
+            child = ctx.getChild(i)
+            class_name = type(child).__name__
+            method_name = 'visit' + class_name.replace('Context', '')
+            method = getattr(self, method_name, None)
+            if method:
+                return method(child)
+        return None
 
     # ── Variable / array declarations ─────────────────────────────────────────
 
