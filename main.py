@@ -1,56 +1,19 @@
-
-# # main.py
-# import sys, pprint, dataclasses
-# from antlr4 import CommonTokenStream, FileStream
-# from Grammar.ArabicHtmlLexer  import ArabicHtmlLexer
-# from Grammar.ArabicHtmlParser import ArabicHtmlParser
-# from AST.ast_visitor      import ArabicHtmlAstVisitor
-# from AST.ast_nodes        import ASTNode
-
-# def to_dict(node):
-#     if not isinstance(node, ASTNode):
-#         return str(node)
-#     d = {"type": type(node).__name__}
-#     for k, v in vars(node).items():       # ← use vars() not dataclasses.asdict()
-#         if k in ("line", "column"):
-#             d[k] = v
-#         elif isinstance(v, list):
-#             d[k] = [to_dict(i) if isinstance(i, ASTNode) else i for i in v]
-#         elif isinstance(v, ASTNode):
-#             d[k] = to_dict(v)
-#         else:
-#             d[k] = v
-#     return d
-
-# source = sys.argv[1] if len(sys.argv) > 1 else "tests/sample.arweb"
-# stream = FileStream(source, encoding="utf-8")
-# lexer  = ArabicHtmlLexer(stream)
-# tokens = CommonTokenStream(lexer)
-# parser = ArabicHtmlParser(tokens)
-# tree   = parser.program()          # ← entry rule is now `program`
-
-# visitor = ArabicHtmlAstVisitor()
-# ast     = visitor.visit(tree)
-
-# pprint.pprint(to_dict(ast), sort_dicts=False, width=80)
-
+# main.py
 import sys
 import os
-
-# ── path setup ────────────────────────────────────────────────────────────────
-# GRAMMAR_DIR = os.path.join(os.path.dirname(__file__), '..', 'Grammar')
-# AST_DIR     = os.path.dirname(__file__)
-# sys.path.insert(0, GRAMMAR_DIR)
-# sys.path.insert(0, AST_DIR)
 
 from antlr4 import CommonTokenStream, FileStream
 from antlr4.error.ErrorListener import ErrorListener
 
 from Grammar.ArabicHtmlLexer   import ArabicHtmlLexer
 from Grammar.ArabicHtmlParser  import ArabicHtmlParser
-from AST.ast_visitor       import ArabicHtmlAstVisitor
-from AST.ast_nodes import ASTNode
-from AST.ast_visualizer    import ASTVisualizerVisitor
+from AST.ast_visitor           import ArabicHtmlAstVisitor
+from AST.ast_nodes             import ASTNode
+from AST.ast_visualizer        import ASTVisualizerVisitor
+
+# استيراد أدوات التحليل الدلالي ونطاقات الذاكرة (مفاهيم المعمل 10)
+from semantic.semantic_visitor import SemanticAnalysisVisitor
+from semantic.environment      import SemanticError
 
 import pprint
 
@@ -108,13 +71,25 @@ def main():
 
     # 3. Build AST
     visitor = ArabicHtmlAstVisitor()
+    ast = visitor.visit(parse_tree)
+
+    # 3.5. التحليل الدلالي وفحص النطاقات والرموز (مفاهيم المعمل 10)
+    print("⏳ جاري بدء مرحلة التحليل الدلالي والتحقق من النطاقات والرموز...")
+    semantic_analyzer = SemanticAnalysisVisitor()
     
-    # test direct call
-    
-    ast = ArabicHtmlAstVisitor().visit(parse_tree)
-    
+    try:
+        # عبور الشجرة للتحقق من سلامة استخدام المتغيرات والدوال معجمياً
+        ast.accept(semantic_analyzer)
+        print("✅ نجح التحليل الدلالي: جميع النطاقات والرموز سليمة ومتناسقة هندسياً!")
+        
+    except SemanticError as error:
+        # التقاط الأخطاء الدلالية (مثل استخدام متغير غير معرف أو تكرار تعريفه في نفس الكتلة)
+        print(f"\n❌ فشلت عملية البناء بسبب خطأ دلالي:")
+        print(error, file=sys.stderr)
+        sys.exit(1)  # إيقاف البرنامج فوراً وعدم الانتقال للرسم أو التوليد
 
     # 4. Print as text (pprint)
+    print("\n📊 هيكلية شجرة الـ AST النصية:")
     pprint.pprint(to_dict(ast), sort_dicts=False, width=80)
 
     # 5. Draw as Graphviz image
