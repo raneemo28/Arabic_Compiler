@@ -169,7 +169,7 @@ functionDeclaration
     ;
 
 parameterList
-    : IDENTIFIER (COMMA IDENTIFIER COLON tsType)* 
+    : IDENTIFIER COLON tsType (COMMA IDENTIFIER COLON tsType)* 
     ;
 
 returnStatement
