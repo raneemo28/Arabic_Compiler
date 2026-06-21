@@ -48,10 +48,16 @@ cssRule
     ;
 
 selector
-    : identifier 
-    | HASH identifier     
-    | DOT identifier      
+    : identifier pseudoClass?
+    | HASH identifier pseudoClass?
+    | DOT identifier pseudoClass?
     | CSS_MEDIA identifier
+    ;
+
+pseudoClass
+    : COLON (CSS_HOVER | CSS_ACTIVE | CSS_FOCUS | CSS_VISITED | CSS_ENABLED
+            | CSS_DISABLED | CSS_CHECKED | CSS_BEFORE | CSS_AFTER
+            | CSS_PLACEHOLDER | CSS_SELECTION)
     ;
 
 // FIXED: Allow empty blocks like { }
@@ -122,7 +128,11 @@ tsStatement
 
 // FIXED: New rule to handle 'واجهة { }'
 interfaceDeclaration
-    : TS_INTERFACE IDENTIFIER LBRACE RBRACE
+    : TS_INTERFACE IDENTIFIER LBRACE interfaceMember* RBRACE
+    ;
+
+interfaceMember
+    : IDENTIFIER COLON tsType SEMI
     ;
 
 variableDeclaration
@@ -135,6 +145,7 @@ tsDeclaration
         identifier COLON tsType (TS_ASSIGN expression)?                            
         | identifier COLON tsType LBRACK RBRACK (TS_ASSIGN arrayLiteral)? 
         | identifier TS_ASSIGN objectLiteral
+        | identifier TS_ASSIGN expression
       ) 
       SEMI
     ;
@@ -169,7 +180,7 @@ functionDeclaration
     ;
 
 parameterList
-    : IDENTIFIER COLON tsType (COMMA IDENTIFIER COLON tsType)* 
+    : IDENTIFIER (COLON tsType)? (COMMA IDENTIFIER (COLON tsType)?)*
     ;
 
 returnStatement

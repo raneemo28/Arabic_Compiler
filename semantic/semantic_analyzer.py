@@ -74,6 +74,19 @@ class SemanticAnalyzerVisitor:
     # ── HTML / CSS: تمرير هيكلي فقط (لا أنواع هنا) ──────────────────────
 
     def visit_TagNode(self, node):
+        """
+        تتحقق من أن اسم وسم الإغلاق (closing_tag_name) يطابق اسم وسم الفتح
+        (tag_name). القواعد النحوية الحرة من السياق (CFG) لا يمكنها فرض هذا
+        التطابق بنفسها — </وسم> و<وسم> يُقبلان كرمزين مستقلين تماماً في
+        المحلل اللغوي والمحلل النحوي، لذلك يجب أن يقع هذا الفحص هنا في
+        التحليل الدلالي.
+        """
+        if node.tag_name != node.closing_tag_name:
+            self.log_error(
+                node.line, node.column,
+                f"وسم غير متطابق: تم فتحه بـ '<{node.tag_name}>' لكن تم إغلاقه بـ '</{node.closing_tag_name}>'."
+            )
+
         for child in node.children:
             child.accept(self)
 
@@ -210,10 +223,13 @@ class SemanticAnalyzerVisitor:
     def visit_JsIfStatementNode(self, node):
         if getattr(node, 'condition', None):
             cond_type = node.condition.accept(self)
-            if cond_type not in (BOOL_TYPE, ERROR_TYPE, ANY_TYPE):
+            # المنطقي مقبول كالمعتاد، والآن أيضاً الأعداد بأسلوب بايثون:
+            # ٠ = خطأ، أي عدد آخر = صحيح. التحويل الفعلي (compare-to-zero)
+            # يبقى لمرحلة توليد كود LLVM IR لاحقاً.
+            if cond_type not in (BOOL_TYPE, ERROR_TYPE, ANY_TYPE, NUMBER_TYPE, BIGINT_TYPE):
                 self.log_error(
                     node.line, node.column,
-                    f"شرط جملة 'إذا' يجب أن يكون من النوع 'منطقي'، وليس '{cond_type}'."
+                    f"شرط جملة 'إذا' يجب أن يكون من النوع 'منطقي' أو 'عدد'، وليس '{cond_type}'."
                 )
         if getattr(node, 'then_branch', None):
             node.then_branch.accept(self)
@@ -223,6 +239,17 @@ class SemanticAnalyzerVisitor:
             node.else_branch.accept(self)
         elif getattr(node, 'else_body', None):
             node.else_body.accept(self)
+
+
+    def visit_JsWhileLoopNode(self, node):
+        if node.condition:
+            cond_type = node.condition.accept(self)
+            if cond_type not in (BOOL_TYPE, ERROR_TYPE, ANY_TYPE, NUMBER_TYPE, BIGINT_TYPE):
+                self.log_error(
+                    node.line, node.column,
+                    f"شرط جملة 'طالما' يجب أن يكون من النوع 'منطقي' أو 'عدد'، وليس '{cond_type}'."
+                )
+        if node.body: node.body.accept(self)
 
     def visit_JsForLoopNode(self, node):
         previous_env = self.current_env
@@ -236,15 +263,7 @@ class SemanticAnalyzerVisitor:
 
         self.current_env = previous_env
 
-    def visit_JsWhileLoopNode(self, node):
-        if node.condition:
-            cond_type = node.condition.accept(self)
-            if cond_type not in (BOOL_TYPE, ERROR_TYPE, ANY_TYPE):
-                self.log_error(
-                    node.line, node.column,
-                    f"شرط جملة 'طالما' يجب أن يكون من النوع 'منطقي'، وليس '{cond_type}'."
-                )
-        if node.body: node.body.accept(self)
+   
 
     def visit_JsReturnStatementNode(self, node):
         return node.value.accept(self) if node.value else ANY_TYPE
@@ -284,41 +303,38 @@ class SemanticAnalyzerVisitor:
     _ARITHMETIC_OPS = {"+", "-", "*", "/", "%", "**"}
     _COMPARISON_OPS = {"<", ">", ">=", "<=", "==", "!=", "===", "!=="}
     _LOGICAL_OPS = {"&&", "||"}
-
+    
     def visit_JsExpressionNode(self, node):
         """
         عقدة ثنائية عامة: left operator right.
-
-        تطبّق قوانين "فيزياء" اللغة:
-          * + بين 'عدد'/'رقم_كبير' و'عدد'/'رقم_كبير'           -> رقمي
-          * + بين 'سلسلة' و أي شيء (تجميع نصي/Concatenation)    -> سلسلة
-          * -،*،/،% بين رقميين فقط                              -> رقمي
-          * عمليات المقارنة                                     -> منطقي
-          * && || بين منطقيين                                   -> منطقي
-        أي طرف ERROR_TYPE => تسميم فوري (poisoning) بإرجاع ERROR_TYPE
-        دون طباعة خطأ إضافي.
+        ...
         """
         if not node.left:
             return ERROR_TYPE
-
+    
         left_type = node.left.accept(self)
-
+    
         if not node.operator or not node.right:
-            # عقدة "تمرير" بلا عامل (left فقط) — نُرجع نوع left كما هو
             return left_type
-
+    
+        op = node.operator
+    
+        # ── الوصول لخاصية عبر نقطة: عنصر.الخاصية ────────────────────────
+        # الطرف الأيمن هنا اسم خاصية (property name) وليس مرجعاً لمتغير،
+        # لذلك يجب ألا يُمرَّر إلى visit_JsPrimaryNode الذي يحاول البحث
+        # عنه في جدول الرموز ويُطلق خطأ "غير معرف" خاطئاً.
+        if op == ".":
+            return ANY_TYPE if left_type != ERROR_TYPE else ERROR_TYPE
+    
         right_type = node.right.accept(self)
-
-        # ── تسميم: أي طرف فاسد سلفاً يوقف انتشار الأخطاء بصمت ──────────
+    
         if left_type == ERROR_TYPE or right_type == ERROR_TYPE:
             return ERROR_TYPE
-
-        op = node.operator
+    
         numeric = {NUMBER_TYPE, BIGINT_TYPE}
-
+    
         if op == "+":
             if left_type == STRING_TYPE or right_type == STRING_TYPE:
-                # تجميع نصي: السلسلة "تُعدي" أي طرف آخر (مثل JS)
                 return STRING_TYPE
             if left_type in numeric and right_type in numeric:
                 return NUMBER_TYPE
@@ -329,8 +345,8 @@ class SemanticAnalyzerVisitor:
                 f"العملية '+' غير مسموحة بين '{left_type}' و '{right_type}'."
             )
             return ERROR_TYPE
-
-        if op in self._ARITHMETIC_OPS:  # -، *، /، %، **
+    
+        if op in self._ARITHMETIC_OPS:
             if left_type == ANY_TYPE or right_type == ANY_TYPE:
                 return ANY_TYPE
             if left_type in numeric and right_type in numeric:
@@ -340,21 +356,18 @@ class SemanticAnalyzerVisitor:
                 f"العملية '{op}' غير مسموحة بين '{left_type}' و '{right_type}'."
             )
             return ERROR_TYPE
-
+    
         if op in self._COMPARISON_OPS:
             involves_array = isinstance(left_type, ArrayType) or isinstance(right_type, ArrayType)
-
+    
             if op in ("<", ">", ">=", "<="):
-                # المصفوفات لا تملك ترتيباً؛ المقارنة الترتيبية عليها غير منطقية دائماً
                 if involves_array:
                     self.log_error(
                         node.line, node.column,
                         f"لا يمكن استخدام عملية الترتيب '{op}' على نوع 'مصفوفة' ('{left_type}' و '{right_type}')."
                     )
                     return ERROR_TYPE
-
-            # == != === !==  : نسمح بمقارنة أي نوعين متطابقين (بما فيها مصفوفتان من
-            # نفس نوع العنصر)، أو أي شيء مع 'أي'
+    
             if left_type != right_type and ANY_TYPE not in (left_type, right_type):
                 self.log_error(
                     node.line, node.column,
@@ -362,7 +375,7 @@ class SemanticAnalyzerVisitor:
                 )
                 return ERROR_TYPE
             return BOOL_TYPE
-
+    
         if op in self._LOGICAL_OPS:
             if left_type not in (BOOL_TYPE, ANY_TYPE, ERROR_TYPE) or right_type not in (BOOL_TYPE, ANY_TYPE, ERROR_TYPE):
                 self.log_error(
@@ -371,28 +384,19 @@ class SemanticAnalyzerVisitor:
                 )
                 return ERROR_TYPE
             return BOOL_TYPE
-
-        # عامل غير معروف بالنسبة للفاحص — لا نمنع الترجمة، فقط نُرجع 'أي'
-        return ANY_TYPE
+    
+        # عامل غير معروف للفاحص (مثل "()" أو "[]") — right_type تم حسابه
+        # أعلاه بالفعل، وهذا يضمن زيارة وسائط الاستدعاء عبر visit_JsPrimaryNode.
+        return ANY_TYPE    
 
     def visit_JsPrimaryNode(self, node):
-        """
-        النقطة المركزية لتحديد نوع القيم الأساسية:
-          - identifier  -> نبحث عن نوعه في البيئة (poisoning عند الغياب)
-          - number      -> عدد
-          - string      -> سلسلة
-          - boolean     -> منطقي
-          - null/undefined/nan/this/document/window -> أي (تبسيط)
-          - array       -> مصفوفة<نوع العنصر الأول> (أو مصفوفة<أي> إذا فارغة)
-          - object/paren -> نمرر للعناصر الداخلية، النوع الكلي 'أي'
-        """
         if node.kind == 'identifier' and node.value:
             try:
                 symbol = self.current_env.resolve(node.value, line=node.line, column=node.column)
                 return symbol.type
             except SemanticError as e:
                 self.log_error(node.line, node.column, str(e))
-                return ERROR_TYPE  # تسميم العقدة لمنع أخطاء إضافية متسلسلة
+                return ERROR_TYPE
 
         if node.kind == 'number':
             return NUMBER_TYPE
@@ -408,9 +412,13 @@ class SemanticAnalyzerVisitor:
 
         if node.kind == 'array':
             elements = getattr(node, 'elements', None) or []
-            if not elements:
+            # تصفية أي عناصر None قد تأتي من الشجرة
+            valid_elements = [el for el in elements if el is not None]
+            
+            if not valid_elements:
                 return ArrayType(ANY_TYPE)
-            element_types = [el.accept(self) for el in elements]
+                
+            element_types = [el.accept(self) for el in valid_elements]
             first = next((t for t in element_types if t != ERROR_TYPE), ANY_TYPE)
             for t in element_types:
                 if t != ERROR_TYPE and t != ANY_TYPE and t != first:
@@ -423,13 +431,24 @@ class SemanticAnalyzerVisitor:
 
         if node.kind == 'object' and getattr(node, 'pairs', None):
             for _, val in node.pairs:
-                val.accept(self)
+                if val is not None:
+                    val.accept(self)
             return ANY_TYPE
 
         if node.kind == 'paren' and getattr(node, 'elements', None):
             result_type = ANY_TYPE
             for el in node.elements:
-                result_type = el.accept(self)
+                if el is not None: # إضافة حماية هنا أيضاً
+                    result_type = el.accept(self)
             return result_type
+
+        # ── استدعاء دالة: "معالج(غير_مسجل، ٥)؛" يُبنى في ast_visitor.py
+        # كـ JsPrimaryNode(kind='call', elements=[...الوسائط...]).
+        if node.kind == 'call':
+            elements = getattr(node, 'elements', None) or []
+            for arg in elements:
+                if arg is not None:  # <--- [الحل هنا] منع استدعاء accept على None
+                    arg.accept(self)
+            return ANY_TYPE
 
         return ANY_TYPE

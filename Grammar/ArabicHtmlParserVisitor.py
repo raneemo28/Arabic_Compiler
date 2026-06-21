@@ -69,6 +69,11 @@ class ArabicHtmlParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by ArabicHtmlParser#pseudoClass.
+    def visitPseudoClass(self, ctx:ArabicHtmlParser.PseudoClassContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by ArabicHtmlParser#declarationList.
     def visitDeclarationList(self, ctx:ArabicHtmlParser.DeclarationListContext):
         return self.visitChildren(ctx)
@@ -106,6 +111,11 @@ class ArabicHtmlParserVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by ArabicHtmlParser#interfaceDeclaration.
     def visitInterfaceDeclaration(self, ctx:ArabicHtmlParser.InterfaceDeclarationContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by ArabicHtmlParser#interfaceMember.
+    def visitInterfaceMember(self, ctx:ArabicHtmlParser.InterfaceMemberContext):
         return self.visitChildren(ctx)
 
 

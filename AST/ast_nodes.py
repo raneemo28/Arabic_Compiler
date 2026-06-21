@@ -48,10 +48,16 @@ class TagNode(ASTNode):
     BUG FIX: children was previously typed as List[Union[TagNode, TextNode]],
     which was too narrow.  The grammar allows CSS rules and JS statements
     inside htmlContent, so the correct type is List[ASTNode].
+
+    closing_tag_name: captures the name written in the CLOSE_TAG token
+    (e.g. 'صورة' in '</صورة>'), separately from tag_name (the OPEN_TAG_START
+    name). A context-free grammar cannot enforce these match — that check
+    belongs to semantic analysis, which compares the two fields here.
     """
     tag_name: str = ""
     attributes: List[AttributeNode] = field(default_factory=list)
     children: List[ASTNode] = field(default_factory=list)   # was Union[TagNode, TextNode] – too narrow
+    closing_tag_name: str = ""
 
     def accept(self, visitor):
         return visitor.visit_TagNode(self)
@@ -96,28 +102,14 @@ class SelectorKind:
 
 @dataclass
 class CssSelectorNode(ASTNode):
-    """
-    A single CSS selector.
-
-    BUG FIX: The old code used CompoundSelectorNode / SelectorNode with
-    combinator strings, which belonged to a completely different (old)
-    grammar that had compoundSelector / combinator / simpleSelector /
-    pseudoClass rules.  The new grammar has a flat four-alternative
-    `selector` rule with no combinators or pseudo-classes at this level.
-
-    Fields
-    ------
-    kind        : one of SelectorKind.{ELEMENT, ID, CLASS, MEDIA}
-    name        : the IDENTIFIER token text (without prefix punctuation)
-    raw_text    : the full selector text as written (e.g. "#رأس", ".بطاقة")
-    """
     kind: str = SelectorKind.ELEMENT
     name: str = ""
     raw_text: str = ""
+    pseudo_class: str = ""   # اسم الفئة الزائفة بدون نقطتين، فارغ إن لم توجد
 
     def accept(self, visitor):
         return visitor.visit_CssSelectorNode(self)
-
+    
 
 @dataclass
 class CssValueNode(ASTNode):
@@ -446,25 +438,13 @@ class JsBlockNode(JsStatementNode):
 
 @dataclass
 class JsInterfaceDeclarationNode(JsStatementNode):
-    """
-    TypeScript interface declaration: واجهة IDENTIFIER { }
-
-    Grammar rule:
-        interfaceDeclaration : TS_INTERFACE IDENTIFIER LBRACE RBRACE ;
-
-    Fields
-    ------
-    name : the interface name (IDENTIFIER token text)
-
-    Note: the grammar currently requires an empty body (LBRACE RBRACE).
-    When the grammar is extended to allow members, add a `members` field here.
-    """
     name: str = ""
+    members: List[tuple] = field(default_factory=list)   # [(اسم، نوع), ...]
 
     def accept(self, visitor):
         return visitor.visit_JsInterfaceDeclarationNode(self)
-
-
+    
+    
 # ── 2. Typed variable / array declaration ─────────────────────────────────────
 
 @dataclass
