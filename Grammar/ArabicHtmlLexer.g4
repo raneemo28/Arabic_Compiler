@@ -5,7 +5,7 @@ options {
 }
 
 fragment ARABIC_CHAR : [\u0621-\u064A] ;
-fragment ARABIC_WORD : ARABIC_CHAR+ ;
+fragment ARABIC_WORD : ARABIC_CHAR (ARABIC_CHAR | [0-9] | '-' )* ;
 // ============================================================
 // ============= HTML KEYWORDS =============
 // ============================================================
@@ -151,10 +151,10 @@ CSS_IMPORTANT  : 'هام' ;
 
 // --- Functions ---
 CSS_URL_FUNC    : 'رابط' ;
-CSS_RGB_FUNC    : 'نظام-ر_ج_ب' ;
-CSS_RGBA_FUNC   : 'نظام-ر_ج_ب_ا' ;
+CSS_RGB_FUNC    : 'نظام-ر-ج-ب' ;
+CSS_RGBA_FUNC   : 'نظام-ر-ج-ب-ا' ;
 CSS_CALC_FUNC   : 'حساب' ;
-CSS_VAR_FUNC    : 'دالة_متغير' ;
+CSS_VAR_FUNC    : 'دالة-متغير' ;
 CSS_ROTATE_FUNC : 'تدوير' ;
 CSS_SCALE_FUNC  : 'تكبير' ;
 CSS_BLUR_FUNC   : 'تغبيش' ;
@@ -172,7 +172,7 @@ TS_CONST : 'ثابت' ;
 // --- Data Types ---
 // --- Primitive Types ---
 TS_ANY_KW  : 'اي' ;
-TS_BIGINT_KW  : 'رقم_كبير' ;
+TS_BIGINT_KW  : 'رقم-كبير' ;
 TS_ARRAY_KW   : 'مصفوفة' ;
 TS_STRING_KW  : 'سلسلة' ;
 TS_NUMBER_KW  : 'عدد' ;
@@ -205,10 +205,10 @@ TS_RETURN   : 'ارجع' ; // لازم احذف الهمزة
 // --- Logical Constants ---
 TS_TRUE      : 'صحيح' ;
 TS_FALSE     : 'خاطئ' ;
-TS_NULL      : 'غير_موجود' ;
-TS_UNDEFINED : 'غير_معرف' ;
+TS_NULL      : 'غير-موجود' ;
+TS_UNDEFINED : 'غير-معرف' ;
 TS_THIS      : 'هذا' ;
-TS_NAN       : 'ليس_رقم' ;
+TS_NAN       : 'ليس-رقم' ;
 TS_INFINITY  : 'لانهاية' ;
 
 // --- Exception Handling ---
@@ -221,7 +221,7 @@ TS_EXCEPTION : 'استثناء' ;
 // --- OOP ---
 TS_NEW         : 'عنصر-جديد' ;
 TS_CLASS       : 'فئة' | 'صف' ;
-TS_EXTENDS     : 'يرث_من' ;
+TS_EXTENDS     : 'يرث-من' ;
 TS_SUPER       : 'الاب' ;
 TS_IMPLEMENTS  : 'يطبق' ;
 TS_INTERFACE   : 'واجهة' ;
@@ -229,7 +229,7 @@ TS_CONSTRUCTOR : 'منشئ' ;
 TS_PRIVATE     : 'خاص' ;
 TS_PROTECTED   : 'محمي' ;
 TS_PUBLIC      : 'عام' ;
-TS_STATIC      : 'صف_ثابت' ;
+TS_STATIC      : 'صف-ثابت' ;
 TS_ENUM        : 'تعداد' ;
 TS_PACKAGE     : 'حزمة' ;
 
@@ -237,9 +237,9 @@ TS_PACKAGE     : 'حزمة' ;
 TS_IMPORT     : 'استورد' ;
 TS_EXPORT     : 'تصدير' ;
 TS_FROM       : 'من' ;
-TS_AS         : 'ك' | 'كما' ; // لازم احذف المد بالتانية
-TS_TYPEOF     : 'من_نوع' ;
-TS_INSTANCEOF : 'عنصر_من' ;
+TS_AS         :  'كما' ; // لازم احذف المد بالتانية
+TS_TYPEOF     : 'من-نوع' ;
+TS_INSTANCEOF : 'عنصر-من' ;
 TS_DELETE     : 'احذف' ;
 
 // --- DOM ---
@@ -250,21 +250,21 @@ TS_EVENT           : 'حدث' ;
 TS_NODE            : 'عقدة' ;
 TS_ELEMENT         : 'عنصر' ;
 TS_LISTENER        : 'مستمع' ;
-TS_LOCAL_STORAGE   : 'تخزين_محلي' ;
-TS_SESSION_STORAGE : 'تخزين_جلسة' ;
+TS_LOCAL_STORAGE   : 'تخزين-محلي' ;
+TS_SESSION_STORAGE : 'تخزين-جلسة' ;
 TS_GET_ELEMENT     : 'احضرعنصر' ;
 TS_GET_ELEMENTS    : 'احضرعناصر' ;
-TS_CREATE_EL       : 'انشئ_عنصر' ;
-TS_INNER_TEXT      : 'النص_الداخلي' ;
-TS_INNER_HTML      : 'كود_html' ;
+TS_CREATE_EL       : 'انشئ-عنصر' ;
+TS_INNER_TEXT      : 'النص-الداخلي' ;
+TS_INNER_HTML      : 'كود-html' ;
 TS_STYLE           : 'التنسيق' ;
 
 // --- Events & Dev Tools ---
-TS_ADD_LISTENER : 'عند_الحدث' | 'استمع_للحدث' ;
-TS_ON_CLICK     : 'عند_النقر' ;
-TS_ON_SUBMIT    : 'عند_الارسال' ;
-TS_ON_CHANGE    : 'عند_التغيير' ;
-TS_ON_LOAD      : 'عند_التحميل' ;
+TS_ADD_LISTENER : 'عند-الحدث' | 'استمع-للحدث' ;
+TS_ON_CLICK     : 'عند-النقر' ;
+TS_ON_SUBMIT    : 'عند-الارسال' ;
+TS_ON_CHANGE    : 'عند-التغيير' ;
+TS_ON_LOAD      : 'عند-التحميل' ;
 TS_LOG          : 'اطبع' ;
 TS_ALERT        : 'تنبيه' ;
 TS_PROMPT       : 'ادخل' ;
@@ -380,4 +380,3 @@ STRING
     : '"'  (~["\r\n])* '"'
     | '\'' (~['\r\n])* '\''
     ;
-

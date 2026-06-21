@@ -99,8 +99,8 @@ class ArabicHtmlAstVisitor(ArabicHtmlParserVisitor):
             return method(tree)
         # fallback
         return self.visitChildren(tree)
+    
     def visitProgram(self, ctx: ArabicHtmlParser.ProgramContext) -> ProgramNode:
-       
         node = ProgramNode(**_tok(ctx))
         for child in ctx.children or []:
             if isinstance(child, ArabicHtmlParser.HtmlElementContext):
@@ -111,6 +111,7 @@ class ArabicHtmlAstVisitor(ArabicHtmlParserVisitor):
                 node.children.append(self.visit(child))
             else:
                 print(f"DEBUG → NO MATCH for {type(child).__name__}")
+        node.children = [c for c in node.children if c is not None]
         return node
 
     # =========================================================================
@@ -123,21 +124,25 @@ class ArabicHtmlAstVisitor(ArabicHtmlParserVisitor):
             : OPEN_TAG_START attribute* GT htmlContent CLOSE_TAG
         """
         # OPEN_TAG_START text is e.g. '<مقال'  → strip the leading '<'
-
+    
         print(f"DEBUG visitParentElement called, tag={ctx.OPEN_TAG_START().getText()}")
-
+    
         tag_name = ctx.OPEN_TAG_START().getText()[1:]
-
+    
+        # CLOSE_TAG text is e.g. '</مقال>'  → strip leading '</' and trailing '>'
+        closing_tag_name = ctx.CLOSE_TAG().getText()[2:-1]
+    
         attrs = [self.visit(a) for a in (ctx.attribute() or [])]
-
+    
         children = []
         if ctx.htmlContent():
             children = self._visit_html_content(ctx.htmlContent())
-
+    
         return TagNode(
             tag_name=tag_name,
             attributes=attrs,
             children=children,
+            closing_tag_name=closing_tag_name,
             **_loc(ctx.OPEN_TAG_START().symbol),
         )
 
@@ -155,10 +160,6 @@ class ArabicHtmlAstVisitor(ArabicHtmlParserVisitor):
         )
 
     def _visit_html_content(self, ctx: ArabicHtmlParser.HtmlContentContext) -> list:
-        """
-        htmlContent : (htmlElement | tsStatement | cssRule | text)* ;
-        Helper — returns a flat list of AST nodes.
-        """
         result = []
         for child in ctx.children or []:
             if isinstance(child, ArabicHtmlParser.HtmlElementContext):
@@ -169,7 +170,7 @@ class ArabicHtmlAstVisitor(ArabicHtmlParserVisitor):
                 result.append(self.visit(child))
             elif isinstance(child, ArabicHtmlParser.TextContext):
                 result.append(self.visit(child))
-        return result
+        return [r for r in result if r is not None]
 
     # ── Attributes ────────────────────────────────────────────────────────────
 
@@ -217,21 +218,18 @@ class ArabicHtmlAstVisitor(ArabicHtmlParserVisitor):
                            **_tok(ctx))
 
     def visitSelector(self, ctx: ArabicHtmlParser.SelectorContext) -> CssSelectorNode:
-        """
-        selector
-            : identifier          # element selector
-            | HASH identifier     # id selector
-            | DOT identifier      # class selector
-            | CSS_MEDIA identifier# media selector
-        """
+        pseudo = ""
+        if ctx.pseudoClass():
+            pseudo = ctx.pseudoClass().getText().lstrip(":")
+
         if ctx.HASH():
             kind = SelectorKind.ID
             name = ctx.identifier().getText()
-            raw  = "#" + name
+            raw  = "#" + name + (":" + pseudo if pseudo else "")
         elif ctx.DOT():
             kind = SelectorKind.CLASS
             name = ctx.identifier().getText()
-            raw  = "." + name
+            raw  = "." + name + (":" + pseudo if pseudo else "")
         elif ctx.CSS_MEDIA():
             kind = SelectorKind.MEDIA
             name = ctx.identifier().getText()
@@ -239,9 +237,9 @@ class ArabicHtmlAstVisitor(ArabicHtmlParserVisitor):
         else:
             kind = SelectorKind.ELEMENT
             name = ctx.identifier().getText()
-            raw  = name
-        return CssSelectorNode(kind=kind, name=name, raw_text=raw, **_tok(ctx))
-
+            raw  = name + (":" + pseudo if pseudo else "")
+        return CssSelectorNode(kind=kind, name=name, raw_text=raw, pseudo_class=pseudo, **_tok(ctx))
+    
     def visitDeclarationList(self, ctx: ArabicHtmlParser.DeclarationListContext) -> CssDeclarationListNode:
         """
         declarationList : (declaration (SEMI declaration)*)? SEMI? ;
@@ -301,49 +299,50 @@ class ArabicHtmlAstVisitor(ArabicHtmlParserVisitor):
     # ── Variable / array declarations ─────────────────────────────────────────
 
     def visitTsDeclaration(self, ctx: ArabicHtmlParser.TsDeclarationContext) -> ASTNode:
-        keyword = ctx.getChild(0).getText()   # متغير / ثابت / دع
+        keyword = ctx.getChild(0).getText()
         name    = ctx.identifier().getText()
-    
-        # ── Branch 1 & 2: has a COLON → typed declaration ──────────────────
+
         if ctx.COLON():
             type_name = ctx.tsType().getText()
-    
-            # Branch 2: array → identifier COLON tsType LBRACK RBRACK
             if ctx.LBRACK():
                 is_array    = True
                 init_ctx    = ctx.arrayLiteral()
                 initializer = self.visit(init_ctx) if init_ctx else None
             else:
-                # Branch 1: primitive → identifier COLON tsType
                 is_array    = False
                 init_ctx    = ctx.expression()
                 initializer = self.visit(init_ctx) if init_ctx else None
-    
             return TsTypedDeclarationNode(
-                keyword=keyword,
-                name=name,
-                type_name=type_name,
-                is_array=is_array,
-                initializer=initializer,
-                **_tok(ctx),
+                keyword=keyword, name=name, type_name=type_name,
+                is_array=is_array, initializer=initializer, **_tok(ctx),
             )
-    
-        # ── Branch 3: no COLON → object shorthand (identifier = objectLiteral)
-        initializer = self.visit(ctx.objectLiteral()) if ctx.objectLiteral() else None
+
+        # لا يوجد COLON: إما واجهة كائن أو تعبير عادي بلا نوع صريح (استنتاج نوع)
+        if ctx.objectLiteral():
+            initializer = self.visit(ctx.objectLiteral())
+        else:
+            initializer = self.visit(ctx.expression()) if ctx.expression() else None
+
         return JsVariableDeclarationNode(
-            keyword=keyword,
-            name=name,
-            initializer=initializer,
-            **_tok(ctx),
+            keyword=keyword, name=name, initializer=initializer, **_tok(ctx),
         )
 
     def visitInterfaceDeclaration(self, ctx: ArabicHtmlParser.InterfaceDeclarationContext) -> JsInterfaceDeclarationNode:
         """
-        interfaceDeclaration : TS_INTERFACE IDENTIFIER LBRACE RBRACE ;
+        interfaceDeclaration : TS_INTERFACE IDENTIFIER LBRACE interfaceMember* RBRACE ;
         """
         name = ctx.IDENTIFIER().getText()
-        return JsInterfaceDeclarationNode(name=name, **_tok(ctx))
+        members = [self.visit(m) for m in (ctx.interfaceMember() or [])]
+        return JsInterfaceDeclarationNode(name=name, members=members, **_tok(ctx))
 
+
+    def visitInterfaceMember(self, ctx: ArabicHtmlParser.InterfaceMemberContext):
+        """
+        interfaceMember : IDENTIFIER COLON tsType SEMI ;
+        تُعاد كزوج (اسم، نوع) بسيط — بيانات وصفية فقط، لا تحتاج عقدة AST
+        كاملة ولا visit خاص بها في بقية الزوار.
+        """
+        return (ctx.IDENTIFIER().getText(), ctx.tsType().getText())
     # ── Assignment ────────────────────────────────────────────────────────────
 
     def visitAssignmentStatement(self, ctx: ArabicHtmlParser.AssignmentStatementContext) -> JsAssignmentStatementNode:
@@ -488,12 +487,9 @@ class ArabicHtmlAstVisitor(ArabicHtmlParserVisitor):
     # ── Block ─────────────────────────────────────────────────────────────────
 
     def visitBlock(self, ctx: ArabicHtmlParser.BlockContext) -> JsBlockNode:
-        """
-        block : LBRACE tsStatement* RBRACE ;
-        """
         stmts = [self.visit(s) for s in (ctx.tsStatement() or [])]
-        return JsBlockNode(statements=stmts, **_tok(ctx))
-
+        return JsBlockNode(statements=[s for s in stmts if s is not None], **_tok(ctx))
+    
     # =========================================================================
     # 5. TypeScript / JavaScript — expressions
     #
@@ -564,7 +560,7 @@ class ArabicHtmlAstVisitor(ArabicHtmlParserVisitor):
                 args = []
                 i += 1
                 while children[i].getText() != ")":
-                    if children[i].getText() != ",":
+                    if children[i].getText() != "،":
                         args.append(self.visit(children[i]))
                     i += 1
                 call_node = JsPrimaryNode(kind="call", elements=args,

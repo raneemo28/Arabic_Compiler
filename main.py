@@ -7,12 +7,13 @@
 """
 import sys
 import os
-
 # Ensure the script can locate modules in the current directory
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 # ANTLR4 Runtime Imports
 from antlr4 import FileStream, CommonTokenStream
+
+from codegen.codegen_visitor import CodeGeneratorVisitor
 
 # Actual Generated Grammar Imports
 from Grammar.ArabicHtmlLexer import ArabicHtmlLexer
@@ -21,6 +22,7 @@ from Grammar.ArabicHtmlParser import ArabicHtmlParser
 # AST Visitor & Semantic Analyzer
 from AST.ast_visitor import ArabicHtmlAstVisitor
 from semantic.semantic_analyzer import SemanticAnalyzerVisitor
+import webbrowser
 
 DEFAULT_PROGRAM_PATH = "./tests/test_02_valid_program.arweb"
 
@@ -48,7 +50,6 @@ def build_ast_from_file(path: str):
     
     return ast
 
-
 def main():
     path = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_PROGRAM_PATH
 
@@ -64,7 +65,6 @@ def main():
         print(f"   {e}")
         sys.exit(1)
 
-    # التحقق من أن الشجرة ليست فارغة قبل المتابعة
     if ast is None:
         print(f"❌ خطأ: فشل بناء شجرة الـ AST للملف '{path}'.")
         sys.exit(1)
@@ -72,19 +72,33 @@ def main():
     print(f"📄 الملف: {path}")
     print("--- جاري التحليل الدلالي (Type Checking) ---")
 
-    # 2. التحليل الدلالي (التحقق من الأنواع والنطاقات) كـ Pass ثانٍ بعد بناء الشجرة
     analyzer = SemanticAnalyzerVisitor()
-    ast.accept(analyzer)  # إرسال الزائر للشجرة
+    ast.accept(analyzer)
 
-    # 3. طباعة تقرير الأخطاء
     if len(analyzer.errors) > 0:
         print("\nتم العثور على الأخطاء التالية:")
         for err in analyzer.errors:
             print("  ❌ " + err)
         print("\nفشلت عملية الترجمة. الرجاء إصلاح الأخطاء أعلاه.")
         sys.exit(1)
-    else:
-        print("✅ الكود سليم دلالياً ونحوياً. 100% جاهز لتوليد كود الآلة (IR)!")
+
+    print("✅ الكود سليم دلالياً ونحوياً.")
+    print("--- جاري توليد الكود الحقيقي (HTML / CSS / JS) ---")
+
+    output_dir = "output"
+    generator = CodeGeneratorVisitor()
+    ast.accept(generator)
+    generator.write_files(output_dir)
+
+    # html_path = os.path.abspath(os.path.join(output_dir, "output.html"))
+    # webbrowser.open(f"file://{html_path}")
+
+    print(f"✅ تم توليد الملفات بنجاح في المجلد '{output_dir}/':")
+    print(f"✅ تم توليد الملفات بنجاح في المجلد '{output_dir}/':")
+    print(f"   - {output_dir}/output.html")
+    print(f"   - {output_dir}/output.css")
+    print(f"   - {output_dir}/output.js")
+    print("\n🎉 100% جاهز! افتح output.html في أي متصفح لرؤية النتيجة.")
 
 
 if __name__ == "__main__":
