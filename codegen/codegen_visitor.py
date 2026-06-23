@@ -1,30 +1,8 @@
-# codegen/codegen_visitor.py
 """
 الزائر الرابع: مولد الكود الحقيقي (CodeGeneratorVisitor)
-===========================================================
-
-نفس شجرة الـ AST التي يستخدمها بقية الزوار (البناء، الرسم، التحليل
-الدلالي)، لكن هذا الزائر يبني نصوص HTML/CSS/JS حقيقية بدلاً من رسم
-أو فحص الأنواع.
-
-استراتيجية الترجمة
--------------------
-1. الكلمات المفتاحية المغلقة (CSS properties، CSS values، TS keywords)
-   لها قاموس ترجمة ثابت لأن اللاحقة الإنجليزية الحقيقية معروفة سلفاً.
-2. المعرّفات المفتوحة (أسماء الوسوم، المتغيرات، الدوال) تمر دون تغيير
-   لأنها أسماء اختارها المبرمج، لا كلمات لغوية.
-3. عقد CSS وTS المُضمّنة داخل HTML تُفصل لملفاتها الخاصة دائماً، بصرف
-   النظر عن مكان وجودها في الشجرة، لأن الناتج النهائي ثلاثة ملفات منفصلة.
-4. واجهات TypeScript (interface) لا وجود لها في JS الحقيقي، فلا تُولّد
-   أي كود.
-5. شروط if/while العددية (مثل: إذا (عداد)) لا تحتاج أي معالجة خاصة هنا
-   لأن JS نفسه يطبّق نفس قاعدة "صفر = خطأ، غير ذلك = صحيح" افتراضياً.
-6. الأرقام العربية الهندية (٠١٢٣...) يجب تحويلها لأرقام لاتينية (0123...)
-   لأن JS/CSS الحقيقيين لا يفهمان رموز الأرقام العربية كقيم عددية.
+النسخة النهائية - جميع المعرّفات تُحوَّل بشكل متناسق عبر سجل موحد.
 """
-
 import os
-from platform import node
 from AST.visitor_interface import ASTVisitor
 from AST.ast_nodes import (
     TagNode, SelfClosingTagNode, TextNode,
@@ -33,118 +11,257 @@ from AST.ast_nodes import (
 
 
 class CodeGeneratorVisitor(ASTVisitor):
-
     INDENT = "    "
 
     _ARABIC_DIGIT_MAP = str.maketrans("٠١٢٣٤٥٦٧٨٩", "0123456789")
+
+    # ── ✅ Dynamic Arabic → Latin transliteration ────────────────────
+    _ARABIC_TO_LATIN = {
+        'ا': 'a', 'أ': 'a', 'إ': 'e', 'آ': 'aa', 'ب': 'b', 'ت': 't',
+        'ث': 'th', 'ج': 'j', 'ح': 'h', 'خ': 'kh', 'د': 'd', 'ذ': 'dh',
+        'ر': 'r', 'ز': 'z', 'س': 's', 'ش': 'sh', 'ص': 's', 'ض': 'd',
+        'ط': 't', 'ظ': 'z', 'ع': 'a', 'غ': 'gh', 'ف': 'f', 'ق': 'q',
+        'ك': 'k', 'ل': 'l', 'م': 'm', 'ن': 'n', 'ه': 'h', 'و': 'w',
+        'ي': 'y', 'ى': 'a', 'ة': 'h', 'ء': '', 'ئ': 'y', 'ؤ': 'w',
+        '٠': '0', '١': '1', '٢': '2', '٣': '3', '٤': '4',
+        '٥': '5', '٦': '6', '٧': '7', '٨': '8', '٩': '9',
+        'َ': '', 'ُ': '', 'ِ': '', 'ّ': '', 'ْ': '', 'ً': '', 'ٌ': '', 'ٍ': '',
+        'ـ': '','-':'_'
+    }
+
+    # ── HTML Tags ─────────────────────────────────────────────────────
     _HTML_TAG_MAP = {
-        "صورة": "img", "رابط": "a", "فقرة": "p", "قسم": "div",
-        "عنوان": "h1", "نص": "span", "زر": "button", "جدول": "table",
-        "سطر": "tr", "خلية": "td", "قائمة": "ul", "عنصر-قائمة": "li",
-        "نموذج": "form", "ادخال": "input", "خط": "hr",
-        "راس": "header", "تذييل": "footer", "تنقل": "nav",
+        "صورة": "img",       "رابط": "a",         "فقرة": "p",
+        "قسم": "div",        "عنوان": "h1",       "نص": "span",
+        "زر": "button",      "جدول": "table",     "سطر": "tr",
+        "خلية": "td",        "قائمة": "ul",       "عنصر-قائمة": "li",
+        "نموذج": "form",     "ادخال": "input",    "خط": "hr",
+        "راس": "header",     "تذييل": "footer",   "تنقل": "nav",
     }
 
-   
+    # ── CSS Properties ────────────────────────────────────────────────
     _CSS_PROPERTY_MAP = {
-        "عرض": "display", "موقع": "position", "عرض-المساحة": "width",
-        "طول-المساحة": "height", "اقصى-عرض": "max-width", "اقل-عرض": "min-width",
-        "اقصى-طول": "max-height", "اقل-طول": "min-height", "هامش": "margin",
-        "حشو": "padding", "اطار": "border", "الظهور": "visibility",
-        "فائض": "overflow", "ترتيب-العمق": "z-index", "تحجيم-الصندوق": "box-sizing",
-        "مرن": "flex", "اتجاه-المرونة": "flex-direction", "لف-المرونة": "flex-wrap",
-        "نمو-المرونة": "flex-grow", "انكماش-المرونة": "flex-shrink", "شبكة": "grid",
-        "قالب-الشبكة": "grid-template", "فجوة": "gap", "ضبط-المحتوى": "justify-content",
-        "محاذاة-العناصر": "align-items", "محاذاة-ذاتية": "align-self", "ترتيب": "order",
-        "لون": "color", "خلفية": "background", "صورة-الخلفية": "background-image",
-        "لون-الخلفية": "background-color", "حجم-الخلفية": "background-size",
-        "تكرار-الخلفية": "background-repeat", "تثبيت-الخلفية": "background-attachment",
-        "قص-الخلفية": "background-clip", "شفافية": "opacity", "ظل-الصندوق": "box-shadow",
-        "نوع-الخط": "font-family", "حجم-الخط": "font-size", "ثقل-الخط": "font-weight",
-        "نمط-الخط": "font-style", "محاذاة-النص": "text-align", "زخرفة-النص": "text-decoration",
-        "تحويل-النص": "text-transform", "ظل-النص": "text-shadow", "ازاحة-النص": "text-indent",
-        "ارتفاع-السطر": "line-height", "تباعد-الاحرف": "letter-spacing",
-        "تباعد-الكلمات": "word-spacing", "المساحة-البيضاء": "white-space",
-        "اتجاه-الكتابة": "direction", "نمط-الكتابة": "writing-mode",
-        "انحناء-الاطار": "border-radius", "سمك-الاطار": "border-width",
-        "نمط-الاطار": "border-style", "لون-الاطار": "border-color", "خط-خارجي": "outline",
-        "اعلى": "top", "اسفل": "bottom", "يمين": "right", "يسار": "left",
-        "نمط-القائمة": "list-style", "دمج-الحدود": "border-collapse",
-        "تنسيق-الجدول": "table-layout", "مكان-العنوان": "caption-side",
-        "مرشح": "filter", "مرشح-الخلفية": "backdrop-filter",
+        "عرض": "display",            "موقع": "position",
+        "عرض-المساحة": "width",      "طول-المساحة": "height",
+        "اقصى-عرض": "max-width",     "اقل-عرض": "min-width",
+        "اقصى-طول": "max-height",    "اقل-طول": "min-height",
+        "هامش": "margin",            "حشو": "padding",
+        "اطار": "border",            "الظهور": "visibility",
+        "فائض": "overflow",          "ترتيب-العمق": "z-index",
+        "تحجيم-الصندوق": "box-sizing",
+        "مرن": "flex",               "اتجاه-المرونة": "flex-direction",
+        "لف-المرونة": "flex-wrap",   "نمو-المرونة": "flex-grow",
+        "انكماش-المرونة": "flex-shrink",
+        "شبكة": "grid",              "قالب-الشبكة": "grid-template",
+        "فجوة": "gap",               "ضبط-المحتوى": "justify-content",
+        "محاذاة-العناصر": "align-items",
+        "محاذاة-ذاتية": "align-self","ترتيب": "order",
+        "لون": "color",              "خلفية": "background",
+        "صورة-الخلفية": "background-image",
+        "لون-الخلفية": "background-color",
+        "حجم-الخلفية": "background-size",
+        "تكرار-الخلفية": "background-repeat",
+        "تثبيت-الخلفية": "background-attachment",
+        "قص-الخلفية": "background-clip",
+        "شفافية": "opacity",         "ظل-الصندوق": "box-shadow",
+        "نوع-الخط": "font-family",   "حجم-الخط": "font-size",
+        "ثقل-الخط": "font-weight",   "نمط-الخط": "font-style",
+        "محاذاة-النص": "text-align", "زخرفة-النص": "text-decoration",
+        "تحويل-النص": "text-transform",
+        "ظل-النص": "text-shadow",    "ازاحة-النص": "text-indent",
+        "ارتفاع-السطر": "line-height",
+        "تباعد-الاحرف": "letter-spacing",
+        "تباعد-الكلمات": "word-spacing",
+        "المساحة-البيضاء": "white-space",
+        "اتجاه-الكتابة": "direction","نمط-الكتابة": "writing-mode",
+        "انحناء-الاطار": "border-radius",
+        "سمك-الاطار": "border-width","نمط-الاطار": "border-style",
+        "لون-الاطار": "border-color","خط-خارجي": "outline",
+        "اعلى": "top",               "اسفل": "bottom",
+        "يمين": "right",             "يسار": "left",
+        "نمط-القائمة": "list-style","دمج-الحدود": "border-collapse",
+        "تنسيق-الجدول": "table-layout",
+        "مكان-العنوان": "caption-side",
+        "مرشح": "filter",            "مرشح-الخلفية": "backdrop-filter",
     }
 
+    # ── CSS Values ────────────────────────────────────────────────────
     _CSS_VALUE_MAP = {
-        "وراثة": "inherit", "اولي": "initial", "غير-محدد": "unset", "لا-شيء": "none",
-        "تلقائي": "auto", "مركز": "center", "متصل": "solid", "مقطع": "dashed",
-        "منقط": "dotted", "مزدوج": "double", "مخفي": "hidden", "كتلة": "block",
-        "سطري": "inline", "مرونة": "flex", "مطلق": "absolute", "نسبي": "relative",
-        "مثبت": "fixed", "لاصق": "sticky", "سطر": "row", "عمود": "column",
-        "لف": "wrap", "عريض": "bold", "مائل": "italic", "مرن": "flex", "شبكة": "grid",
+        "وراثة": "inherit",    "اولي": "initial",
+        "غير-محدد": "unset",   "لا-شيء": "none",
+        "تلقائي": "auto",      "مركز": "center",
+        "متصل": "solid",       "مقطع": "dashed",
+        "منقط": "dotted",      "مزدوج": "double",
+        "مخفي": "hidden",      "كتلة": "block",
+        "سطري": "inline",      "مرونة": "flex",
+        "مطلق": "absolute",    "نسبي": "relative",
+        "مثبت": "fixed",       "لاصق": "sticky",
+        "سطر": "row",          "عمود": "column",
+        "لف": "wrap",          "عريض": "bold",
+        "مائل": "italic",      "مرن": "flex",
+        "شبكة": "grid",
     }
 
     _CSS_UNIT_SUFFIX_MAP = {
-        "بكسل": "px", "ثانية": "s", "ملي-ثانية": "ms", "درجة": "deg",
+        "بكسل": "px",    "ثانية": "s",
+        "ملي-ثانية": "ms","درجة": "deg",
     }
 
     _CSS_FUNCTION_MAP = {
-        "رابط": "url", "نظام-ر-ج-ب": "rgb", "نظام-ر-ج-ب-ا": "rgba",
-        "حساب": "calc", "دالة-متغير": "var", "تدوير": "rotate",
-        "تكبير": "scale", "تغبيش": "blur",
+        "رابط": "url",         "نظام-ر-ج-ب": "rgb",
+        "نظام-ر-ج-ب-ا": "rgba","حساب": "calc",
+        "دالة-متغير": "var",  "تدوير": "rotate",
+        "تكبير": "scale",      "تغبيش": "blur",
     }
 
     _TS_KEYWORD_MAP = {
-        "متغير": "var", "دع": "let", "ثابت": "const",
+        "متغير": "var",  "دع": "let",  "ثابت": "const",
     }
 
     _LITERAL_MAP = {
-        "صحيح": "true", "خاطئ": "false", "غير-موجود": "null",
-        "غير-معرف": "undefined", "هذا": "this", "ليس-رقم": "NaN",
-        "الوثيقة": "document", "النافذة": "window",
+        "صحيح": "true",     "خاطئ": "false",
+        "غير-موجود": "null","غير-معرف": "undefined",
+        "هذا": "this",      "ليس-رقم": "NaN",
+        "الوثيقة": "document","النافذة": "window",
     }
 
     _BUILTIN_CALLEE_MAP = {
         "المراقب.اطبع": "console.log", "اطبع": "console.log",
-        "تنبيه": "alert", "ادخل": "prompt",
+        "تنبيه": "alert",              "ادخل": "prompt",
     }
 
+    # ── ✅ مُوسّع: خصائص DOM + دوال المصفوفات + RegExp ──────────────
     _PROPERTY_NAME_MAP = {
-        "اطبع": "log", "عند-الحدث": "addEventListener",
-        "استمع-للحدث": "addEventListener", "النص-الداخلي": "innerText",
+        "اطبع": "log",
+        "عند-الحدث": "addEventListener",
+        "استمع-للحدث": "addEventListener",
+        "النص-الداخلي": "innerText",
         "التنسيق": "style",
+        "احضرعنصر": "getElementById",
+        "احضرعناصر": "getElementsByClassName",
+        "انشئ-عنصر": "createElement",
+        "القيمة": "value",
+        "طول": "length",
+        "ادفع": "push",
+        "اختبر": "test",
+        "محدد": "checked",
+        "نوع": "type",
     }
-    
+
     _CSS_COLOR_NAME_MAP = {
-    "احمر": "red", "ازرق": "blue", "اخضر": "green", "اصفر": "yellow",
-    "اسود": "black", "ابيض": "white", "رمادي": "gray",
-    "برتقالي": "orange", "بنفسجي": "purple", "وردي": "pink", "بني": "brown",
-}
+        "احمر": "red",     "ازرق": "blue",
+        "اخضر": "green",   "اصفر": "yellow",
+        "اسود": "black",   "ابيض": "white",
+        "رمادي": "gray",   "برتقالي": "orange",
+        "بنفسجي": "purple","وردي": "pink",
+        "بني": "brown",
+    }
 
     _CSS_PSEUDO_CLASS_MAP = {
-        "حوم": "hover", "نشط": "active", "تركيز": "focus", "تم-زيارته": "visited",
-        "مفعل": "enabled", "معطل": "disabled", "محدد": "checked",
-        "قبل": "before", "بعد": "after", "نص-مؤقت": "placeholder", "تحديد": "selection",
+        "حوم": "hover",        "نشط": "active",
+        "تركيز": "focus",      "تم-زيارته": "visited",
+        "مفعل": "enabled",     "معطل": "disabled",
+        "محدد": "checked",     "قبل": "before",
+        "بعد": "after",        "نص-مؤقت": "placeholder",
+        "تحديد": "selection",
+    }
+
+    # ── ✅ DOM methods that can be accessed via bracket notation ──────
+    # إذا كتب المستخدم: الوثيقة["getElementById"]("id")
+    # نحولها إلى: document.getElementById("id")
+    _BRACKET_TO_DOT_METHODS = {
+        "getElementById", "getElementsByClassName", "getElementsByTagName",
+        "querySelector", "querySelectorAll", "createElement",
+        "addEventListener", "removeEventListener",
+        "appendChild", "removeChild", "replaceChild",
+        "setAttribute", "getAttribute", "removeAttribute",
+        "classList", "style", "innerText", "innerHTML",
     }
 
     def __init__(self):
         self.html_lines = []
         self.css_lines = []
         self.js_lines = []
+        # ✅ السجل الموحد: يضمن أن نفس الاسم العربي → نفس الاسم اللاتيني
+        self._id_registry: dict[str, str] = {}
 
-    # ── أدوات مساعدة عامة ────────────────────────────────────────────────
+    # ── ✅ ID Transliteration Methods ─────────────────────────────────
+
+    def _transliterate_identifier(self, name: str) -> str:
+        """تحويل أي معرّف عربي إلى معرّف لاتيني صالح ديناميكياً."""
+        if not name:
+            return "unnamed"
+
+        # إذا كان لاتينياً بالكامل، مرّره كما هو
+        if all(ord(c) < 128 for c in name):
+            return name
+
+        parts = []
+        for ch in name:
+            if ch in self._ARABIC_TO_LATIN:
+                parts.append(self._ARABIC_TO_LATIN[ch])
+            elif ch.isalnum() or ch in ('-', '_'):
+                parts.append(ch)
+            elif ch.isspace():
+                parts.append('-')
+
+        latin = ''.join(parts)
+
+        # تنظيف: طيّ الشرطات المتتالية
+        while '--' in latin:
+            latin = latin.replace('--', '-')
+        latin = latin.strip('-_')
+
+        # حماية: إذا بدأ برقم، أضف بادئة
+        if latin and latin[0].isdigit():
+            latin = 'n_' + latin
+
+        return latin or 'unnamed'
+
+    def _resolve_html_identifier(self, name: str) -> str:
+        """
+        تحويل معرّف عربي إلى لاتيني مع ذاكرة لضمان التناسق.
+        نفس الاسم العربي → نفس الاسم اللاتيني في HTML/CSS/JS.
+        """
+        if not name:
+            return "unnamed"
+
+        # إذا كان لاتينياً بالكامل، مرّره كما هو (بدون تسجيل)
+        if all(ord(c) < 128 for c in name):
+            return name
+
+        if name in self._id_registry:
+            return self._id_registry[name]
+
+        latin = self._transliterate_identifier(name)
+
+        # حماية من التصادم
+        if latin in self._id_registry.values():
+            original_arabic = next(
+                (k for k, v in self._id_registry.items() if v == latin), None
+            )
+            if original_arabic != name:
+                suffix = hex(abs(hash(name)) & 0xFFFF)[2:]
+                latin = f"{latin}_{suffix}"
+
+        self._id_registry[name] = latin
+        return latin
+
+    # ── أدوات مساعدة ──────────────────────────────────────────────────
+
     def _resolve_tag_name(self, original_name: str) -> str:
-        return self._HTML_TAG_MAP.get(original_name, f"ar-{original_name}")
+        return self._HTML_TAG_MAP.get(original_name, original_name)
+
     def _normalize_digits(self, text: str) -> str:
         return text.translate(self._ARABIC_DIGIT_MAP)
 
-    # ── نقطة الدخول ───────────────────────────────────────────────────────
+    # ── نقطة الدخول ───────────────────────────────────────────────────
 
     def visit_ProgramNode(self, node):
         for child in node.children:
             self._dispatch_top_level(child)
 
     def _dispatch_top_level(self, node):
-        """توجيه كل عقدة من المستوى الأعلى لمخزنها الصحيح حسب نوعها."""
         result = node.accept(self)
         if not result:
             return
@@ -170,22 +287,20 @@ class CodeGeneratorVisitor(ASTVisitor):
             "</body>\n"
             "</html>\n"
         )
+
     def _translate_css_raw_value(self, raw_text: str) -> str:
         if raw_text in self._CSS_VALUE_MAP:
             return self._CSS_VALUE_MAP[raw_text]
-
         if raw_text in self._CSS_COLOR_NAME_MAP:
             return self._CSS_COLOR_NAME_MAP[raw_text]
-
         for arabic_suffix, real_suffix in self._CSS_UNIT_SUFFIX_MAP.items():
             if raw_text.endswith(arabic_suffix):
-                number_part = raw_text[: -len(arabic_suffix)]
+                number_part = raw_text[:-len(arabic_suffix)]
                 return f"{self._normalize_digits(number_part)}{real_suffix}"
-
         if raw_text.startswith('"') or raw_text.startswith("'"):
             return raw_text
-
         return self._normalize_digits(raw_text)
+
     def get_css(self) -> str:
         return "\n\n".join(self.css_lines) + ("\n" if self.css_lines else "")
 
@@ -201,18 +316,30 @@ class CodeGeneratorVisitor(ASTVisitor):
         with open(os.path.join(output_dir, "output.js"), "w", encoding="utf-8") as f:
             f.write(self.get_js())
 
-    # ── HTML ──────────────────────────────────────────────────────────────
+    # ── HTML ──────────────────────────────────────────────────────────
 
     def visit_TagNode(self, node):
         tag_name = self._resolve_tag_name(node.tag_name)
         attrs = self._render_attributes(node.attributes)
         inner_parts = []
+
         for child in node.children:
             if isinstance(child, (TagNode, SelfClosingTagNode, TextNode)):
                 inner_parts.append(child.accept(self))
             else:
                 self._dispatch_top_level(child)
-        inner = " ".join(p for p in inner_parts if p)
+
+        # ✅ الحفاظ على المسافات بين النصوص المتتالية فقط
+        inner = ""
+        for i, part in enumerate(inner_parts):
+            if part:
+                inner += part
+                if i < len(inner_parts) - 1:
+                    current_is_text = isinstance(node.children[i], TextNode)
+                    next_is_text = isinstance(node.children[i + 1], TextNode)
+                    if current_is_text and next_is_text:
+                        inner += " "
+
         return f"<{tag_name}{attrs}>{inner}</{tag_name}>"
 
     def visit_SelfClosingTagNode(self, node):
@@ -224,15 +351,26 @@ class CodeGeneratorVisitor(ASTVisitor):
         return node.content
 
     def visit_AttributeNode(self, node):
-        # لا تُستدعى مباشرة عبر accept() — تُقرأ كبيانات خام في _render_attributes
         return f'{node.kind}="{node.value}"'
 
     def _render_attributes(self, attributes):
         if not attributes:
             return ""
-        return " " + " ".join(f'{a.kind}="{a.value}"' for a in attributes)
+        parts = []
+        for a in attributes:
+            value = a.value
+            # ✅ تحويل id و class عبر السجل الموحد
+            if a.kind == "id":
+                value = self._resolve_html_identifier(value)
+            elif a.kind == "class":
+                value = " ".join(
+                    self._resolve_html_identifier(cls_name)
+                    for cls_name in value.split()
+                )
+            parts.append(f'{a.kind}="{value}"')
+        return " " + " ".join(parts)
 
-    # ── CSS ───────────────────────────────────────────────────────────────
+    # ── CSS ───────────────────────────────────────────────────────────
 
     def visit_CssRuleNode(self, node):
         selector = node.selector.accept(self) if node.selector else ""
@@ -243,19 +381,22 @@ class CodeGeneratorVisitor(ASTVisitor):
 
     def visit_CssSelectorNode(self, node):
         if node.kind == SelectorKind.ID:
-            base = f"#{node.name}"
+            # ✅ تحويل ID عبر السجل
+            base = f"#{self._resolve_html_identifier(node.name)}"
         elif node.kind == SelectorKind.CLASS:
-            base = f".{node.name}"
+            # ✅ تحويل class عبر السجل
+            base = f".{self._resolve_html_identifier(node.name)}"
         elif node.kind == SelectorKind.MEDIA:
             return f"@media {node.name}"
         else:
             base = self._resolve_tag_name(node.name)
-
         if node.pseudo_class:
-            real_pseudo = self._CSS_PSEUDO_CLASS_MAP.get(node.pseudo_class, node.pseudo_class)
+            real_pseudo = self._CSS_PSEUDO_CLASS_MAP.get(
+                node.pseudo_class, node.pseudo_class
+            )
             return f"{base}:{real_pseudo}"
         return base
-    
+
     def visit_CssDeclarationListNode(self, node):
         lines = [decl.accept(self) for decl in node.declarations]
         return "\n".join(f"{self.INDENT}{line}" for line in lines)
@@ -275,23 +416,27 @@ class CodeGeneratorVisitor(ASTVisitor):
         args = ", ".join(arg.accept(self) for arg in node.arguments)
         return f"{fn_name}({args})"
 
-    
-
-    # ── التصريحات (TS/JS) ────────────────────────────────────────────────
+    # ── التصريحات (TS/JS) ────────────────────────────────────────────
 
     def visit_TsTypedDeclarationNode(self, node):
         keyword = self._TS_KEYWORD_MAP.get(node.keyword, node.keyword)
+        # ✅ تحويل اسم المتغير
+        name = self._resolve_html_identifier(node.name)
         init = f" = {node.initializer.accept(self)}" if node.initializer else ""
-        return f"{keyword} {node.name}{init};"
+        return f"{keyword} {name}{init};"
 
     def visit_JsVariableDeclarationNode(self, node):
         keyword = self._TS_KEYWORD_MAP.get(node.keyword, node.keyword)
+        # ✅ تحويل اسم المتغير
+        name = self._resolve_html_identifier(node.name)
         init = f" = {node.initializer.accept(self)}" if node.initializer else ""
-        return f"{keyword} {node.name}{init};"
+        return f"{keyword} {name}{init};"
 
     def visit_JsAssignmentStatementNode(self, node):
+        # ✅ تحويل هدف الإسناد
+        target = self._resolve_html_identifier(node.target) if node.target else ""
         value = node.value.accept(self) if node.value else ""
-        return f"{node.target} {node.operator} {value};"
+        return f"{target} {node.operator} {value};"
 
     def visit_JsIfStatementNode(self, node):
         cond = node.condition.accept(self) if node.condition else ""
@@ -310,7 +455,9 @@ class CodeGeneratorVisitor(ASTVisitor):
             return f"for ({init}; {cond}; {update}) {body}"
         keyword = "of" if node.loop_kind == "of" else "in"
         iterable = node.iterable.accept(self) if node.iterable else ""
-        return f"for (const {node.iterator} {keyword} {iterable}) {body}"
+        # ✅ تحويل اسم الـ iterator
+        iterator = self._resolve_html_identifier(node.iterator) if node.iterator else "item"
+        return f"for (const {iterator} {keyword} {iterable}) {body}"
 
     def visit_JsWhileLoopNode(self, node):
         cond = node.condition.accept(self) if node.condition else ""
@@ -318,9 +465,13 @@ class CodeGeneratorVisitor(ASTVisitor):
         return f"while ({cond}) {body}"
 
     def visit_JsFunctionDeclarationNode(self, node):
-        params = ", ".join(node.params) if node.params else ""
+        # ✅ تحويل اسم الدالة والمعاملات
+        name = self._resolve_html_identifier(node.name) if node.name else "anonymous"
+        params = ", ".join(
+            self._resolve_html_identifier(p) for p in (node.params or [])
+        )
         body = node.body.accept(self) if node.body else "{}"
-        return f"function {node.name}({params}) {body}"
+        return f"function {name}({params}) {body}"
 
     def visit_JsReturnStatementNode(self, node):
         if node.value:
@@ -328,14 +479,14 @@ class CodeGeneratorVisitor(ASTVisitor):
         return "return;"
 
     def visit_JsInterfaceDeclarationNode(self, node):
-        # الواجهات (interfaces) مفهوم خاص بـ TypeScript وقت الترجمة فقط؛
-        # لا وجود لها في JS الفعلي، فلا تُولّد أي كود.
         return ""
 
     def visit_JsTryCatchNode(self, node):
         try_code = node.try_block.accept(self) if node.try_block else "{}"
+        # ✅ تحويل معامل catch
+        catch_param = self._resolve_html_identifier(node.catch_param) if node.catch_param else "e"
         catch_code = node.catch_block.accept(self) if node.catch_block else "{}"
-        code = f"try {try_code} catch ({node.catch_param}) {catch_code}"
+        code = f"try {try_code} catch ({catch_param}) {catch_code}"
         if node.finally_block:
             code += f" finally {node.finally_block.accept(self)}"
         return code
@@ -357,7 +508,7 @@ class CodeGeneratorVisitor(ASTVisitor):
         indented = "\n".join(f"{self.INDENT}{line}" for line in lines)
         return f"{{\n{indented}\n}}"
 
-    # ── التعبيرات (Expressions) ──────────────────────────────────────────
+    # ── التعبيرات (Expressions) ──────────────────────────────────────
 
     def visit_JsExpressionNode(self, node):
         if not node.left:
@@ -378,20 +529,32 @@ class CodeGeneratorVisitor(ASTVisitor):
             return f"{left_code}.{real_prop}"
 
         if op == "[]":
-            return f"{left_code}[{node.right.accept(self)}]"
+            # ✅ تحويل bracket access إلى dot access لـ DOM methods
+            right_code = node.right.accept(self)
+            # إذا كان الوصول عبر string literal لاسم دالة DOM معروفة
+            if node.right.kind == "string" and node.right.value in self._BRACKET_TO_DOT_METHODS:
+                return f"{left_code}.{node.right.value}"
+            return f"{left_code}[{right_code}]"
 
         right_code = node.right.accept(self)
         return f"{left_code} {op} {right_code}"
 
     def visit_JsPrimaryNode(self, node):
         if node.kind == "identifier":
-            return node.value or ""
+            # ✅ تحويل كل المعرفات عبر السجل الموحد
+            return self._resolve_html_identifier(node.value or "")
 
         if node.kind == "number":
             return self._normalize_digits(node.value or "0")
 
         if node.kind == "string":
-            escaped = (node.value or "").replace("\\", "\\\\").replace('"', '\\"')
+            # ✅ إذا كانت السلسلة تطابق معرّفاً مسجلاً (مثل ID في getElementById)
+            # نحولها أيضاً لضمان التطابق مع HTML/CSS
+            raw_value = node.value or ""
+            if raw_value in self._id_registry:
+                escaped = self._id_registry[raw_value].replace("\\", "\\\\").replace('"', '\\"')
+                return f'"{escaped}"'
+            escaped = raw_value.replace("\\", "\\\\").replace('"', '\\"')
             return f'"{escaped}"'
 
         if node.kind == "boolean":
@@ -405,11 +568,15 @@ class CodeGeneratorVisitor(ASTVisitor):
             return f"[{', '.join(elements)}]"
 
         if node.kind == "object":
-            pairs = [f"{k}: {v.accept(self)}" for k, v in (node.pairs or [])]
+            # ✅ تحويل مفاتيح الكائن أيضاً
+            pairs = []
+            for k, v in (node.pairs or []):
+                key_translated = self._resolve_html_identifier(k)
+                pairs.append(f"{key_translated}: {v.accept(self)}")
             return f"{{ {', '.join(pairs)} }}"
 
         if node.kind == "paren":
-            inner = "".join(el.accept(self) for el in (node.elements or []))
+            inner = " ".join(el.accept(self) for el in (node.elements or []))
             return f"({inner})"
 
         if node.kind == "call":
