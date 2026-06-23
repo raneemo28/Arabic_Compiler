@@ -1,33 +1,26 @@
-function اضرب(ا, ب) {
-    return ا * ب;
+let aladad = 0;
+function thdyth_alshashh() {
+    let alshashh = document.getElementById("shashh");
+    alshashh.innerText = aladad;
+    console.log("القيمة الحالية: ", aladad);
 }
-function احسب-الكل(ا, ب, ج) {
-    const ضرب = اضرب(ا, ب);
-    const ناتج = ضرب + ج;
-    return ناتج;
+function zyadh() {
+    aladad = aladad + 1;
+    thdyth_alshashh();
 }
-const النتيجة-النهائية = احسب-الكل(2, 3, 4);
-console.log(النتيجة-النهائية);
-var المجموع = 0;
-for (var فهرس = 1; فهرس <= 5; فهرس = فهرس + 1) {
-    المجموع = المجموع + فهرس;
+function nqsan() {
+    aladad = aladad - 1;
+    thdyth_alshashh();
 }
-console.log(المجموع);
-var محاولات = 0;
-var نجح = false;
-while (محاولات < 3 && نجح == false) {
-    محاولات = محاولات + 1;
-    if (محاولات == 3) {
-    نجح = true;
+function tsfyr() {
+    aladad = 0;
+    thdyth_alshashh();
+    console.log("تم تصفير العداد!");
 }
-}
-console.log(محاولات);
-try {
-    const قيمة = اضرب(5, 2);
-    console.log(قيمة);
-} catch (خطا) {
-    console.log("حدث خطا");
-} finally {
-    console.log("انتهت المحاولة");
-}
-console.log("تم عرض القسم");
+let zr_zayd = document.getElementById("zr_zayd");
+let zr_naqs = document.getElementById("zr_naqs");
+let zr_tsfyr = document.getElementById("zr_tsfyr");
+zr_zayd.addEventListener("click", zyadh);
+zr_naqs.addEventListener("click", nqsan);
+zr_tsfyr.addEventListener("click", tsfyr);
+thdyth_alshashh();
