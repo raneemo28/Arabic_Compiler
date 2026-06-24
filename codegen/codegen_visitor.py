@@ -188,6 +188,8 @@ class CodeGeneratorVisitor(ASTVisitor):
         self.html_lines = []
         self.css_lines = []
         self.js_lines = []
+        # خريطة: رقم سطر output.js → (سطر المصدر، عمود المصدر) في ملف .arweb
+        self._js_source_map: dict[int, tuple[int, int]] = {}
         # ✅ السجل الموحد: يضمن أن نفس الاسم العربي → نفس الاسم اللاتيني
         self._id_registry: dict[str, str] = {}
 
@@ -263,6 +265,20 @@ class CodeGeneratorVisitor(ASTVisitor):
 
     # ── نقطة الدخول ───────────────────────────────────────────────────
 
+    def _emit_js(self, code: str, node) -> None:
+        """Append JS and record source line mapping for each generated line."""
+        if not code:
+            return
+        src_line = getattr(node, "line", 0) or 0
+        src_col = getattr(node, "column", 0) or 0
+        for _ in code.split("\n"):
+            out_line = len(self._js_source_map) + 1
+            self._js_source_map[out_line] = (src_line, src_col)
+        self.js_lines.append(code)
+
+    def get_js_source_map(self) -> dict[int, tuple[int, int]]:
+        return dict(self._js_source_map)
+
     def visit_ProgramNode(self, node):
         for child in node.children:
             self._dispatch_top_level(child)
@@ -276,7 +292,7 @@ class CodeGeneratorVisitor(ASTVisitor):
         elif isinstance(node, CssRuleNode):
             self.css_lines.append(result)
         else:
-            self.js_lines.append(result)
+            self._emit_js(result, node)
 
     def get_html(self) -> str:
         body = "\n".join(self.html_lines)

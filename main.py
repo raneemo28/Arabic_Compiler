@@ -17,6 +17,13 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from antlr4 import FileStream, CommonTokenStream
 from codegen.codegen_visitor import CodeGeneratorVisitor
+from codegen.error_translator import (
+    ERROR_SOURCE_BROWSER,
+    ERROR_SOURCE_TERMINAL,
+    make_error_entry,
+    save_errors_to_file,
+    translate_errors,
+)
 from Grammar.ArabicHtmlLexer import ArabicHtmlLexer
 from Grammar.ArabicHtmlParser import ArabicHtmlParser
 from AST.ast_visitor import ArabicHtmlAstVisitor
@@ -42,97 +49,110 @@ def parse_arguments():
     parser.add_argument("-o", "--output", type=str, default="output", help="مجلد الإخراج")
     parser.add_argument("--open", action="store_true", help="فتح المتصفح")
     parser.add_argument("--capture-errors", action="store_true", help="التقاط أخطاء وقت التشغيل")
-    parser.add_argument("--wait", type=int, default=5, help="ثواني الانتظار (افتراضي: 5)")
+    parser.add_argument("--wait", type=int, default=3, help="ثواني الانتظار بعد تحميل الصفحة (افتراضي: 3)")
     return parser.parse_args()
 
 
-def capture_runtime_errors(html_path: str, wait_seconds: int = 5) -> list:
-    """فتح HTML في Chrome والتقاط أخطاء Console."""
+def capture_runtime_errors(
+    html_path: str,
+    wait_seconds: int = 5,
+    headless: bool = True,
+) -> list:
+    """Open HTML in Chrome; capture browser console logs and terminal failures."""
+    errors = []
+
     try:
         from selenium import webdriver
+        from selenium.common.exceptions import WebDriverException
         from selenium.webdriver.chrome.options import Options
         from selenium.webdriver.chrome.service import Service
-        from webdriver_manager.chrome import ChromeDriverManager
-    except ImportError:
-        print("❌ يجب تثبيت: pip install selenium webdriver-manager")
-        return []
+    except ImportError as e:
+        print("❌ يجب تثبيت: pip install selenium")
+        errors.append(make_error_entry(
+            "SEVERE", f"ImportError: {e}", ERROR_SOURCE_TERMINAL
+        ))
+        return errors
 
     chrome_options = Options()
-    chrome_options.add_argument("--headless=new")
+    if headless:
+        chrome_options.add_argument("--headless=new")
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
 
-    print(f"🌐 جاري فتح المتصفح...")
-    print(f"   ⏳ الانتظار {wait_seconds} ثانية...")
+    mode = "خلفي" if headless else "مرئي"
+    print(f"🌐 جاري تشغيل Chrome ({mode})...")
+    print(f"   ⏳ الانتظار {wait_seconds} ثانية بعد التحميل...")
 
     driver = None
-    errors = []
+    service = None
 
     try:
-        service = Service(ChromeDriverManager().install())
-        driver = webdriver.Chrome(service=service, options=chrome_options)
-        
+        # Selenium 4.6+ ships its own driver manager (faster than webdriver-manager)
+        try:
+            driver = webdriver.Chrome(options=chrome_options)
+        except WebDriverException:
+            print("   ↪ محاولة ثانية عبر webdriver-manager...")
+            from webdriver_manager.chrome import ChromeDriverManager
+            service = Service(ChromeDriverManager().install())
+            driver = webdriver.Chrome(service=service, options=chrome_options)
+
+        driver.set_page_load_timeout(30)
+        driver.set_script_timeout(30)
+
         file_url = f"file:///{os.path.abspath(html_path).replace(os.sep, '/')}"
+        print(f"   📂 {file_url}")
         driver.get(file_url)
         time.sleep(wait_seconds)
-        
+
         logs = driver.get_log("browser")
         for entry in logs:
             errors.append({
                 "level": entry["level"],
                 "message": entry["message"],
-                "timestamp": datetime.fromtimestamp(entry["timestamp"] / 1000).strftime("%Y-%m-%d %H:%M:%S"),
+                "timestamp": datetime.fromtimestamp(
+                    entry["timestamp"] / 1000
+                ).strftime("%Y-%m-%d %H:%M:%S"),
+                "source": ERROR_SOURCE_BROWSER,
             })
+        print("   ✅ انتهى التقاط سجل المتصفح")
     except Exception as e:
         print(f"❌ خطأ في Selenium: {e}")
+        errors.append(make_error_entry(
+            "SEVERE", f"{type(e).__name__}: {e}", ERROR_SOURCE_TERMINAL
+        ))
     finally:
         if driver:
             driver.quit()
-    
+        if service and getattr(service, "log_output", None):
+            _append_chromedriver_log_errors(service, errors)
+
     return errors
 
 
-def save_errors_to_file(errors: list, output_dir: str, source_file: str):
-    """حفظ الأخطاء في errors.txt."""
-    errors_file = os.path.join(output_dir, "errors.txt")
-    
-    with open(errors_file, "w", encoding="utf-8") as f:
-        f.write("=" * 80 + "\n")
-        f.write(f"  تقرير أخطاء وقت التشغيل\n")
-        f.write(f"  الملف المصدر: {source_file}\n")
-        f.write(f"  التاريخ: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-        f.write("=" * 80 + "\n\n")
-        
-        if not errors:
-            f.write("✅ لا توجد أخطاء!\n")
+def _append_chromedriver_log_errors(service, errors: list):
+    """Read ChromeDriver log output and append error lines to terminal errors."""
+    log_output = service.log_output
+    if not log_output or not hasattr(log_output, "read"):
+        return
+    try:
+        raw = log_output.read()
+        if isinstance(raw, bytes):
+            text = raw.decode("utf-8", errors="replace")
         else:
-            severe = [e for e in errors if e["level"] == "SEVERE"]
-            warnings = [e for e in errors if e["level"] == "WARNING"]
-            info = [e for e in errors if e["level"] == "INFO"]
-            
-            f.write(f"📊 الملخص:\n")
-            f.write(f"   أخطاء حرجة: {len(severe)}\n")
-            f.write(f"   تحذيرات:    {len(warnings)}\n")
-            f.write(f"   معلومات:    {len(info)}\n")
-            f.write(f"   الإجمالي:   {len(errors)}\n\n")
-            
-            if severe:
-                f.write("❌ الأخطاء الحرجة:\n")
-                f.write("-" * 80 + "\n")
-                for i, err in enumerate(severe, 1):
-                    f.write(f"\n[#{i}] {err['timestamp']}\n{err['message']}\n")
-            
-            if warnings:
-                f.write("\n⚠️  التحذيرات:\n")
-                f.write("-" * 80 + "\n")
-                for i, warn in enumerate(warnings, 1):
-                    f.write(f"\n[#{i}] {warn['timestamp']}\n{warn['message']}\n")
-        
-        f.write("\n" + "=" * 80 + "\n")
-    
-    return errors_file
+            text = str(raw)
+        for line in text.splitlines():
+            stripped = line.strip()
+            if not stripped:
+                continue
+            lower = stripped.lower()
+            if any(k in lower for k in ("error", "failed", "exception", "unable")):
+                errors.append(make_error_entry(
+                    "WARNING", stripped, ERROR_SOURCE_TERMINAL
+                ))
+    except Exception:
+        pass
 
 
 def main():
@@ -178,34 +198,60 @@ def main():
 
     html_path = os.path.abspath(os.path.join(output_dir, "output.html"))
     
-    if args.open and not args.capture_errors:
-        print(f"\n🌐 فتح المتصفح...")
-        webbrowser.open(f"file://{html_path}")
-
     if args.capture_errors:
         print("\n" + "=" * 60)
         print("🔍 التقاط أخطاء وقت التشغيل...")
         print("=" * 60)
-        
-        errors = capture_runtime_errors(html_path, wait_seconds=args.wait)
-        errors_file = save_errors_to_file(errors, output_dir, path)
-        
+
+        # Headless capture is faster; --open opens the page in your browser afterward
+        errors = capture_runtime_errors(
+            html_path,
+            wait_seconds=args.wait,
+            headless=True,
+        )
+        errors_file = save_errors_to_file(
+            errors,
+            output_dir,
+            path,
+            id_registry=generator._id_registry,
+            source_map=generator.get_js_source_map(),
+        )
+
         severe_count = sum(1 for e in errors if e["level"] == "SEVERE")
         warning_count = sum(1 for e in errors if e["level"] == "WARNING")
-        
+        info_count = sum(1 for e in errors if e["level"] == "INFO")
+        browser_count = sum(1 for e in errors if e.get("source") == ERROR_SOURCE_BROWSER)
+        terminal_count = sum(1 for e in errors if e.get("source") == ERROR_SOURCE_TERMINAL)
+
         print(f"\n📊 تم التقاط {len(errors)} سجل:")
+        print(f"   🌐 متصفح:    {browser_count}")
+        print(f"   💻 طرفية:   {terminal_count}")
         print(f"   ❌ أخطاء حرجة: {severe_count}")
         print(f"   ⚠️  تحذيرات:    {warning_count}")
-        print(f"   💾 الحفظ في: {errors_file}")
-        
-        if severe_count > 0:
-            print(f"\n🔥 أول 3 أخطاء:")
-            for i, err in enumerate(errors[:3], 1):
-                if err["level"] == "SEVERE":
-                    msg = err["message"][:100]
-                    print(f"   {i}. {msg}...")
+        print(f"   ℹ️  معلومات:    {info_count}")
+        print(f"   💾 التقرير: {errors_file}")
 
-    if not args.open and not args.capture_errors:
+        if severe_count > 0:
+            print("\n🔥 أول 3 أخطاء حرجة:")
+            shown = 0
+            for err in translate_errors(
+                errors,
+                generator._id_registry,
+                generator.get_js_source_map(),
+            ):
+                if err["level"] == "SEVERE":
+                    shown += 1
+                    print(f"   {shown}. {err['message_ar'][:120]}")
+                    if shown >= 3:
+                        break
+
+        if args.open:
+            print("\n🌐 فتح الصفحة في المتصفح...")
+            webbrowser.open(f"file:///{html_path.replace(os.sep, '/')}")
+    elif args.open:
+        print("\n🌐 فتح المتصفح...")
+        webbrowser.open(f"file:///{html_path.replace(os.sep, '/')}")
+    else:
         print("\n🎉 جاهز! افتح output.html في المتصفح")
 
 
