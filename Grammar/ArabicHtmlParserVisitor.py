@@ -94,6 +94,11 @@ class ArabicHtmlParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by ArabicHtmlParser#cssValueToken.
+    def visitCssValueToken(self, ctx:ArabicHtmlParser.CssValueTokenContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by ArabicHtmlParser#cssFunction.
     def visitCssFunction(self, ctx:ArabicHtmlParser.CssFunctionContext):
         return self.visitChildren(ctx)

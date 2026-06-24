@@ -197,12 +197,12 @@ class ArabicHtmlAstVisitor(ArabicHtmlParserVisitor):
     # ── Text content ──────────────────────────────────────────────────────────
 
     def visitText(self, ctx: ArabicHtmlParser.TextContext) -> TextNode:
-        """
-        text : STRING | IDENTIFIER | NUMBER | arabicKeyword ;
-        Collapse all alternatives into a single TextNode with raw content.
-        """
-        return TextNode(content=ctx.getText(), **_tok(ctx))
-
+        text = ctx.getText()
+        # اشيل علامات التنصيص من النصوص
+        if (text.startswith('"') and text.endswith('"')) or \
+           (text.startswith("'") and text.endswith("'")):
+            text = text[1:-1]
+        return TextNode(content=text, **_tok(ctx))
     # =========================================================================
     # 3. CSS
     # =========================================================================
@@ -258,16 +258,17 @@ class ArabicHtmlAstVisitor(ArabicHtmlParserVisitor):
                                   **_tok(ctx))
 
     def visitCssValue(self, ctx: ArabicHtmlParser.CssValueContext) -> CssValueNode:
-        """
-        cssValue : IDENTIFIER | NUMBER | CSS_UNIT | CSS_HEX_COLOR | STRING
-                 | <keyword tokens> | cssFunction ;
-        """
-        if ctx.cssFunction():
-            fn_node = self.visit(ctx.cssFunction())
-            return CssValueNode(raw_text=ctx.getText(),
-                                is_function=True,
-                                function_node=fn_node,
-                                **_tok(ctx))
+        tokens = ctx.cssValueToken()
+        if len(tokens) == 1:
+            t = tokens[0]
+            if t.cssFunction():
+                fn_node = self.visit(t.cssFunction())
+                return CssValueNode(raw_text=ctx.getText(),
+                                    is_function=True,
+                                    function_node=fn_node,
+                                    **_tok(ctx))
+            return CssValueNode(raw_text=t.getText(), **_tok(ctx))
+        # multi-token value like: ١بكسل متصل رمادي
         return CssValueNode(raw_text=ctx.getText(), **_tok(ctx))
 
     def visitCssFunction(self, ctx: ArabicHtmlParser.CssFunctionContext) -> CssFunctionValueNode:
@@ -301,7 +302,11 @@ class ArabicHtmlAstVisitor(ArabicHtmlParserVisitor):
     def visitTsDeclaration(self, ctx: ArabicHtmlParser.TsDeclarationContext) -> ASTNode:
         keyword = ctx.getChild(0).getText()
         name    = ctx.identifier().getText()
-
+        print(f"DEBUG tsDecl: name={name}, hasColon={ctx.COLON() is not None}, text={ctx.getText()[:60]}")
+        init_ctx = ctx.expression()
+        print(f"DEBUG init_ctx type: {type(init_ctx).__name__ if init_ctx else None}")
+        initializer = self.visit(init_ctx) if init_ctx else None
+        print(f"DEBUG initializer type: {type(initializer).__name__ if initializer else None}, kind={getattr(initializer, 'kind', None)}")
         if ctx.COLON():
             type_name = ctx.tsType().getText()
             if ctx.LBRACK():
@@ -317,12 +322,9 @@ class ArabicHtmlAstVisitor(ArabicHtmlParserVisitor):
                 is_array=is_array, initializer=initializer, **_tok(ctx),
             )
 
-        # لا يوجد COLON: إما واجهة كائن أو تعبير عادي بلا نوع صريح (استنتاج نوع)
-        if ctx.objectLiteral():
-            initializer = self.visit(ctx.objectLiteral())
-        else:
-            initializer = self.visit(ctx.expression()) if ctx.expression() else None
-
+        # no COLON — untyped declaration, initializer is always an expression
+        init_ctx    = ctx.expression()
+        initializer = self.visit(init_ctx) if init_ctx else None
         return JsVariableDeclarationNode(
             keyword=keyword, name=name, initializer=initializer, **_tok(ctx),
         )
@@ -585,15 +587,8 @@ class ArabicHtmlAstVisitor(ArabicHtmlParserVisitor):
         return result
 
     def visitPrimaryExpression(self, ctx: ArabicHtmlParser.PrimaryExpressionContext) -> JsPrimaryNode:
-        """
-        primaryExpression
-            : identifier | NUMBER | STRING
-            | TS_TRUE | TS_FALSE | TS_NULL | TS_UNDEFINED | TS_THIS | TS_NAN
-            | TS_DOCUMENT | TS_WINDOW
-            | LPAREN expression RPAREN ;
-        """
         text = ctx.getText()
-
+    
         if ctx.NUMBER():
             return JsPrimaryNode(kind="number", value=text, **_tok(ctx))
         if ctx.STRING():
@@ -612,10 +607,20 @@ class ArabicHtmlAstVisitor(ArabicHtmlParserVisitor):
             return JsPrimaryNode(kind="document", value=text, **_tok(ctx))
         if ctx.TS_WINDOW():
             return JsPrimaryNode(kind="window", value=text, **_tok(ctx))
+        if ctx.TS_FUNCTION():
+            params = []
+            if ctx.parameterList():
+                params = [id_.getText() for id_ in ctx.parameterList().IDENTIFIER()]
+            body = self.visit(ctx.block())
+            fn_node = JsFunctionDeclarationNode(name="", params=params, body=body, **_tok(ctx))
+            return JsPrimaryNode(kind="function", value=None, elements=[fn_node], **_tok(ctx))
+        if ctx.arrayLiteral():
+            return self.visit(ctx.arrayLiteral())
+        if ctx.objectLiteral():
+            return self.visit(ctx.objectLiteral())
         if ctx.LPAREN():
             inner = self.visit(ctx.expression())
             return JsPrimaryNode(kind="paren", elements=[inner], **_tok(ctx))
-        # identifier (including TS_ELEMENT alias)
         if ctx.identifier():
             return JsPrimaryNode(kind="identifier",
                                   value=ctx.identifier().getText(),

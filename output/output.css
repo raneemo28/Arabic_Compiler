@@ -1,22 +1,14 @@
-#mhtwa {
-    padding: 20px;
+لوحة {
+    color: brown;
     margin: 10px;
-    background-color: white;
-    border-radius: 8px;
 }
 
 .btaqh {
-    display: block;
-    width: 400px;
-    text-align: center;
+    background: #F0F0F0;
+    padding: 20px;
+    border-style: solid;
 }
 
-button {
-    background: blue;
-    color: white;
-    padding: 10px;
-}
-
-button:hover {
-    background-color: black;
+#ryysy {
+    width: 100px;
 }

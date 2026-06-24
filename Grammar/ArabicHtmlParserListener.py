@@ -161,6 +161,15 @@ class ArabicHtmlParserListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by ArabicHtmlParser#cssValueToken.
+    def enterCssValueToken(self, ctx:ArabicHtmlParser.CssValueTokenContext):
+        pass
+
+    # Exit a parse tree produced by ArabicHtmlParser#cssValueToken.
+    def exitCssValueToken(self, ctx:ArabicHtmlParser.CssValueTokenContext):
+        pass
+
+
     # Enter a parse tree produced by ArabicHtmlParser#cssFunction.
     def enterCssFunction(self, ctx:ArabicHtmlParser.CssFunctionContext):
         pass
