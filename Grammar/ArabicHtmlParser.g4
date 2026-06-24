@@ -30,6 +30,9 @@ text
     : STRING 
     | IDENTIFIER 
     | NUMBER 
+    | MINUS
+    | TS_ASSIGN
+    | PERCENT
     | arabicKeyword 
     ;
 
@@ -39,7 +42,7 @@ arabicKeyword
     | TS_OF | TS_IN | TS_VAR | TS_LET 
     | TS_CONST | TS_TRUE | TS_FALSE 
     | CSS_DISPLAY | CSS_MARGIN | CSS_PADDING | CSS_CENTER 
-    | CSS_BLOCK 
+    | CSS_BLOCK | TS_NUMBER_KW
     ;
 
 // --- CSS Rules ---
@@ -86,12 +89,18 @@ cssProperty
     ;
 
 cssValue
+    : cssValueToken+ 
+    ;
+
+cssValueToken
     : IDENTIFIER | NUMBER | CSS_UNIT | CSS_HEX_COLOR | STRING 
     | CSS_INHERIT | CSS_INITIAL | CSS_UNSET | CSS_NONE | CSS_AUTO | CSS_CENTER 
     | CSS_SOLID | CSS_DASHED | CSS_DOTTED | CSS_DOUBLE | CSS_HIDDEN | CSS_BLOCK
     | CSS_INLINE | CSS_FLEX_VALUE | CSS_ABSOLUTE | CSS_RELATIVE | CSS_FIXED 
     | CSS_STICKY | CSS_ROW | CSS_COLUMN | CSS_WRAP | CSS_BOLD | CSS_ITALIC 
-    | CSS_FLEX | CSS_GRID // FIXED: Added missing value keywords
+    | CSS_FLEX | CSS_GRID
+    | CSS_RIGHT | CSS_LEFT | CSS_TOP | CSS_BOTTOM
+    | CSS_POINTER
     | cssFunction 
     ;
 
@@ -138,13 +147,12 @@ interfaceMember
 variableDeclaration
     : (TS_VAR | TS_LET | TS_CONST) identifier COLON tsType (TS_ASSIGN expression)?  SEMI
     ;
-
+    
 tsDeclaration
     : (TS_VAR | TS_LET | TS_CONST) 
       (
-        identifier COLON tsType (TS_ASSIGN expression)?                            
-        | identifier COLON tsType LBRACK RBRACK (TS_ASSIGN arrayLiteral)? 
-        | identifier TS_ASSIGN objectLiteral
+        identifier COLON tsType LBRACK RBRACK (TS_ASSIGN arrayLiteral)? 
+        | identifier COLON tsType (TS_ASSIGN expression)?                            
         | identifier TS_ASSIGN expression
       ) 
       SEMI
@@ -236,7 +244,11 @@ multiplicativeExpression
 memberExpression
     : primaryExpression (
         LPAREN (expression (COMMA expression)*)? RPAREN 
-        | DOT (IDENTIFIER | TS_LOG | TS_ADD_LISTENER | TS_INNER_TEXT | TS_STYLE) 
+        | DOT (IDENTIFIER | TS_LOG | TS_ADD_LISTENER | TS_INNER_TEXT | TS_STYLE
+               | TS_GET_ELEMENT | TS_GET_ELEMENTS | TS_CREATE_EL
+               | TS_ON_CLICK | TS_ON_SUBMIT | TS_ON_CHANGE | TS_ON_LOAD
+               | TS_INNER_HTML | TS_LOCAL_STORAGE | TS_SESSION_STORAGE
+               | CSS_COLOR) 
         | LBRACK expression RBRACK 
     )*
     ;
@@ -249,6 +261,9 @@ primaryExpression
     | TS_TRUE | TS_FALSE | TS_NULL | TS_UNDEFINED | TS_THIS | TS_NAN 
     | TS_DOCUMENT | TS_WINDOW 
     | LPAREN expression RPAREN 
+    | TS_FUNCTION LPAREN parameterList? RPAREN block
+    | arrayLiteral
+    | objectLiteral
     ;
 
 arrayLiteral
@@ -263,4 +278,5 @@ objectLiteral
 identifier
     : IDENTIFIER
     | TS_ELEMENT
+    | CSS_CALC_FUNC
     ;

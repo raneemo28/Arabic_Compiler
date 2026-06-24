@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 
-TESTS_DIR = "tests"
+TESTS_DIR = "tests_5codes"
 
 def find_test_files():
     return [

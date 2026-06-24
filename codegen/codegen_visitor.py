@@ -3,6 +3,7 @@
 النسخة النهائية - جميع المعرّفات تُحوَّل بشكل متناسق عبر سجل موحد.
 """
 import os
+from platform import node
 from AST.visitor_interface import ASTVisitor
 from AST.ast_nodes import (
     TagNode, SelfClosingTagNode, TextNode,
@@ -146,6 +147,11 @@ class CodeGeneratorVisitor(ASTVisitor):
         "اختبر": "test",
         "محدد": "checked",
         "نوع": "type",
+        "عند-النقر": "onclick",        # ← أضف هذا
+        "عند-الارسال": "onsubmit",     # ← أضف هذا
+        "عند-التغيير": "onchange",     # ← أضف هذا
+        "عند-التحميل": "onload",       # ← أضف هذا
+        "كود-html": "innerHTML",       # ← أضف هذا
     }
 
     _CSS_COLOR_NAME_MAP = {
@@ -465,13 +471,14 @@ class CodeGeneratorVisitor(ASTVisitor):
         return f"while ({cond}) {body}"
 
     def visit_JsFunctionDeclarationNode(self, node):
-        # ✅ تحويل اسم الدالة والمعاملات
-        name = self._resolve_html_identifier(node.name) if node.name else "anonymous"
+        name = self._resolve_html_identifier(node.name) if node.name else ""
         params = ", ".join(
             self._resolve_html_identifier(p) for p in (node.params or [])
         )
         body = node.body.accept(self) if node.body else "{}"
-        return f"function {name}({params}) {body}"
+        if name:
+            return f"function {name}({params}) {body}"
+        return f"function({params}) {body}"
 
     def visit_JsReturnStatementNode(self, node):
         if node.value:
@@ -519,10 +526,19 @@ class CodeGeneratorVisitor(ASTVisitor):
             return left_code
 
         op = node.operator
+        #print(f"DEBUG EXPR: op={repr(op)}, left={repr(left_code)}")  # ← أضف هذا
 
         if op == "()":
-            return f"{left_code}{node.right.accept(self)}"
-
+            _EVENT_PROPS = {"onclick", "onsubmit", "onchange", "onload"}
+            for ev in _EVENT_PROPS:
+                if left_code.endswith(f".{ev}"):
+                    # الـ right هو call node — نسحب الـ args منه مباشرة
+                    if hasattr(node.right, 'kind') and node.right.kind == "call":
+                        args = [el.accept(self) for el in (node.right.elements or []) if el is not None]
+                        val = args[0] if len(args) == 1 else f"({', '.join(args)})"
+                        return f"{left_code} = {val}"
+            right_rendered = node.right.accept(self)
+            return f"{left_code}{right_rendered}"
         if op == ".":
             prop = node.right.value if node.right.kind == "identifier" else node.right.accept(self)
             real_prop = self._PROPERTY_NAME_MAP.get(prop, prop)
@@ -580,7 +596,12 @@ class CodeGeneratorVisitor(ASTVisitor):
             return f"({inner})"
 
         if node.kind == "call":
-            args = [el.accept(self) for el in (node.elements or [])]
+            args = [el.accept(self) for el in (node.elements or []) if el is not None]
             return f"({', '.join(args)})"
+        if node.kind == "function":
+            fn_node = node.elements[0] if node.elements else None
+            if fn_node:
+                return fn_node.accept(self)
+            return "function() {}"
 
         return node.value or ""
