@@ -45,6 +45,12 @@ class SemanticAnalyzerVisitor:
         self.current_env.define(
             "المراقب", VariableSymbol("المراقب", ANY_TYPE)
         )
+        self.current_env.define(
+            "تنبيه", FunctionSymbol(name="تنبيه", return_type=ANY_TYPE, arity=1)
+        )
+        self.current_env.define(
+            "ادخل", FunctionSymbol(name="ادخل", return_type=STRING_TYPE, arity=1)
+        )
 
     # ── أدوات مساعدة ──────────────────────────────────────────────────────
 
@@ -254,13 +260,21 @@ class SemanticAnalyzerVisitor:
     def visit_JsForLoopNode(self, node):
         previous_env = self.current_env
         self.current_env = Environment(enclosing=previous_env)
-
+    
+        if node.loop_kind in ("of", "in") and node.iterator:
+            # register the loop variable in scope
+            self.current_env.define(
+                node.iterator,
+                VariableSymbol(node.iterator, ANY_TYPE),
+                line=node.line, column=node.column
+            )
+    
         if node.init: node.init.accept(self)
         if node.condition: node.condition.accept(self)
         if node.update: node.update.accept(self)
         if node.iterable: node.iterable.accept(self)
         if node.body: node.body.accept(self)
-
+    
         self.current_env = previous_env
 
    
