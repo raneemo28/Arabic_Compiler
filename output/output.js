@@ -1,21 +1,52 @@
-const asm = "علي";
-const arqam = [1, 2, 3];
-const aadadat = { alard: 100, alartfaa: 200 };
-var adad = 3;
-function jma(a, b) {
-    return a + b;
+let alrqm_alsry = 42;
+let add_almhawlat = 0;
+let antht_allabh = false;
+function thqq_mn_altkhmyn() {
+    if (antht_allabh === true) {
+    return;
 }
-const natj = jma(2, 3);
-console.log(natj);
-if (adad) {
-    console.log("عداد غير صفري");
+    let alhql = document.getElementById("hql_altkhmyn");
+    let ns_altkhmyn = alhql.value;
+    if (ns_altkhmyn === "") {
+    alert("الرجاء إدخال رقم");
+    return;
+}
+    let altkhmyn = ns_altkhmyn * 1;
+    if (altkhmyn !== altkhmyn) {
+    alert("الرجاء إدخال رقم صحيح");
+    alhql.value = "";
+    return;
+}
+    add_almhawlat = add_almhawlat + 1;
+    let rsalh = document.getElementById("alrsalh");
+    let mhawlat = document.getElementById("almhawlat");
+    mhawlat.innerText = "عدد المحاولات " + add_almhawlat;
+    if (altkhmyn === alrqm_alsry) {
+    rsalh.innerText = "صحيح لقد خمنت الرقم في " + add_almhawlat + " محاولة";
+    rsalh.style.لون = "اخضر";
+    antht_allabh = true;
+    console.log("انتهت اللعبة عدد المحاولات ", add_almhawlat);
+} else if (altkhmyn < alrqm_alsry) {
+    rsalh.innerText = "الرقم أكبر من ذلك حاول مرة أخرى";
+    rsalh.style.لون = "ازرق";
 } else {
-    console.log("عداد صفر");
+    rsalh.innerText = "الرقم أصغر من ذلك حاول مرة أخرى";
+    rsalh.style.لون = "احمر";
 }
-while (adad) {
-    console.log(adad);
-    adad = adad - 1;
+    alhql.value = "";
 }
-for (var fhrs = 0; fhrs < 3; fhrs = fhrs + 1) {
-    console.log(fhrs);
+function aaadh_allabh() {
+    alrqm_alsry = 42;
+    add_almhawlat = 0;
+    antht_allabh = false;
+    document.getElementById("alrsalh").innerText = "ابدأ التخمين الرقم بين ١ و ١٠٠";
+    document.getElementById("alrsalh").style.لون = "اسود";
+    document.getElementById("almhawlat").innerText = "عدد المحاولات ٠";
+    document.getElementById("hql_altkhmyn").value = "";
+    console.log("تم بدء لعبة جديدة");
 }
+let zr_altkhmyn = document.getElementById("zr_altkhmyn");
+let zr_aaadh = document.getElementById("zr_aaadh");
+zr_altkhmyn.addEventListener("click", thqq_mn_altkhmyn);
+zr_aaadh.addEventListener("click", aaadh_allabh);
+aaadh_allabh();
