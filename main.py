@@ -15,6 +15,7 @@ from datetime import datetime
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+
 from antlr4 import FileStream, CommonTokenStream
 from codegen.codegen_visitor import CodeGeneratorVisitor
 from Grammar.ArabicHtmlLexer import ArabicHtmlLexer
@@ -38,7 +39,7 @@ def parse_arguments():
         description="مترجم .arweb → HTML/CSS/JS",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    parser.add_argument("file", type=str, help="مسار ملف .arweb")
+    parser.add_argument("file", type=str, help=" مسار الملف .arweb")
     parser.add_argument("-o", "--output", type=str, default="output", help="مجلد الإخراج")
     parser.add_argument("--open", action="store_true", help="فتح المتصفح")
     parser.add_argument("--capture-errors", action="store_true", help="التقاط أخطاء وقت التشغيل")
@@ -49,10 +50,10 @@ def parse_arguments():
 def capture_runtime_errors(html_path: str, wait_seconds: int = 5) -> list:
     """فتح HTML في Chrome والتقاط أخطاء Console."""
     try:
-        from selenium import webdriver
-        from selenium.webdriver.chrome.options import Options
-        from selenium.webdriver.chrome.service import Service
-        from webdriver_manager.chrome import ChromeDriverManager
+        from selenium import webdriver  # type: ignore
+        from selenium.webdriver.chrome.options import Options  # type: ignore
+        from selenium.webdriver.chrome.service import Service  # type: ignore
+        from webdriver_manager.chrome import ChromeDriverManager  # type: ignore
     except ImportError:
         print("❌ يجب تثبيت: pip install selenium webdriver-manager")
         return []

@@ -1,20 +1,22 @@
-.hawyh {
-    padding: 30px;
-    text-align: center;
-    width: 300px;
-    border-radius: 12px;
-}
-
-.shashh_aladad {
-    font-size: 48px;
-    font-weight: bold;
-    color: blue;
-    display: block;
+#mhtwa {
     padding: 20px;
+    margin: 10px;
+    background-color: white;
+    border-radius: 8px;
 }
 
-.azrar {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
+.btaqh {
+    display: block;
+    width: 400px;
+    text-align: center;
+}
+
+button {
+    background: blue;
+    color: white;
+    padding: 10px;
+}
+
+button:hover {
+    background-color: black;
 }
