@@ -163,6 +163,9 @@ def main():
     if not os.path.isfile(path):
         print(f"❌ الملف غير موجود: {path}")
         sys.exit(1)
+    if not path.endswith(".arweb"):
+        print(f"❌ خطأ: الملف يجب أن يكون بامتداد '.arweb'، وليس '{os.path.splitext(path)[1]}'.")
+        sys.exit(1)
 
     print(f"📄 الملف: {path}")
     print("--- جاري التحليل ---")

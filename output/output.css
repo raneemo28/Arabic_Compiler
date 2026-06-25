@@ -1,63 +1,80 @@
 .ttbyq {
-    width: 400px;
+    width: 480px;
     padding: 30px;
     text-align: center;
-    background-color: white;
-    border-radius: 12px;
-    margin: 40بكسلتلقائي;
-    box-shadow: #00000022;
 }
 
-.rsalh {
-    font-size: 20px;
-    font-weight: bold;
-    padding: 20px;
-    margin: 16px;
-    border-radius: 8px;
-    background-color: #f8f9fa;
-}
-
-.shryt_aladkhal {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin: 16px;
-}
-
-.hql {
-    padding: 10px;
-    font-size: 18px;
-    width: 150px;
-    border-radius: 6px;
-    border: #cccccc;
-    text-align: center;
-}
-
-.zr_tkhmyn {
-    padding: 20px;
-    font-size: 16px;
-    background-color: blue;
-    color: white;
-    border-radius: 6px;
-    border: none;
-}
-
-.zr_tkhmyn:hover {
-    background-color: black;
-}
-
-.mhawlat {
-    font-size: 16px;
+.wsf {
     color: gray;
+    font-size: 14px;
     margin: 8px;
 }
 
-.zr_aaadh {
-    padding: 8px;
-    font-size: 14px;
-    background-color: #6c757d;
-    color: white;
-    border-radius: 6px;
-    border: none;
+.btaqh {
+    padding: 24px;
+    background-color: white;
+    border-radius: 12px;
     margin: 16px;
+}
+
+.swal {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 16px;
+    color: black;
+}
+
+.khyarat {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 16px;
+}
+
+.zr_khyar {
+    padding: 12px;
+    border: 2بكسلمتصلرمادي;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: white;
+}
+
+.zr_khyar:hover {
+    background-color: blue;
+    color: white;
+}
+
+.rsalh_ntyjh {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 12px;
+    display: block;
+}
+
+.shryt_altqdm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin: 8px;
+}
+
+.ntyjh_kbyrh {
+    font-size: 22px;
+    font-weight: bold;
+    color: blue;
+}
+
+.zr_ryysy {
+    padding: 12px;
+    width: 160px;
+    background: blue;
+    color: white;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.zr_ryysy:hover {
+    background-color: black;
 }
