@@ -39,11 +39,9 @@ function thqq_alejabh(rqm_alkhyar) {
     if (rqm_alkhyar === alejabh_alshyhh) {
     alntyjh_alhalyh = alntyjh_alhalyh + 1;
     alrd.innerText = "اجابة صحيحة!";
-    alrd.style.لون = "اخضر";
     console.log("إجابة صحيحة! النتيجة: ", alntyjh_alhalyh);
 } else {
     alrd.innerText = "اجابة خاطئة!";
-    alrd.style.لون = "احمر";
     console.log("إجابة خاطئة.");
 }
     document.getElementById("ard_alntyjh").innerText = "النتيجة: " + alntyjh_alhalyh;
@@ -79,7 +77,7 @@ let zr_alf = document.getElementById("khyar_alf");
 let zr_alba = document.getElementById("khyar_ba");
 let zr_aljym = document.getElementById("khyar_jym");
 let zr_aldal = document.getElementById("khyar_dal");
-zr_alf.addEventListener("click", akhtar_alf);
+zr_alf.addEventListener("النقر", akhtar_alf);
 zr_alba.addEventListener("click", akhtar_ba);
 zr_aljym.addEventListener("click", akhtar_jym);
 zr_aldal.addEventListener("click", akhtar_dal);
