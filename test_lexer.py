@@ -54,7 +54,7 @@ def tokenize(filepath):
         else:
             mode = 'HTML '
 
-        print(f"  {mode}  {sym:<25}  {text}{flag}")
+        # print(f"  {mode}  {sym:<25}  {text}{flag}")
 
     print(f"{'─'*60}")
     if errors:
