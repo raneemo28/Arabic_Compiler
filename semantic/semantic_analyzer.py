@@ -25,6 +25,7 @@ from semantic.types_system import (
     Type, NUMBER_TYPE, STRING_TYPE, BOOL_TYPE, ANY_TYPE, BIGINT_TYPE,
     ERROR_TYPE, ArrayType, type_from_name, make_array_type, is_assignable,
 )
+from compiler_errors import *
 
 
 class SemanticAnalyzerVisitor:
@@ -55,12 +56,13 @@ class SemanticAnalyzerVisitor:
     # ── أدوات مساعدة ──────────────────────────────────────────────────────
 
     def log_error(self, line: int, column: int, message: str):
-        """تسجيل خطأ دلالي دون إيقاف عملية التحليل (جمع كل الأخطاء معاً)."""
-        if line:
-            self.errors.append(f"خطأ دلالي (سطر {line}): {message}")
-        else:
-            self.errors.append(f"خطأ دلالي: {message}")
-
+        self.errors.append(CompilerError(
+            phase=ErrorPhase.SEMANTIC,
+            severity=ErrorSeverity.ERROR,
+            message_ar=message,
+            line=line,
+            column=column,
+        ))
     # ── البرنامج والكتل البرمجية ─────────────────────────────────────────
 
     def visit_ProgramNode(self, node):

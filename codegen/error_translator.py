@@ -331,6 +331,55 @@ def translate_errors(
     return translated
 
 
+def runtime_errors_to_compiler_errors(
+    errors: list[dict],
+    id_registry: Optional[dict[str, str]] = None,
+    source_map: Optional[dict[int, tuple[int, int]]] = None,
+) -> list:
+    """
+    Wraps translate_errors()'s existing dict output into CompilerError
+    objects, so runtime errors (browser + terminal) speak the same shape
+    as syntax (CollectingErrorListener) and semantic errors, and can be
+    merged into one list for a single unified report.
+
+    Does not change translate_errors() or its dict-shaped output at all —
+    save_errors_to_file() and any other existing caller of translate_errors
+    keep working exactly as before. This is purely an additional view.
+
+    Local import of compiler_errors avoids making this module depend on
+    it at import time for callers that only need the existing dict-based
+    behavior (e.g. if compiler_errors.py isn't on the path yet in some
+    environment, translate_errors/save_errors_to_file still work fine).
+    """
+    from compiler_errors import CompilerError, ErrorPhase, ErrorSeverity
+
+    _SEVERITY_MAP = {
+        "SEVERE": ErrorSeverity.ERROR,
+        "WARNING": ErrorSeverity.WARNING,
+        "INFO": ErrorSeverity.INFO,
+    }
+
+    translated = translate_errors(errors, id_registry, source_map)
+    result = []
+    for err in translated:
+        phase = (
+            ErrorPhase.RUNTIME_TERMINAL
+            if err.get("source") == ERROR_SOURCE_TERMINAL
+            else ErrorPhase.RUNTIME_BROWSER
+        )
+        severity = _SEVERITY_MAP.get(err.get("level", "SEVERE"), ErrorSeverity.ERROR)
+        result.append(CompilerError(
+            phase=phase,
+            severity=severity,
+            message_ar=err["message_ar"],
+            line=err.get("ar_line", 0) or 0,
+            column=err.get("ar_column", 0) or 0,
+            source_mapped=err.get("source_mapped", False),
+            raw_message=err.get("message", ""),
+        ))
+    return result
+
+
 def _split_by_source(errors: list[dict]) -> tuple[list[dict], list[dict]]:
     browser = [e for e in errors if e.get("source", ERROR_SOURCE_BROWSER) == ERROR_SOURCE_BROWSER]
     terminal = [e for e in errors if e.get("source") == ERROR_SOURCE_TERMINAL]
