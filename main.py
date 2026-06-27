@@ -23,21 +23,42 @@ from codegen.error_translator import (
     make_error_entry,
     save_errors_to_file,
     translate_errors,
+    runtime_errors_to_compiler_errors,
 )
 from Grammar.ArabicHtmlLexer import ArabicHtmlLexer
 from Grammar.ArabicHtmlParser import ArabicHtmlParser
 from AST.ast_visitor import ArabicHtmlAstVisitor
 from semantic.semantic_analyzer import SemanticAnalyzerVisitor
 
+from compiler_errors import PHASE_TITLE_AR, CompilerError, ErrorPhase, ErrorSeverity
+from codegen.syntax_error_listener import CollectingErrorListener
+
 
 def build_ast_from_file(path: str):
+    """
+    Returns (ast, syntax_listener). syntax_listener.errors is a
+    list[CompilerError] for every lexical/syntax error ANTLR found.
+    The AST is still built/returned even when there are syntax errors
+    (ANTLR's error-recovery keeps parsing), but the caller should check
+    syntax_listener.errors and stop before semantic analysis if it's
+    non-empty — a tree built from broken input isn't safe to analyze.
+    """
     input_stream = FileStream(path, encoding='utf-8')
     lexer = ArabicHtmlLexer(input_stream)
+
+    syntax_listener = CollectingErrorListener()
+    lexer.removeErrorListeners()
+    lexer.addErrorListener(syntax_listener)
+
     token_stream = CommonTokenStream(lexer)
     parser = ArabicHtmlParser(token_stream)
+    parser.removeErrorListeners()
+    parser.addErrorListener(syntax_listener)
+
     parse_tree = parser.program()
     visitor = ArabicHtmlAstVisitor()
-    return visitor.visit(parse_tree)
+    ast = visitor.visit(parse_tree)
+    return ast, syntax_listener
 
 
 def parse_arguments():
@@ -155,6 +176,63 @@ def _append_chromedriver_log_errors(service, errors: list):
         pass
 
 
+def render_report(all_errors: list, output_dir: str, source_file: str) -> str:
+    """
+    Writes ONE merged, translated, Arabic error report covering every
+    phase that ran — syntax, semantic, and (if --capture-errors was
+    used) runtime browser/terminal errors — sorted by source location
+    and grouped by phase under Arabic section headers.
+
+    all_errors: list[CompilerError] gathered across whichever phases
+    actually ran. Phases that found nothing simply don't get a section.
+
+    Returns the path to the written report file (output_dir/report.txt).
+    """
+    from collections import defaultdict
+
+    report_path = os.path.join(output_dir, "report.txt")
+    by_phase = defaultdict(list)
+    for err in all_errors:
+        by_phase[err.phase].append(err)
+
+    with open(report_path, "w", encoding="utf-8") as f:
+        f.write("=" * 70 + "\n")
+        f.write("  تقرير الأخطاء\n")
+        f.write(f"  الملف المصدر: {source_file}\n")
+        f.write(f"  التاريخ: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        f.write("=" * 70 + "\n")
+
+        if not all_errors:
+            f.write("\nلا توجد أي أخطاء. الكود سليم بالكامل.\n")
+            f.write("\n" + "=" * 70 + "\n")
+            return report_path
+
+        f.write(f"\nإجمالي عدد المشاكل المرصودة: {len(all_errors)}\n")
+
+        # Stable phase ordering: lexical/syntax first (earliest in the
+        # pipeline), then semantic, then runtime browser/terminal last.
+        for phase in ErrorPhase:
+            group = by_phase.get(phase)
+            if not group:
+                continue
+            group_sorted = sorted(group, key=lambda e: (e.line, e.column))
+            title = PHASE_TITLE_AR.get(phase, phase.value)
+            f.write(f"\n{title} ({len(group_sorted)})\n")
+            f.write("-" * 70 + "\n")
+            for err in group_sorted:
+                if err.line:
+                    loc = f"(سطر {err.line}، عمود {err.column}) " if err.column else f"(سطر {err.line}) "
+                elif err.phase in (ErrorPhase.RUNTIME_BROWSER, ErrorPhase.RUNTIME_TERMINAL) and not err.source_mapped:
+                    loc = "(لم يتم تحديد الموقع في الملف المصدر) "
+                else:
+                    loc = ""
+                f.write(f"{loc}{err.message_ar}\n")
+
+        f.write("\n" + "=" * 70 + "\n")
+
+    return report_path
+
+
 def main():
     args = parse_arguments()
     path = args.file
@@ -163,17 +241,35 @@ def main():
     if not os.path.isfile(path):
         print(f"❌ الملف غير موجود: {path}")
         sys.exit(1)
-    if not path.endswith(".arweb"):
-        print(f"❌ خطأ: الملف يجب أن يكون بامتداد '.arweb'، وليس '{os.path.splitext(path)[1]}'.")
-        sys.exit(1)
+
+    os.makedirs(output_dir, exist_ok=True)
 
     print(f"📄 الملف: {path}")
     print("--- جاري التحليل ---")
 
+    # All CompilerErrors collected across whichever phases run, merged
+    # into one list and written by render_report() at every exit point —
+    # so even a syntax-only failure gets one clean Arabic report file.
+    all_errors: list = []
+
     try:
-        ast = build_ast_from_file(path)
+        ast, syntax_listener = build_ast_from_file(path)
     except Exception as e:
         print(f"❌ خطأ: {e}")
+        sys.exit(1)
+
+    # Per the "collect everything, then decide" approach: the lexer and
+    # parser run to completion (ANTLR's error recovery keeps parsing
+    # past a syntax error), so syntax_listener.errors already contains
+    # every syntax error in the file, not just the first one. Only AFTER
+    # that full pass do we decide whether to stop.
+    if syntax_listener.errors:
+        all_errors.extend(syntax_listener.errors)
+        print(f"\n❌ أخطاء نحوية ({len(syntax_listener.errors)}):")
+        for err in syntax_listener.errors:
+            print(f"  ❌ (سطر {err.line}، عمود {err.column}) {err.message_ar}")
+        report_path = render_report(all_errors, output_dir, path)
+        print(f"\n💾 التقرير الكامل: {report_path}")
         sys.exit(1)
 
     if ast is None:
@@ -185,9 +281,17 @@ def main():
     ast.accept(analyzer)
 
     if analyzer.errors:
+        # analyzer.errors is already a list[CompilerError] — log_error()
+        # on SemanticAnalyzerVisitor builds CompilerError objects directly
+        # (phase=ErrorPhase.SEMANTIC, with real line/column), so no
+        # wrapping is needed here; just merge them into the report.
+        all_errors.extend(analyzer.errors)
+
         print("\nأخطاء دلالية:")
         for err in analyzer.errors:
-            print(f"  ❌ {err}")
+            print(f"  ❌ (سطر {err.line}، عمود {err.column}) {err.message_ar}")
+        report_path = render_report(all_errors, output_dir, path)
+        print(f"\n💾 التقرير الكامل: {report_path}")
         sys.exit(1)
 
     print("✅ الكود سليم")
@@ -200,7 +304,7 @@ def main():
     print(f"✅ تم التوليد في {output_dir}/")
 
     html_path = os.path.abspath(os.path.join(output_dir, "output.html"))
-    
+
     if args.capture_errors:
         print("\n" + "=" * 60)
         print("🔍 التقاط أخطاء وقت التشغيل...")
@@ -248,6 +352,18 @@ def main():
                     if shown >= 3:
                         break
 
+        # Merge runtime errors into the same unified report as
+        # syntax/semantic. Uses runtime_errors_to_compiler_errors(), which
+        # wraps translate_errors()'s existing output — save_errors_to_file()
+        # above still produces its own dedicated browser/terminal report
+        # exactly as before; this is an additional combined view.
+        runtime_compiler_errors = runtime_errors_to_compiler_errors(
+            errors,
+            generator._id_registry,
+            generator.get_js_source_map(),
+        )
+        all_errors.extend(runtime_compiler_errors)
+
         if args.open:
             print("\n🌐 فتح الصفحة في المتصفح...")
             webbrowser.open(f"file:///{html_path.replace(os.sep, '/')}")
@@ -256,6 +372,9 @@ def main():
         webbrowser.open(f"file:///{html_path.replace(os.sep, '/')}")
     else:
         print("\n🎉 جاهز! افتح output.html في المتصفح")
+
+    report_path = render_report(all_errors, output_dir, path)
+    print(f"\n💾 التقرير الكامل: {report_path}")
 
 
 if __name__ == "__main__":
