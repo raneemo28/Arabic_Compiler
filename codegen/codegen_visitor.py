@@ -148,6 +148,7 @@ class CodeGeneratorVisitor(ASTVisitor):
         "محدد": "checked",
         "نوع": "type",
         "عند-النقر": "onclick",        # ← أضف هذا
+
         "عند-الارسال": "onsubmit",     # ← أضف هذا
         "عند-التغيير": "onchange",     # ← أضف هذا
         "عند-التحميل": "onload",       # ← أضف هذا
@@ -182,6 +183,19 @@ class CodeGeneratorVisitor(ASTVisitor):
         "appendChild", "removeChild", "replaceChild",
         "setAttribute", "getAttribute", "removeAttribute",
         "classList", "style", "innerText", "innerHTML",
+    }
+
+    _DOM_EVENT_MAP = {
+        "نقر": "click",
+        "نقر-مزدوج": "dblclick",
+        "تغيير": "change",
+        "ارسال": "submit",
+        "تحميل": "load",
+        "ضغط-مفتاح": "keydown",
+        "ترك-مفتاح": "keyup",
+        "تركيز": "focus",
+        "خروج-التركيز": "blur",
+        "تحويم": "mouseenter",
     }
 
     def __init__(self):
@@ -548,28 +562,48 @@ class CodeGeneratorVisitor(ASTVisitor):
             _EVENT_PROPS = {"onclick", "onsubmit", "onchange", "onload"}
             for ev in _EVENT_PROPS:
                 if left_code.endswith(f".{ev}"):
-                    # الـ right هو call node — نسحب الـ args منه مباشرة
                     if hasattr(node.right, 'kind') and node.right.kind == "call":
                         args = [el.accept(self) for el in (node.right.elements or []) if el is not None]
                         val = args[0] if len(args) == 1 else f"({', '.join(args)})"
                         return f"{left_code} = {val}"
+            
+            # ✅ Handle mapping for standard call arguments (like .addEventListener("نقر", ...))
+            if hasattr(node.right, 'kind') and node.right.kind == "call":
+                translated_args = []
+                for el in (node.right.elements or []):
+                    if el is not None:
+                        # If the argument is a string literal, check if it matches an Arabic event name
+                        if el.kind == "string" and el.value in self._DOM_EVENT_MAP:
+                            english_event = self._DOM_EVENT_MAP[el.value]
+                            translated_args.append(f'"{english_event}"')
+                        else:
+                            translated_args.append(el.accept(self))
+                return f"{left_code}({', '.join(translated_args)})"
+
             right_rendered = node.right.accept(self)
             return f"{left_code}{right_rendered}"
+            
         if op == ".":
+            # 1. Get the property identifier string
             prop = node.right.value if node.right.kind == "identifier" else node.right.accept(self)
-            real_prop = self._PROPERTY_NAME_MAP.get(prop, prop)
+            
+            # 2. If it's a built-in DOM/JS property name map it; otherwise, resolve it dynamically
+            if prop in self._PROPERTY_NAME_MAP:
+                real_prop = self._PROPERTY_NAME_MAP[prop]
+            else:
+                real_prop = self._resolve_html_identifier(prop)
+                
             return f"{left_code}.{real_prop}"
 
         if op == "[]":
-            # ✅ تحويل bracket access إلى dot access لـ DOM methods
             right_code = node.right.accept(self)
-            # إذا كان الوصول عبر string literal لاسم دالة DOM معروفة
             if node.right.kind == "string" and node.right.value in self._BRACKET_TO_DOT_METHODS:
                 return f"{left_code}.{node.right.value}"
             return f"{left_code}[{right_code}]"
 
         right_code = node.right.accept(self)
         return f"{left_code} {op} {right_code}"
+    
 
     def visit_JsPrimaryNode(self, node):
         if node.kind == "identifier":
